@@ -1,0 +1,19 @@
+================================================================
+Aug 31 2017
+Visual Studio Community 2017 account update
+basic form project
+Nuget install-package Microsoft.Office.Interop.Word
+Nuget install-package Microsoft.Office.Interop.Excel
+	requires Microsoft Excel to be installed on computer, won't just save to that format
+	https://code.google.com/archive/p/excellibrary/ - library supporting .xls, does not support newer .xlsx yet
+	http://epplus.codeplex.com/ - library supporting .xlsx
+		http://excelpackage.codeplex.com/wikipage?title=Creating%20an%20Excel%20spreadsheet%20from%20scratch&referringTitle=Home
+Nuget Install-Package OfficeOpenXml.Core.ExcelPackage
+	failed on .Net framework version
+Nuget Install-Package EPPlus
+	success
+Nuget uninstall-package Microsoft.Office.Interop.Word
+Nuget uninstall-package Microsoft.Office.Interop.Excel
+moving foward with open office xml solution so users don't have to have Microsoft Excel installed
+
+saving basic xlsx successful - opens with Open Office Calc
