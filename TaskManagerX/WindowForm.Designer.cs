@@ -102,11 +102,14 @@
             | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
 			this.tabControl.Controls.Add(this.tabPage1);
+			this.tabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
 			this.tabControl.Location = new System.Drawing.Point(0, 28);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.Size = new System.Drawing.Size(284, 221);
 			this.tabControl.TabIndex = 1;
+			this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
+			this.tabControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseUp);
 			// 
 			// saveAsButton
 			// 

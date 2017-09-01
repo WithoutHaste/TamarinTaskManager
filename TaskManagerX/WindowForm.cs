@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
@@ -29,6 +30,7 @@ namespace TaskManagerX
 		public WindowForm()
 		{
 			InitializeComponent();
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 
 			InitProjects();
 		}
@@ -55,17 +57,69 @@ namespace TaskManagerX
 
 		private void loadButton_Click(object sender, EventArgs e)
 		{
-			LoadProject();
+			OpenFileDialog openDialog = new OpenFileDialog();
+			openDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+			if(openDialog.ShowDialog() == DialogResult.OK)
+			{
+				LoadProject(openDialog.FileName);
+			}
+		}
+
+		private void windowForm_Closing(object sender, FormClosingEventArgs e)
+		{
+			string openFilenames = String.Join(";", projects.Select(x => x.FullPath).ToArray());
+			Properties.Settings.Default.OpenFilenames = openFilenames;
+			Properties.Settings.Default.Save();
+		}
+
+		private void tabControl_DrawItem(object sender, DrawItemEventArgs e)
+		{
+			e.Graphics.DrawString("x", e.Font, Brushes.DarkRed, e.Bounds.Right - 15, e.Bounds.Top + 4);
+			e.Graphics.DrawString(this.tabControl.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 12, e.Bounds.Top + 4);
+			e.DrawFocusRectangle();
+		}
+
+		private void tabControl_MouseUp(object sender, MouseEventArgs e)
+		{
+			for(int i = 0; i < this.tabControl.TabPages.Count; i++)
+			{
+				Rectangle r = tabControl.GetTabRect(i);
+				//Getting the position of the "x" mark.
+				Rectangle closeButton = new Rectangle(r.Right - 15, r.Top + 4, 9, 7);
+				if(closeButton.Contains(e.Location))
+				{
+					this.tabControl.SelectedIndex = i;
+					CloseProject();
+					return;
+				}
+			}
 		}
 
 		private void InitProjects()
 		{
-			//if projects were open last time, reopen them
-			//if not, open a single new project
-
 			projects.Clear(); //do i need to close files here?
 			this.tabControl.Controls.Clear();
+
+			//reopen the files that were open the last time the app closed
+			if(OpenPreviousFiles())
+				return;
+
+			//otherwise, open a new project
 			NewProject();
+		}
+
+		private bool OpenPreviousFiles()
+		{
+			string setting = Properties.Settings.Default.OpenFilenames;
+			if(String.IsNullOrEmpty(setting))
+				return false;
+
+			string[] filenames = setting.Split(';');
+			foreach(string filename in filenames)
+			{
+				LoadProject(filename);
+			}
+			return true;
 		}
 
 		private void NewProject()
@@ -74,7 +128,7 @@ namespace TaskManagerX
 			NewTab();
 		}
 
-		private void NewTab()
+		private void NewTab(string tabName = "New")
 		{
 			int tabCount = this.tabControl.Controls.Count + 1;
 			System.Windows.Forms.TabPage tabPage = new System.Windows.Forms.TabPage();
@@ -82,7 +136,7 @@ namespace TaskManagerX
 			tabPage.Padding = new System.Windows.Forms.Padding(3);
 			tabPage.Size = new System.Drawing.Size(276, 195);
 			tabPage.TabIndex = tabCount;
-			tabPage.Text = "New "+tabCount;
+			tabPage.Text = tabName + "        ";
 			tabPage.UseVisualStyleBackColor = true;
 			this.tabControl.Controls.Add(tabPage);
 			this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
@@ -94,7 +148,7 @@ namespace TaskManagerX
 			saveAsDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
 			if (saveAsDialog.ShowDialog() == DialogResult.OK)
 			{
-				SelectedProject.PathAndFilename = saveAsDialog.FileName;
+				SelectedProject.FullPath = saveAsDialog.FileName;
 				this.tabControl.SelectedTab.Text = SelectedProject.Name;
 				SaveProject();
 			}
@@ -105,8 +159,27 @@ namespace TaskManagerX
 			SelectedProject.Save();
 		}
 
-		private void LoadProject()
+		private void LoadProject(string fullPath)
 		{
+			if(!File.Exists(fullPath))
+				throw new Exception(String.Format("File does not exist: {0}", fullPath));
+			projects.Add(new Project(fullPath));
+			NewTab(projects.Last().Name);
+		}
+
+		private void CloseProject()
+		{
+			if(SelectedProject.NotNamed) //todo: update to not saved since last edit
+			{
+				DialogResult result = MessageBox.Show("Save before closing?", "Confirm", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+				if(result == DialogResult.Cancel)
+					return;
+				if(result == DialogResult.Yes)
+					SaveAsProject();
+			}
+			int selectedIndex = SelectedIndex;
+			this.tabControl.TabPages.RemoveAt(selectedIndex);
+			projects.RemoveAt(selectedIndex);
 		}
 	}
 }

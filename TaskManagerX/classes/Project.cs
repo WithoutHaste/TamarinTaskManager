@@ -10,19 +10,19 @@ namespace TaskManagerX
 {
 	public class Project : IDisposable
 	{
-		public string PathAndFilename { get; set; }
+		public string FullPath { get; set; }
 
 		public string Name {
 			get {
-				if (PathAndFilename == null)
+				if (FullPath == null)
 					return "new";
-				return Path.GetFileNameWithoutExtension(PathAndFilename);
+				return Path.GetFileNameWithoutExtension(FullPath);
 			}
 		}
 
 		public bool NotNamed {
 			get {
-				return (PathAndFilename == null);
+				return (FullPath == null);
 			}
 		}
 
@@ -36,8 +36,8 @@ namespace TaskManagerX
 
 		public Project(string fullPath)
 		{
-			PathAndFilename = fullPath;
-			FileInfo file = new FileInfo(PathAndFilename);
+			FullPath = fullPath;
+			FileInfo file = new FileInfo(FullPath);
 			ExcelPackage = new ExcelPackage(file);
 		}
 
@@ -45,9 +45,9 @@ namespace TaskManagerX
 		{
 			if(ExcelPackage.File == null)
 			{
-				if(PathAndFilename == null)
+				if(FullPath == null)
 					throw new Exception("Filename not set.");
-				ExcelPackage.File = new FileInfo(PathAndFilename);
+				ExcelPackage.File = new FileInfo(FullPath);
 			}
 			ExcelPackage.Save();
 		}
