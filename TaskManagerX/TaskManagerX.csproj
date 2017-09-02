@@ -54,26 +54,8 @@
     <Compile Include="classes\Config.cs" />
     <Compile Include="classes\Project.cs" />
     <Compile Include="classes\Status.cs" />
-    <Compile Include="TaskControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TaskControl.Designer.cs">
-      <DependentUpon>TaskControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TaskListControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TaskListControl.Designer.cs">
-      <DependentUpon>TaskListControl.cs</DependentUpon>
-    </Compile>
     <Compile Include="TaskTableControl.cs">
       <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="TaskTitleControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="TaskTitleControl.Designer.cs">
-      <DependentUpon>TaskTitleControl.cs</DependentUpon>
     </Compile>
     <Compile Include="WindowForm.cs">
       <SubType>Form</SubType>
@@ -92,15 +74,6 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <EmbeddedResource Include="TaskControl.resx">
-      <DependentUpon>TaskControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TaskListControl.resx">
-      <DependentUpon>TaskListControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="TaskTitleControl.resx">
-      <DependentUpon>TaskTitleControl.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="WindowForm.resx">
       <DependentUpon>WindowForm.cs</DependentUpon>
     </EmbeddedResource>
