@@ -30,7 +30,7 @@ namespace TaskManagerX
 		public WindowForm()
 		{
 			InitializeComponent();
-			this.MinimumSize = new Size(650, 300);
+			this.MinimumSize = new Size(675, 300);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 
 			InitProjects();

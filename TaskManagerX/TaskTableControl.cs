@@ -16,6 +16,7 @@ namespace TaskManagerX
 		public TaskTableControl()
 		{
 			this.Location = new Point(0, 0);
+			this.Padding = new Padding(left: 0, top: 0, right: SystemInformation.VerticalScrollBarWidth, bottom: 0);
 			this.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
 			this.Dock = DockStyle.Fill;
 			this.BackColor = SystemColors.Control;
