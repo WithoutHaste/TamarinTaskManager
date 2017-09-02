@@ -67,9 +67,14 @@ namespace TaskManagerX
 
 		private void windowForm_Closing(object sender, FormClosingEventArgs e)
 		{
-			string openFilenames = String.Join(";", projects.Select(x => x.FullPath).ToArray());
+			string openFilenames = String.Join(";", projects.Where(x => !x.NotNamed).Select(x => x.FullPath).ToArray());
 			Properties.Settings.Default.OpenFilenames = openFilenames;
 			Properties.Settings.Default.Save();
+
+			foreach(Project project in projects)
+			{
+				project.Dispose();
+			}
 		}
 
 		private void tabControl_DrawItem(object sender, DrawItemEventArgs e)
@@ -136,7 +141,7 @@ namespace TaskManagerX
 			tabPage.Padding = new System.Windows.Forms.Padding(3);
 			tabPage.Size = new System.Drawing.Size(276, 195);
 			tabPage.TabIndex = tabCount;
-			tabPage.Text = tabName + "        ";
+			tabPage.Text = FormatTabName(tabName);
 			tabPage.UseVisualStyleBackColor = true;
 			this.tabControl.Controls.Add(tabPage);
 			this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
@@ -149,9 +154,14 @@ namespace TaskManagerX
 			if (saveAsDialog.ShowDialog() == DialogResult.OK)
 			{
 				SelectedProject.FullPath = saveAsDialog.FileName;
-				this.tabControl.SelectedTab.Text = SelectedProject.Name;
+				this.tabControl.SelectedTab.Text = FormatTabName(SelectedProject.Name);
 				SaveProject();
 			}
+		}
+
+		private string FormatTabName(string name)
+		{
+			return name + "        ";
 		}
 
 		private void SaveProject()
@@ -162,7 +172,10 @@ namespace TaskManagerX
 		private void LoadProject(string fullPath)
 		{
 			if(!File.Exists(fullPath))
-				throw new Exception(String.Format("File does not exist: {0}", fullPath));
+			{
+				MessageBox.Show(String.Format("File does not exist: {0}", fullPath), "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+				return;
+			}
 			projects.Add(new Project(fullPath));
 			NewTab(projects.Last().Name);
 		}
