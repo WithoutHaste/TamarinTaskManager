@@ -144,6 +144,7 @@ namespace TaskManagerX
 			tabPage.TabIndex = tabCount;
 			tabPage.Text = FormatTabName(tabName);
 			tabPage.UseVisualStyleBackColor = true;
+			tabPage.AutoScroll = true;
 			this.tabControl.Controls.Add(tabPage);
 			this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
 			this.tabControl.SelectedTab.Controls.Add(new TaskListControl());
