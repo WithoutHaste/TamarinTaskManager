@@ -21,18 +21,11 @@ namespace TaskManagerX
 			this.BackColor = SystemColors.Control;
 			this.AutoScroll = true;
 
-			InitTitleRow();
-			InsertTaskRow(1);
-			InsertTaskRow(1);
-			InsertTaskRow(1);
-			InsertTaskRow(3);
-			InsertTaskRow(3);
-			InsertTaskRow(3);
-			InsertTaskRow(3);
-			InsertTaskRow(3);
+			InsertTitleRow();
+			InsertBlankRow();
 		}
 
-		public void InitTitleRow()
+		public void InsertTitleRow()
 		{
 			this.Controls.Add(NewTitleLabel("Row"), 1, 0);
 			this.Controls.Add(NewTitleLabel("Id"), 2, 0);
@@ -55,10 +48,19 @@ namespace TaskManagerX
 			this.RowCount = 1;
 		}
 
+		private void InsertBlankRow()
+		{
+			this.Controls.Add(NewButton("+", addTask_Click), 0, 1);
+			this.RowCount++;
+		}
+
 		private void InsertTaskRow(int rowIndex)
 		{
+			this.SuspendLayout(); //avoid screen flickers
+
 			InsertRow(rowIndex);
-			this.Controls.Add(NewDataLabel("Row", rowIndex.ToString()), 1, rowIndex);
+			this.Controls.Add(NewButton("+", addTask_Click), 0, rowIndex);
+			this.Controls.Add(NewDataLabel("Row", (rowIndex - 1).ToString()), 1, rowIndex);
 			this.Controls.Add(NewDataLabel("Id", "0"), 2, rowIndex);
 			this.Controls.Add(NewTextBox("TitleTextBox"), 3, rowIndex);
 			this.Controls.Add(NewComboBox("StatusComboBox", new string[] { "Todo", "Done" }), 4, rowIndex);
@@ -67,6 +69,8 @@ namespace TaskManagerX
 			this.Controls.Add(NewDataLabel("StatusChangeDate", "12/01/2017"), 7, rowIndex);
 
 			this.RowCount++;
+
+			this.ResumeLayout();
 		}
 
 		private void InsertRow(int rowIndex)
@@ -84,6 +88,12 @@ namespace TaskManagerX
 					(control as Label).Text = (Int32.Parse((control as Label).Text) + 1).ToString();
 				}
 			}
+		}
+
+		private void addTask_Click(object sender, EventArgs e)
+		{
+			int row = this.GetRow(sender as Control);
+			InsertTaskRow(row + 1);
 		}
 
 		private Label NewTitleLabel(string text)
@@ -130,6 +140,19 @@ namespace TaskManagerX
 			comboBox.Size = new System.Drawing.Size(94, 24);
 			comboBox.TabIndex = 2;
 			return comboBox;
+		}
+
+		private Button NewButton(string text, EventHandler onClickHandler)
+		{
+			Button button = new Button();
+			button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			button.Location = new System.Drawing.Point(3, 3);
+			button.Size = new System.Drawing.Size(19, 23);
+			button.TabIndex = 7;
+			button.Text = text;
+			button.UseVisualStyleBackColor = true;
+			button.Click += onClickHandler;
+			return button;
 		}
 	}
 }
