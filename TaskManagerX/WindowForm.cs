@@ -138,16 +138,15 @@ namespace TaskManagerX
 		{
 			int tabCount = this.tabControl.Controls.Count + 1;
 			System.Windows.Forms.TabPage tabPage = new System.Windows.Forms.TabPage();
-			tabPage.Location = new System.Drawing.Point(4, 22);
-			tabPage.Padding = new System.Windows.Forms.Padding(3);
+			tabPage.Location = new System.Drawing.Point(0, 0);
+			tabPage.Padding = new System.Windows.Forms.Padding(0);
 			tabPage.Size = new System.Drawing.Size(276, 195);
 			tabPage.TabIndex = tabCount;
 			tabPage.Text = FormatTabName(tabName);
 			tabPage.UseVisualStyleBackColor = true;
-			tabPage.AutoScroll = true;
 			this.tabControl.Controls.Add(tabPage);
 			this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
-			this.tabControl.SelectedTab.Controls.Add(new TaskListControl(SelectedProject));
+			tabPage.Controls.Add(new TaskTableControl());
 		}
 
 		private void SaveAsProject()

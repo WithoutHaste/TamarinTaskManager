@@ -66,6 +66,9 @@
     <Compile Include="TaskListControl.Designer.cs">
       <DependentUpon>TaskListControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskTableControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="TaskTitleControl.cs">
       <SubType>UserControl</SubType>
     </Compile>
