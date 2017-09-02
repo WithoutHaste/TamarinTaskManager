@@ -35,24 +35,30 @@
 			this.categoryComboBox = new System.Windows.Forms.ComboBox();
 			this.createDateLabel = new System.Windows.Forms.Label();
 			this.statusDateLabel = new System.Windows.Forms.Label();
+			this.rowLabel = new System.Windows.Forms.Label();
+			this.addButton = new System.Windows.Forms.Button();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
 			// tableLayoutPanel1
 			// 
-			this.tableLayoutPanel1.ColumnCount = 6;
+			this.tableLayoutPanel1.ColumnCount = 8;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-			this.tableLayoutPanel1.Controls.Add(this.idLabel, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.titleTextBox, 1, 0);
-			this.tableLayoutPanel1.Controls.Add(this.statusComboBox, 2, 0);
-			this.tableLayoutPanel1.Controls.Add(this.categoryComboBox, 3, 0);
-			this.tableLayoutPanel1.Controls.Add(this.createDateLabel, 4, 0);
-			this.tableLayoutPanel1.Controls.Add(this.statusDateLabel, 5, 0);
+			this.tableLayoutPanel1.Controls.Add(this.idLabel, 2, 0);
+			this.tableLayoutPanel1.Controls.Add(this.titleTextBox, 3, 0);
+			this.tableLayoutPanel1.Controls.Add(this.statusComboBox, 4, 0);
+			this.tableLayoutPanel1.Controls.Add(this.categoryComboBox, 5, 0);
+			this.tableLayoutPanel1.Controls.Add(this.createDateLabel, 6, 0);
+			this.tableLayoutPanel1.Controls.Add(this.statusDateLabel, 7, 0);
+			this.tableLayoutPanel1.Controls.Add(this.rowLabel, 1, 0);
+			this.tableLayoutPanel1.Controls.Add(this.addButton, 0, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -65,7 +71,7 @@
 			// 
 			this.idLabel.AutoSize = true;
 			this.idLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.idLabel.Location = new System.Drawing.Point(3, 0);
+			this.idLabel.Location = new System.Drawing.Point(73, 0);
 			this.idLabel.Name = "idLabel";
 			this.idLabel.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this.idLabel.Size = new System.Drawing.Size(36, 24);
@@ -76,9 +82,9 @@
 			// 
 			this.titleTextBox.Dock = System.Windows.Forms.DockStyle.Top;
 			this.titleTextBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.titleTextBox.Location = new System.Drawing.Point(48, 3);
+			this.titleTextBox.Location = new System.Drawing.Point(118, 3);
 			this.titleTextBox.Name = "titleTextBox";
-			this.titleTextBox.Size = new System.Drawing.Size(189, 22);
+			this.titleTextBox.Size = new System.Drawing.Size(119, 22);
 			this.titleTextBox.TabIndex = 1;
 			// 
 			// statusComboBox
@@ -121,6 +127,27 @@
 			this.statusDateLabel.TabIndex = 5;
 			this.statusDateLabel.Text = "12/01/2017";
 			// 
+			// rowLabel
+			// 
+			this.rowLabel.AutoSize = true;
+			this.rowLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.rowLabel.Location = new System.Drawing.Point(28, 0);
+			this.rowLabel.Name = "rowLabel";
+			this.rowLabel.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+			this.rowLabel.Size = new System.Drawing.Size(36, 24);
+			this.rowLabel.TabIndex = 6;
+			this.rowLabel.Text = "9999";
+			// 
+			// addButton
+			// 
+			this.addButton.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.addButton.Location = new System.Drawing.Point(3, 3);
+			this.addButton.Name = "addButton";
+			this.addButton.Size = new System.Drawing.Size(19, 23);
+			this.addButton.TabIndex = 7;
+			this.addButton.Text = "+";
+			this.addButton.UseVisualStyleBackColor = true;
+			// 
 			// TaskControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -144,5 +171,7 @@
 		private System.Windows.Forms.ComboBox categoryComboBox;
 		private System.Windows.Forms.Label createDateLabel;
 		private System.Windows.Forms.Label statusDateLabel;
+		private System.Windows.Forms.Label rowLabel;
+		private System.Windows.Forms.Button addButton;
 	}
 }

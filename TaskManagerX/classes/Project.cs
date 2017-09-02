@@ -39,6 +39,18 @@ namespace TaskManagerX
 			}
 		}
 
+		public string[] Statuses {
+			get {
+				return config.Statuses.Select(x => x.Name).ToArray();
+			}
+		}
+
+		public string[] Categories {
+			get {
+				return config.Categories.ToArray();
+			}
+		}
+
 		private ExcelPackage ExcelPackage;
 		private string fullPath;
 		private Config config;

@@ -42,7 +42,6 @@
 			// 
 			// scrollPanel
 			// 
-			this.scrollPanel.AutoScroll = true;
 			this.scrollPanel.AutoSize = true;
 			this.scrollPanel.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
 			this.scrollPanel.Dock = System.Windows.Forms.DockStyle.Fill;

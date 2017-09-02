@@ -147,7 +147,7 @@ namespace TaskManagerX
 			tabPage.AutoScroll = true;
 			this.tabControl.Controls.Add(tabPage);
 			this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
-			this.tabControl.SelectedTab.Controls.Add(new TaskListControl());
+			this.tabControl.SelectedTab.Controls.Add(new TaskListControl(SelectedProject));
 		}
 
 		private void SaveAsProject()

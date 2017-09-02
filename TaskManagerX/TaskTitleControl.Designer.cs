@@ -35,6 +35,7 @@
 			this.label1 = new System.Windows.Forms.Label();
 			this.label2 = new System.Windows.Forms.Label();
 			this.label3 = new System.Windows.Forms.Label();
+			this.label4 = new System.Windows.Forms.Label();
 			this.tableLayoutPanel1.SuspendLayout();
 			this.SuspendLayout();
 			// 
@@ -51,19 +52,22 @@
 			// 
 			// tableLayoutPanel1
 			// 
-			this.tableLayoutPanel1.ColumnCount = 6;
+			this.tableLayoutPanel1.ColumnCount = 8;
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-			this.tableLayoutPanel1.Controls.Add(this.idLabel, 0, 0);
-			this.tableLayoutPanel1.Controls.Add(this.createDateLabel, 4, 0);
-			this.tableLayoutPanel1.Controls.Add(this.statusDateLabel, 5, 0);
-			this.tableLayoutPanel1.Controls.Add(this.label1, 1, 0);
-			this.tableLayoutPanel1.Controls.Add(this.label2, 2, 0);
-			this.tableLayoutPanel1.Controls.Add(this.label3, 3, 0);
+			this.tableLayoutPanel1.Controls.Add(this.idLabel, 2, 0);
+			this.tableLayoutPanel1.Controls.Add(this.createDateLabel, 6, 0);
+			this.tableLayoutPanel1.Controls.Add(this.statusDateLabel, 7, 0);
+			this.tableLayoutPanel1.Controls.Add(this.label1, 3, 0);
+			this.tableLayoutPanel1.Controls.Add(this.label2, 4, 0);
+			this.tableLayoutPanel1.Controls.Add(this.label3, 5, 0);
+			this.tableLayoutPanel1.Controls.Add(this.label4, 1, 0);
 			this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
 			this.tableLayoutPanel1.Name = "tableLayoutPanel1";
@@ -76,7 +80,7 @@
 			// 
 			this.idLabel.AutoSize = true;
 			this.idLabel.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.idLabel.Location = new System.Drawing.Point(3, 0);
+			this.idLabel.Location = new System.Drawing.Point(73, 0);
 			this.idLabel.Name = "idLabel";
 			this.idLabel.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this.idLabel.Size = new System.Drawing.Size(21, 24);
@@ -98,7 +102,7 @@
 			// 
 			this.label1.AutoSize = true;
 			this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-			this.label1.Location = new System.Drawing.Point(48, 0);
+			this.label1.Location = new System.Drawing.Point(118, 0);
 			this.label1.Name = "label1";
 			this.label1.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			this.label1.Size = new System.Drawing.Size(39, 24);
@@ -127,6 +131,17 @@
 			this.label3.TabIndex = 8;
 			this.label3.Text = "Category";
 			// 
+			// label4
+			// 
+			this.label4.AutoSize = true;
+			this.label4.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			this.label4.Location = new System.Drawing.Point(28, 0);
+			this.label4.Name = "label4";
+			this.label4.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
+			this.label4.Size = new System.Drawing.Size(38, 24);
+			this.label4.TabIndex = 9;
+			this.label4.Text = "Row";
+			// 
 			// TaskTitleControl
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -150,5 +165,6 @@
 		private System.Windows.Forms.Label label1;
 		private System.Windows.Forms.Label label2;
 		private System.Windows.Forms.Label label3;
+		private System.Windows.Forms.Label label4;
 	}
 }
