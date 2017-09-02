@@ -30,6 +30,7 @@ namespace TaskManagerX
 		public WindowForm()
 		{
 			InitializeComponent();
+			this.MinimumSize = new Size(650, 300);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 
 			InitProjects();
@@ -145,6 +146,7 @@ namespace TaskManagerX
 			tabPage.UseVisualStyleBackColor = true;
 			this.tabControl.Controls.Add(tabPage);
 			this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
+			this.tabControl.SelectedTab.Controls.Add(new TaskListControl());
 		}
 
 		private void SaveAsProject()
