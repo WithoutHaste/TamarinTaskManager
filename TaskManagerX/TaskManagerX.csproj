@@ -66,6 +66,12 @@
     <Compile Include="TaskListControl.Designer.cs">
       <DependentUpon>TaskListControl.cs</DependentUpon>
     </Compile>
+    <Compile Include="TaskTitleControl.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskTitleControl.Designer.cs">
+      <DependentUpon>TaskTitleControl.cs</DependentUpon>
+    </Compile>
     <Compile Include="WindowForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -88,6 +94,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TaskListControl.resx">
       <DependentUpon>TaskListControl.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="TaskTitleControl.resx">
+      <DependentUpon>TaskTitleControl.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="WindowForm.resx">
       <DependentUpon>WindowForm.cs</DependentUpon>

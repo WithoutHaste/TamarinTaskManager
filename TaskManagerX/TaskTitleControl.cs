@@ -10,14 +10,14 @@ using System.Windows.Forms;
 
 namespace TaskManagerX
 {
-	public partial class TaskControl : UserControl
+	public partial class TaskTitleControl : UserControl
 	{
-		public TaskControl()
+		public TaskTitleControl()
 		{
 			InitializeComponent();
 		}
 
-		private void TaskControl_Load(object sender, EventArgs e)
+		private void TaskTitleControl_Load(object sender, EventArgs e)
 		{
 			this.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 		}

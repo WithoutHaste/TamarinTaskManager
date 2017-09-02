@@ -11,3 +11,4 @@ E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\EPPlus.dll
 E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\EPPlus.xml
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.TaskListControl.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.TaskControl.resources
+E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.TaskTitleControl.resources
