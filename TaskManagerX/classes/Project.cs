@@ -52,8 +52,10 @@ namespace TaskManagerX
 		}
 
 		private ExcelPackage excelPackage;
+		private TaskSheet activeSheet;
+		private TaskSheet inactiveSheet;
 		private string fullPath;
-		private Config config;
+		private ConfigSheet config;
 
 		private static string ACTIVE_SHEET_NAME = "Active";
 		private static string INACTIVE_SHEET_NAME = "Inactive";
@@ -84,9 +86,9 @@ namespace TaskManagerX
 		private ExcelPackage CreateNewProject()
 		{
 			ExcelPackage excelPackage = new ExcelPackage();
-			ColumnLayout.WriteTaskHeaders(excelPackage.Workbook.Worksheets.Add(ACTIVE_SHEET_NAME));
-			ColumnLayout.WriteTaskHeaders(excelPackage.Workbook.Worksheets.Add(INACTIVE_SHEET_NAME));
-			config = new Config(excelPackage);
+			activeSheet = new TaskSheet(excelPackage, ACTIVE_SHEET_NAME);
+			inactiveSheet = new TaskSheet(excelPackage, INACTIVE_SHEET_NAME);
+			config = new ConfigSheet(excelPackage);
 			return excelPackage;
 		}
 
@@ -94,15 +96,18 @@ namespace TaskManagerX
 		{
 			FileInfo file = new FileInfo(FullPath);
 			ExcelPackage excelPackage = new ExcelPackage(file);
-			if(excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME] == null)
-				ColumnLayout.WriteTaskHeaders(excelPackage.Workbook.Worksheets.Add(ACTIVE_SHEET_NAME));
-			if(excelPackage.Workbook.Worksheets[INACTIVE_SHEET_NAME] == null)
-				ColumnLayout.WriteTaskHeaders(excelPackage.Workbook.Worksheets.Add(INACTIVE_SHEET_NAME));
-			config = new Config(excelPackage);
+			activeSheet = new TaskSheet(excelPackage, ACTIVE_SHEET_NAME);
+			inactiveSheet = new TaskSheet(excelPackage, INACTIVE_SHEET_NAME);
+			config = new ConfigSheet(excelPackage);
 			return excelPackage;
 		}
 
-		public Task InsertTask(int row)
+		private TaskSheet GetSheet(bool active)
+		{
+			return (active ? activeSheet : inactiveSheet);
+		}
+
+		public Task InsertNewTask(int row, bool active)
 		{
 			Task task = new Task() {
 				Id = config.NextId,
@@ -110,79 +115,38 @@ namespace TaskManagerX
 				Category = config.DefaultCategory,
 				CreateDate = DateTime.Now
 			};
-			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
-			activeSheet.InsertRow(row, 1);
 
-			ColumnLayout columnLayout = new ColumnLayout(activeSheet);
-			activeSheet.Cells[columnLayout.IdColumn + row].Value = task.Id;
-			activeSheet.Cells[columnLayout.TitleColumn + row].Value = task.Title;
-			activeSheet.Cells[columnLayout.StatusColumn + row].Value = task.Status;
-			activeSheet.Cells[columnLayout.CategoryColumn + row].Value = task.Category;
-			activeSheet.Cells[columnLayout.CreateDateColumn + row].Value = task.CreateDateString;
-			activeSheet.Cells[columnLayout.StatusChangeDateColumn + row].Value = task.StatusChangeDateString;
+			GetSheet(active).InsertTask(row, task);
 
 			return task;
 		}
 
-		public void UpdateTitle(int row, string text)
+		public void UpdateTitle(int row, string text, bool active)
 		{
-			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
-			ColumnLayout columnLayout = new ColumnLayout(activeSheet);
-			activeSheet.Cells[columnLayout.TitleColumn + row].Value = text;
+			GetSheet(active).UpdateTitle(row, text);
 		}
 
-		public void UpdateStatus(int row, string status)
+		public void UpdateStatus(int row, string status, bool active)
 		{
-			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
-			ColumnLayout columnLayout = new ColumnLayout(activeSheet);
-			activeSheet.Cells[columnLayout.StatusColumn + row].Value = status; //todo if inactive, move to other sheet
+			//todo maybe need to move row from one sheet to the other
+			GetSheet(active).UpdateStatus(row, status);
+
+//			if(config.InactiveStatuses.Contains(status))
+//			{
+				//move row to inactive sheet
+//				Task task = new Task(activeSheet, columnLayout, row);
+				//TODO
+//			}
 		}
 
-		public void UpdateCategory(int row, string category)
+		public void UpdateCategory(int row, string category, bool active)
 		{
-			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
-			ColumnLayout columnLayout = new ColumnLayout(activeSheet);
-			activeSheet.Cells[columnLayout.CategoryColumn + row].Value = category;
+			GetSheet(active).UpdateCategory(row, category);
 		}
 
-		public List<Task> GetActiveTasks()
+		public List<Task> GetTasks(bool active)
 		{
-			List<Task> tasks = new List<Task>();
-			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
-			if(activeSheet != null)
-			{
-				tasks.AddRange(LoadTasks(activeSheet));
-			}
-			return tasks;
+			return GetSheet(active).LoadTasks();
 		}
-
-		public List<Task> GetInactiveTasks()
-		{
-			List<Task> tasks = new List<Task>();
-			ExcelWorksheet inactiveSheet = excelPackage.Workbook.Worksheets[INACTIVE_SHEET_NAME];
-			if(inactiveSheet != null)
-			{
-				tasks.AddRange(LoadTasks(inactiveSheet));
-			}
-			return tasks;
-		}
-
-		private List<Task> LoadTasks(ExcelWorksheet sheet)
-		{
-			List<Task> tasks = new List<Task>();
-			ColumnLayout columnLayout = new ColumnLayout(sheet); //todo: are ALL columns required?
-			if(!columnLayout.AllColumnsFound)
-				return tasks;
-
-			int row = 2;
-			while(sheet.Cells["A" + row].Value != null)
-			{
-				tasks.Add(new Task(sheet, columnLayout, row));
-				row++;
-			}
-
-			return tasks;
-		}
-
 	}
 }

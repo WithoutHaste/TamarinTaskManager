@@ -7,7 +7,7 @@ using OfficeOpenXml;
 
 namespace TaskManagerX
 {
-	public class Config
+	public class ConfigSheet
 	{
 		public List<Status> Statuses { get; set; }
 		public List<string> Categories { get; set; }
@@ -54,7 +54,7 @@ namespace TaskManagerX
 		private static string ID_NAME = "Max Id";
 		private static int DEFAULT_ID = 0;
 
-		public Config(ExcelPackage excelPackage)
+		public ConfigSheet(ExcelPackage excelPackage)
 		{
 			configSheet = excelPackage.Workbook.Worksheets[SHEET_NAME];
 			if(configSheet == null)

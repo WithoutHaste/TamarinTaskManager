@@ -33,7 +33,7 @@ namespace TaskManagerX
 			InsertBlankRow();
 
 			int row = 3;
-			foreach(Task task in project.GetActiveTasks())
+			foreach(Task task in project.GetTasks(active:true))
 			{
 				InsertTaskRow(row, task);
 				row++;
@@ -118,28 +118,30 @@ namespace TaskManagerX
 		private void addTask_Click(object sender, EventArgs e)
 		{
 			int row = this.GetRow(sender as Control);
-			InsertTaskRow(row + 1, project.InsertTask(row + 1));
+			InsertTaskRow(row + 1, project.InsertNewTask(row + 1, active:true));
 		}
 
 		private void titleTextBox_TextChanged(object sender, EventArgs e)
 		{
 			TextBox textBox = (sender as TextBox);
 			int localRow = this.GetRow(textBox);
-			project.UpdateTitle(localRow - 1, textBox.Text);
+			project.UpdateTitle(localRow - 1, textBox.Text, active:true);
 		}
 
 		private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int localRow = this.GetRow(comboBox);
-			project.UpdateStatus(localRow - 1, comboBox.Text); //todo if inactive, remove from display
+			project.UpdateStatus(localRow - 1, comboBox.Text, active:true); //todo if inactive, remove from display
+			Label statusChangeDateLabel = (Label)this.GetControlFromPosition(7, localRow);
+			statusChangeDateLabel.Text = DateTime.Now.ToShortDateString();
 		}
 
 		private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int localRow = this.GetRow(comboBox);
-			project.UpdateCategory(localRow - 1, comboBox.Text);
+			project.UpdateCategory(localRow - 1, comboBox.Text, active:true);
 		}
 
 		private Label NewTitleLabel(string text)
@@ -185,7 +187,7 @@ namespace TaskManagerX
 			comboBox.DataSource = dataSource;
 			comboBox.Name = name;
 			if(!String.IsNullOrEmpty(selectedValue))
-				comboBox.Text = selectedValue;
+				comboBox.SelectedIndex = comboBox.FindString(selectedValue);
 			comboBox.Size = new System.Drawing.Size(94, 24);
 			comboBox.TabIndex = 2;
 			return comboBox;
