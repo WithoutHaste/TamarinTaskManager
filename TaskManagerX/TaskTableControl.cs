@@ -69,25 +69,6 @@ namespace TaskManagerX
 			this.RowCount++;
 		}
 
-		private void InsertTaskRow(int rowIndex)
-		{
-			this.SuspendLayout(); //avoid screen flickers
-
-			InsertRow(rowIndex);
-			this.Controls.Add(NewButton("+", addTask_Click), 0, rowIndex);
-			this.Controls.Add(NewDataLabel("Row", (rowIndex - 1).ToString()), 1, rowIndex);
-			this.Controls.Add(NewDataLabel("Id", "0"), 2, rowIndex);
-			this.Controls.Add(NewTextBox("TitleTextBox"), 3, rowIndex);
-			this.Controls.Add(NewComboBox("StatusComboBox", project.Statuses), 4, rowIndex);
-			this.Controls.Add(NewComboBox("CategoryComboBox", project.Categories), 5, rowIndex);
-			this.Controls.Add(NewDataLabel("CreateDate", "01/01/2017"), 6, rowIndex);
-			this.Controls.Add(NewDataLabel("StatusChangeDate", "12/01/2017"), 7, rowIndex);
-
-			this.RowCount++;
-
-			this.ResumeLayout();
-		}
-
 		private void InsertTaskRow(int rowIndex, Task task)
 		{
 			this.SuspendLayout(); //avoid screen flickers
@@ -96,9 +77,19 @@ namespace TaskManagerX
 			this.Controls.Add(NewButton("+", addTask_Click), 0, rowIndex);
 			this.Controls.Add(NewDataLabel("Row", (rowIndex - 1).ToString()), 1, rowIndex);
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), 2, rowIndex);
-			this.Controls.Add(NewTextBox("TitleTextBox", task.Title), 3, rowIndex);
-			this.Controls.Add(NewComboBox("StatusComboBox", project.Statuses, task.Status), 4, rowIndex);
-			this.Controls.Add(NewComboBox("CategoryComboBox", project.Categories, task.Category), 5, rowIndex);
+
+			TextBox titleBox = NewTextBox("TitleTextBox", task.Title);
+			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
+			this.Controls.Add(titleBox, 3, rowIndex);
+
+			ComboBox statusComboBox = NewComboBox("StatusComboBox", project.Statuses, task.Status);
+			statusComboBox.SelectedIndexChanged += new EventHandler(statusComboBox_SelectedIndexChanged);
+			this.Controls.Add(statusComboBox, 4, rowIndex);
+
+			ComboBox categoryComboBox = NewComboBox("CategoryComboBox", project.Categories, task.Category);
+			categoryComboBox.SelectedIndexChanged += new EventHandler(categoryComboBox_SelectedIndexChanged);
+			this.Controls.Add(categoryComboBox, 5, rowIndex);
+
 			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), 6, rowIndex);
 			this.Controls.Add(NewDataLabel("StatusChangeDate", task.StatusChangeDateString), 7, rowIndex);
 
@@ -128,6 +119,27 @@ namespace TaskManagerX
 		{
 			int row = this.GetRow(sender as Control);
 			InsertTaskRow(row + 1, project.InsertTask(row + 1));
+		}
+
+		private void titleTextBox_TextChanged(object sender, EventArgs e)
+		{
+			TextBox textBox = (sender as TextBox);
+			int localRow = this.GetRow(textBox);
+			project.UpdateTitle(localRow - 1, textBox.Text);
+		}
+
+		private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ComboBox comboBox = (sender as ComboBox);
+			int localRow = this.GetRow(comboBox);
+			project.UpdateStatus(localRow - 1, comboBox.Text); //todo if inactive, remove from display
+		}
+
+		private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
+		{
+			ComboBox comboBox = (sender as ComboBox);
+			int localRow = this.GetRow(comboBox);
+			project.UpdateCategory(localRow - 1, comboBox.Text);
 		}
 
 		private Label NewTitleLabel(string text)

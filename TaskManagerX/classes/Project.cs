@@ -124,6 +124,27 @@ namespace TaskManagerX
 			return task;
 		}
 
+		public void UpdateTitle(int row, string text)
+		{
+			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
+			ColumnLayout columnLayout = new ColumnLayout(activeSheet);
+			activeSheet.Cells[columnLayout.TitleColumn + row].Value = text;
+		}
+
+		public void UpdateStatus(int row, string status)
+		{
+			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
+			ColumnLayout columnLayout = new ColumnLayout(activeSheet);
+			activeSheet.Cells[columnLayout.StatusColumn + row].Value = status; //todo if inactive, move to other sheet
+		}
+
+		public void UpdateCategory(int row, string category)
+		{
+			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
+			ColumnLayout columnLayout = new ColumnLayout(activeSheet);
+			activeSheet.Cells[columnLayout.CategoryColumn + row].Value = category;
+		}
+
 		public List<Task> GetActiveTasks()
 		{
 			List<Task> tasks = new List<Task>();
