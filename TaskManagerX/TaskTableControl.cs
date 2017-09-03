@@ -13,10 +13,17 @@ namespace TaskManagerX
 {
 	public class TaskTableControl : TableLayoutPanel
 	{
-		public TaskTableControl()
+		private Project project;
+
+		private static Font titleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		private static Font regularFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+
+		public TaskTableControl(Project project)
 		{
+			this.project = project;
+
 			this.Location = new Point(0, 0);
-			this.Padding = new Padding(left: 0, top: 0, right: SystemInformation.VerticalScrollBarWidth, bottom: 0);
+			this.Padding = new Padding(left: 0, top: 0, right: SystemInformation.VerticalScrollBarWidth, bottom: 0); //leave room for vertical scrollbar
 			this.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
 			this.Dock = DockStyle.Fill;
 			this.BackColor = SystemColors.Control;
@@ -24,6 +31,13 @@ namespace TaskManagerX
 
 			InsertTitleRow();
 			InsertBlankRow();
+
+			int row = 3;
+			foreach(Task task in project.GetActiveTasks())
+			{
+				InsertTaskRow(row, task);
+				row++;
+			}
 		}
 
 		public void InsertTitleRow()
@@ -64,10 +78,29 @@ namespace TaskManagerX
 			this.Controls.Add(NewDataLabel("Row", (rowIndex - 1).ToString()), 1, rowIndex);
 			this.Controls.Add(NewDataLabel("Id", "0"), 2, rowIndex);
 			this.Controls.Add(NewTextBox("TitleTextBox"), 3, rowIndex);
-			this.Controls.Add(NewComboBox("StatusComboBox", new string[] { "Todo", "Done" }), 4, rowIndex);
-			this.Controls.Add(NewComboBox("CategoryComboBox", new string[] { "Task", "Bug" }), 5, rowIndex);
+			this.Controls.Add(NewComboBox("StatusComboBox", project.Statuses), 4, rowIndex);
+			this.Controls.Add(NewComboBox("CategoryComboBox", project.Categories), 5, rowIndex);
 			this.Controls.Add(NewDataLabel("CreateDate", "01/01/2017"), 6, rowIndex);
 			this.Controls.Add(NewDataLabel("StatusChangeDate", "12/01/2017"), 7, rowIndex);
+
+			this.RowCount++;
+
+			this.ResumeLayout();
+		}
+
+		private void InsertTaskRow(int rowIndex, Task task)
+		{
+			this.SuspendLayout(); //avoid screen flickers
+
+			InsertRow(rowIndex);
+			this.Controls.Add(NewButton("+", addTask_Click), 0, rowIndex);
+			this.Controls.Add(NewDataLabel("Row", (rowIndex - 1).ToString()), 1, rowIndex);
+			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), 2, rowIndex);
+			this.Controls.Add(NewTextBox("TitleTextBox", task.Title), 3, rowIndex);
+			this.Controls.Add(NewComboBox("StatusComboBox", project.Statuses, task.Status), 4, rowIndex);
+			this.Controls.Add(NewComboBox("CategoryComboBox", project.Categories, task.Category), 5, rowIndex);
+			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), 6, rowIndex);
+			this.Controls.Add(NewDataLabel("StatusChangeDate", task.StatusChangeDateString), 7, rowIndex);
 
 			this.RowCount++;
 
@@ -94,14 +127,14 @@ namespace TaskManagerX
 		private void addTask_Click(object sender, EventArgs e)
 		{
 			int row = this.GetRow(sender as Control);
-			InsertTaskRow(row + 1);
+			InsertTaskRow(row + 1, project.InsertTask(row + 1));
 		}
 
 		private Label NewTitleLabel(string text)
 		{
 			Label label = new Label();
 			label.AutoSize = true;
-			label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			label.Font = titleFont;
 			label.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			label.Size = new System.Drawing.Size(21, 24);
 			label.Text = text;
@@ -112,7 +145,7 @@ namespace TaskManagerX
 		{
 			Label label = new Label();
 			label.AutoSize = true;
-			label.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			label.Font = regularFont;
 			label.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			label.Size = new System.Drawing.Size(21, 24);
 			label.Name = name;
@@ -120,24 +153,27 @@ namespace TaskManagerX
 			return label;
 		}
 
-		private TextBox NewTextBox(string name)
+		private TextBox NewTextBox(string name, string text = null)
 		{
 			TextBox textBox = new TextBox();
 			textBox.Dock = System.Windows.Forms.DockStyle.Top;
-			textBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			textBox.Font = regularFont;
 			textBox.Name = name;
+			textBox.Text = text;
 			textBox.Size = new System.Drawing.Size(119, 22);
 			textBox.TabIndex = 1;
 			return textBox;
 		}
 
-		private ComboBox NewComboBox(string name, string[] dataSource)
+		private ComboBox NewComboBox(string name, string[] dataSource, string selectedValue = null)
 		{
 			ComboBox comboBox = new ComboBox();
-			comboBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			comboBox.Font = regularFont;
 			comboBox.FormattingEnabled = true;
 			comboBox.DataSource = dataSource;
 			comboBox.Name = name;
+			if(!String.IsNullOrEmpty(selectedValue))
+				comboBox.Text = selectedValue;
 			comboBox.Size = new System.Drawing.Size(94, 24);
 			comboBox.TabIndex = 2;
 			return comboBox;
@@ -146,7 +182,7 @@ namespace TaskManagerX
 		private Button NewButton(string text, EventHandler onClickHandler)
 		{
 			Button button = new Button();
-			button.Font = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+			button.Font = regularFont;
 			button.Location = new System.Drawing.Point(3, 3);
 			button.Size = new System.Drawing.Size(19, 23);
 			button.TabIndex = 7;

@@ -146,7 +146,7 @@ namespace TaskManagerX
 			tabPage.UseVisualStyleBackColor = true;
 			this.tabControl.Controls.Add(tabPage);
 			this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
-			tabPage.Controls.Add(new TaskTableControl());
+			tabPage.Controls.Add(new TaskTableControl(SelectedProject));
 		}
 
 		private void SaveAsProject()

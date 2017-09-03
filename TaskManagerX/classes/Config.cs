@@ -13,6 +13,40 @@ namespace TaskManagerX
 		public List<string> Categories { get; set; }
 		public int MaxId { get; set; }
 
+		public string[] ActiveStatuses {
+			get {
+				return Statuses.Where(x => x.Active).Select(x => x.Name).ToArray();
+			}
+		}
+
+		public string[] InactiveStatuses {
+			get {
+				return Statuses.Where(x => !x.Active).Select(x => x.Name).ToArray();
+			}
+		}
+
+		public int NextId {
+			get {
+				MaxId++;
+				configSheet.Cells["F2"].Value = MaxId;
+				return MaxId;
+			}
+		}
+
+		public string DefaultActiveStatus {
+			get {
+				return Statuses.First(x => x.Active).Name;
+			}
+		}
+
+		public string DefaultCategory {
+			get {
+				return Categories.First();
+			}
+		}
+
+		private ExcelWorksheet configSheet;
+
 		private static string SHEET_NAME = "Config";
 		private static string STATUS_NAME = "Status";
 		private static string ACTIVE_NAME = "Active";
@@ -22,7 +56,7 @@ namespace TaskManagerX
 
 		public Config(ExcelPackage excelPackage)
 		{
-			ExcelWorksheet configSheet = excelPackage.Workbook.Worksheets[SHEET_NAME];
+			configSheet = excelPackage.Workbook.Worksheets[SHEET_NAME];
 			if(configSheet == null)
 			{
 				AddDefaultConfigSheet(excelPackage);
@@ -90,7 +124,7 @@ namespace TaskManagerX
 
 		private void AddDefaultConfigSheet(ExcelPackage excelPackage)
 		{
-			ExcelWorksheet configSheet = excelPackage.Workbook.Worksheets.Add(SHEET_NAME);
+			configSheet = excelPackage.Workbook.Worksheets.Add(SHEET_NAME);
 			SetDefaultStatuses();
 			SetDefaultCategories();
 			MaxId = DEFAULT_ID;

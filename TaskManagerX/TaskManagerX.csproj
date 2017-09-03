@@ -51,9 +51,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\ColumnLayout.cs" />
     <Compile Include="classes\Config.cs" />
     <Compile Include="classes\Project.cs" />
     <Compile Include="classes\Status.cs" />
+    <Compile Include="classes\Task.cs" />
     <Compile Include="TaskTableControl.cs">
       <SubType>Component</SubType>
     </Compile>

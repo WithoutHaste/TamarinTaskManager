@@ -84,8 +84,8 @@ namespace TaskManagerX
 		private ExcelPackage CreateNewProject()
 		{
 			ExcelPackage excelPackage = new ExcelPackage();
-			ColumnLayout.WriteTaskHeaders(excelPackage.Workbook.Worksheets.Add(ACTIVE_SHEET_NAME));
-			ColumnLayout.WriteTaskHeaders(excelPackage.Workbook.Worksheets.Add(INACTIVE_SHEET_NAME));
+			excelPackage.Workbook.Worksheets.Add("Active");
+			excelPackage.Workbook.Worksheets.Add("Inactive");
 			config = new Config(excelPackage);
 			return excelPackage;
 		}
@@ -94,40 +94,25 @@ namespace TaskManagerX
 		{
 			FileInfo file = new FileInfo(FullPath);
 			ExcelPackage excelPackage = new ExcelPackage(file);
-			if(excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME] == null)
-				ColumnLayout.WriteTaskHeaders(excelPackage.Workbook.Worksheets.Add(ACTIVE_SHEET_NAME));
-			if(excelPackage.Workbook.Worksheets[INACTIVE_SHEET_NAME] == null)
-				ColumnLayout.WriteTaskHeaders(excelPackage.Workbook.Worksheets.Add(INACTIVE_SHEET_NAME));
+			if(excelPackage.Workbook.Worksheets["Active"] == null)
+				excelPackage.Workbook.Worksheets.Add("Active");
+			if(excelPackage.Workbook.Worksheets["Inactive"] == null)
+				excelPackage.Workbook.Worksheets.Add("Inactive");
 			config = new Config(excelPackage);
 			return excelPackage;
 		}
 
 		public Task InsertTask(int row)
 		{
-			Task task = new Task() {
-				Id = config.NextId,
-				Status = config.DefaultActiveStatus,
-				Category = config.DefaultCategory,
-				CreateDate = DateTime.Now
-			};
-			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
-			activeSheet.InsertRow(row, 1);
+			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets["Active"];
+			
 
-			ColumnLayout columnLayout = new ColumnLayout(activeSheet);
-			activeSheet.Cells[columnLayout.IdColumn + row].Value = task.Id;
-			activeSheet.Cells[columnLayout.TitleColumn + row].Value = task.Title;
-			activeSheet.Cells[columnLayout.StatusColumn + row].Value = task.Status;
-			activeSheet.Cells[columnLayout.CategoryColumn + row].Value = task.Category;
-			activeSheet.Cells[columnLayout.CreateDateColumn + row].Value = task.CreateDateString;
-			activeSheet.Cells[columnLayout.StatusChangeDateColumn + row].Value = task.StatusChangeDateString;
-
-			return task;
 		}
 
 		public List<Task> GetActiveTasks()
 		{
 			List<Task> tasks = new List<Task>();
-			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets[ACTIVE_SHEET_NAME];
+			ExcelWorksheet activeSheet = excelPackage.Workbook.Worksheets["Active"];
 			if(activeSheet != null)
 			{
 				tasks.AddRange(LoadTasks(activeSheet));
@@ -138,7 +123,7 @@ namespace TaskManagerX
 		public List<Task> GetInactiveTasks()
 		{
 			List<Task> tasks = new List<Task>();
-			ExcelWorksheet inactiveSheet = excelPackage.Workbook.Worksheets[INACTIVE_SHEET_NAME];
+			ExcelWorksheet inactiveSheet = excelPackage.Workbook.Worksheets["Inactive"];
 			if(inactiveSheet != null)
 			{
 				tasks.AddRange(LoadTasks(inactiveSheet));
@@ -154,7 +139,7 @@ namespace TaskManagerX
 				return tasks;
 
 			int row = 2;
-			while(sheet.Cells["A" + row].Value != null)
+			while(sheet.Cells["A" + row].Value.ToString() != null)
 			{
 				tasks.Add(new Task(sheet, columnLayout, row));
 				row++;
