@@ -122,6 +122,28 @@ namespace TaskManagerX
 			}
 		}
 
+		private void RemoveRow(int rowIndex)
+		{
+			for(int col = 0; col <= 7; col++)
+			{
+				Control control = this.GetControlFromPosition(col, rowIndex);
+				this.Controls.Remove(control);
+			}
+			foreach(Control control in this.Controls)
+			{
+				int controlRow = this.GetRow(control);
+				if(controlRow < rowIndex)
+					continue;
+
+				this.SetRow(control, controlRow - 1);
+
+				if(control.Name == "Row")
+				{
+					(control as Label).Text = (Int32.Parse((control as Label).Text) - 1).ToString();
+				}
+			}
+		}
+
 		private void addTask_Click(object sender, EventArgs e)
 		{
 			int row = this.GetRow(sender as Control);
@@ -139,9 +161,15 @@ namespace TaskManagerX
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
-			project.UpdateStatus(row + 1, comboBox.Text, active: showActive); //todo if inactive, remove from display
+
+			bool moveTask = project.UpdateStatus(row + 1, comboBox.Text, active: showActive);
 			Label statusChangeDateLabel = (Label)this.GetControlFromPosition(7, row);
 			statusChangeDateLabel.Text = DateTime.Now.ToShortDateString();
+
+			if(moveTask)
+			{
+				RemoveRow(row);
+			}
 		}
 
 		private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)

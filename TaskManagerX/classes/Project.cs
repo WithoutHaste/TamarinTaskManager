@@ -104,11 +104,6 @@ namespace TaskManagerX
 			return excelPackage;
 		}
 
-		private TaskSheet GetSheet(bool active)
-		{
-			return (active ? activeSheet : inactiveSheet);
-		}
-
 		public Task InsertNewTask(int row, bool active)
 		{
 			Task task = new Task() {
@@ -128,17 +123,23 @@ namespace TaskManagerX
 			GetSheet(active).UpdateTitle(row, text);
 		}
 
-		public void UpdateStatus(int row, string status, bool active)
+		/// <returns>True if status changed between Active/Inactive or vice versa</returns>
+		public bool UpdateStatus(int row, string status, bool active)
 		{
-			//todo maybe need to move row from one sheet to the other
-			GetSheet(active).UpdateStatus(row, status);
+			TaskSheet selectedSheet = GetSheet(active);
+			TaskSheet otherSheet = GetSheet(!active);
+			bool moveTask = OneActiveOneInactive(status, selectedSheet.GetStatus(row));
 
-//			if(config.InactiveStatuses.Contains(status))
-//			{
-				//move row to inactive sheet
-//				Task task = new Task(activeSheet, columnLayout, row);
-				//TODO
-//			}
+			selectedSheet.UpdateStatus(row, status);
+
+			if(moveTask)
+			{
+				Task task = selectedSheet.GetTask(row);
+				otherSheet.InsertTask(2, task);
+				selectedSheet.RemoveTask(row);
+			}
+
+			return moveTask;
 		}
 
 		public void UpdateCategory(int row, string category, bool active)
@@ -146,9 +147,19 @@ namespace TaskManagerX
 			GetSheet(active).UpdateCategory(row, category);
 		}
 
+		public bool OneActiveOneInactive(string statusA, string statusB)
+		{
+			return (config.ActiveStatuses.Contains(statusA) != config.ActiveStatuses.Contains(statusB));
+		}
+
 		public List<Task> GetTasks(bool active)
 		{
 			return GetSheet(active).LoadTasks();
+		}
+
+		private TaskSheet GetSheet(bool active)
+		{
+			return (active ? activeSheet : inactiveSheet);
 		}
 	}
 }

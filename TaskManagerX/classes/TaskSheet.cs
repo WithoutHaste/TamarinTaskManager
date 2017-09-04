@@ -34,6 +34,16 @@ namespace TaskManagerX
 			sheet.Cells[columnLayout.StatusChangeDateColumn + row].Value = task.StatusChangeDateString;
 		}
 
+		public string GetStatus(int row)
+		{
+			return sheet.Cells[columnLayout.StatusColumn + row].Value.ToString();
+		}
+
+		public Task GetTask(int row)
+		{
+			return new Task(sheet, columnLayout, row);
+		}
+
 		public void UpdateTitle(int row, string text)
 		{
 			sheet.Cells[columnLayout.TitleColumn + row].Value = text;
@@ -50,6 +60,11 @@ namespace TaskManagerX
 			sheet.Cells[columnLayout.CategoryColumn + row].Value = category;
 		}
 
+		public void RemoveTask(int row)
+		{
+			sheet.DeleteRow(row);
+		}
+
 		public List<Task> LoadTasks()
 		{
 			List<Task> tasks = new List<Task>();
@@ -60,7 +75,7 @@ namespace TaskManagerX
 			int row = 2;
 			while(sheet.Cells["A" + row].Value != null)
 			{
-				tasks.Add(new Task(sheet, columnLayout, row));
+				tasks.Add(GetTask(row));
 				row++;
 			}
 
