@@ -13,6 +13,8 @@ namespace TaskManagerX
 {
 	public class TaskTableControl : TableLayoutPanel
 	{
+		//TableLayoutPanel has 0-based row index
+
 		private Project project;
 
 		private static Font titleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -30,9 +32,8 @@ namespace TaskManagerX
 			this.AutoScroll = true;
 
 			InsertTitleRow();
-			InsertBlankRow();
 
-			int row = 3;
+			int row = 1;
 			foreach(Task task in project.GetTasks(active:true))
 			{
 				InsertTaskRow(row, task);
@@ -42,6 +43,7 @@ namespace TaskManagerX
 
 		public void InsertTitleRow()
 		{
+			this.Controls.Add(NewButton("+", addTask_Click), 0, 0);
 			this.Controls.Add(NewTitleLabel("Row"), 1, 0);
 			this.Controls.Add(NewTitleLabel("Id"), 2, 0);
 			this.Controls.Add(NewTitleLabel("Title"), 3, 0);
@@ -63,19 +65,13 @@ namespace TaskManagerX
 			this.RowCount = 1;
 		}
 
-		private void InsertBlankRow()
-		{
-			this.Controls.Add(NewButton("+", addTask_Click), 0, 1);
-			this.RowCount++;
-		}
-
 		private void InsertTaskRow(int rowIndex, Task task)
 		{
 			this.SuspendLayout(); //avoid screen flickers
 
 			InsertRow(rowIndex);
 			this.Controls.Add(NewButton("+", addTask_Click), 0, rowIndex);
-			this.Controls.Add(NewDataLabel("Row", (rowIndex - 1).ToString()), 1, rowIndex);
+			this.Controls.Add(NewDataLabel("Row", rowIndex.ToString()), 1, rowIndex);
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), 2, rowIndex);
 
 			TextBox titleBox = NewTextBox("TitleTextBox", task.Title);
@@ -118,30 +114,30 @@ namespace TaskManagerX
 		private void addTask_Click(object sender, EventArgs e)
 		{
 			int row = this.GetRow(sender as Control);
-			InsertTaskRow(row + 1, project.InsertNewTask(row + 1, active:true));
+			InsertTaskRow(row + 1, project.InsertNewTask(row + 2, active:true));
 		}
 
 		private void titleTextBox_TextChanged(object sender, EventArgs e)
 		{
 			TextBox textBox = (sender as TextBox);
-			int localRow = this.GetRow(textBox);
-			project.UpdateTitle(localRow - 1, textBox.Text, active:true);
+			int row = this.GetRow(textBox);
+			project.UpdateTitle(row + 1, textBox.Text, active:true);
 		}
 
 		private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ComboBox comboBox = (sender as ComboBox);
-			int localRow = this.GetRow(comboBox);
-			project.UpdateStatus(localRow - 1, comboBox.Text, active:true); //todo if inactive, remove from display
-			Label statusChangeDateLabel = (Label)this.GetControlFromPosition(7, localRow);
+			int row = this.GetRow(comboBox);
+			project.UpdateStatus(row + 1, comboBox.Text, active:true); //todo if inactive, remove from display
+			Label statusChangeDateLabel = (Label)this.GetControlFromPosition(7, row);
 			statusChangeDateLabel.Text = DateTime.Now.ToShortDateString();
 		}
 
 		private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ComboBox comboBox = (sender as ComboBox);
-			int localRow = this.GetRow(comboBox);
-			project.UpdateCategory(localRow - 1, comboBox.Text, active:true);
+			int row = this.GetRow(comboBox);
+			project.UpdateCategory(row + 1, comboBox.Text, active:true);
 		}
 
 		private Label NewTitleLabel(string text)

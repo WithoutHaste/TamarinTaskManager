@@ -10,6 +10,8 @@ namespace TaskManagerX
 {
 	public class Project : IDisposable
 	{
+		//ExcelWorksheet has 1-based row index
+
 		public string FullPath {
 			get {
 				return fullPath;
