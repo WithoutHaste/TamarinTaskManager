@@ -106,11 +106,9 @@ namespace TaskManagerX
 			projects.Clear(); //do i need to close files here?
 			this.tabControl.Controls.Clear();
 
-			//reopen the files that were open the last time the app closed
 			if(OpenPreviousFiles())
 				return;
 
-			//otherwise, open a new project
 			NewProject();
 		}
 
@@ -146,7 +144,11 @@ namespace TaskManagerX
 			tabPage.UseVisualStyleBackColor = true;
 			this.tabControl.Controls.Add(tabPage);
 			this.tabControl.SelectedIndex = this.tabControl.Controls.Count - 1;
-			tabPage.Controls.Add(new TaskTableControl(SelectedProject));
+
+			TaskTableControl taskTableControl = new TaskTableControl(SelectedProject);
+			TaskTableToolStrip taskTableToolStrip = new TaskTableToolStrip(taskTableControl);
+			tabPage.Controls.Add(taskTableControl);
+			tabPage.Controls.Add(taskTableToolStrip);
 		}
 
 		private void SaveAsProject()

@@ -17,6 +17,8 @@ namespace TaskManagerX
 
 		private Project project;
 
+		private bool showActive = true;
+
 		private static Font titleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 		private static Font regularFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
@@ -31,10 +33,19 @@ namespace TaskManagerX
 			this.BackColor = SystemColors.Control;
 			this.AutoScroll = true;
 
+			ShowTaskSheet(active: showActive);
+		}
+
+		public void ShowTaskSheet(bool active)
+		{
+			showActive = active;
+
+			this.Controls.Clear();
+
 			InsertTitleRow();
 
 			int row = 1;
-			foreach(Task task in project.GetTasks(active:true))
+			foreach(Task task in project.GetTasks(active: active))
 			{
 				InsertTaskRow(row, task);
 				row++;
@@ -114,21 +125,21 @@ namespace TaskManagerX
 		private void addTask_Click(object sender, EventArgs e)
 		{
 			int row = this.GetRow(sender as Control);
-			InsertTaskRow(row + 1, project.InsertNewTask(row + 2, active:true));
+			InsertTaskRow(row + 1, project.InsertNewTask(row + 2, active: showActive));
 		}
 
 		private void titleTextBox_TextChanged(object sender, EventArgs e)
 		{
 			TextBox textBox = (sender as TextBox);
 			int row = this.GetRow(textBox);
-			project.UpdateTitle(row + 1, textBox.Text, active:true);
+			project.UpdateTitle(row + 1, textBox.Text, active: showActive);
 		}
 
 		private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
-			project.UpdateStatus(row + 1, comboBox.Text, active:true); //todo if inactive, remove from display
+			project.UpdateStatus(row + 1, comboBox.Text, active: showActive); //todo if inactive, remove from display
 			Label statusChangeDateLabel = (Label)this.GetControlFromPosition(7, row);
 			statusChangeDateLabel.Text = DateTime.Now.ToShortDateString();
 		}
@@ -137,7 +148,7 @@ namespace TaskManagerX
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
-			project.UpdateCategory(row + 1, comboBox.Text, active:true);
+			project.UpdateCategory(row + 1, comboBox.Text, active: showActive);
 		}
 
 		private Label NewTitleLabel(string text)

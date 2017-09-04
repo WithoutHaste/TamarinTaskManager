@@ -31,11 +31,11 @@
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowForm));
 			this.toolStrip = new System.Windows.Forms.ToolStrip();
 			this.newButton = new System.Windows.Forms.ToolStripButton();
+			this.saveAsButton = new System.Windows.Forms.ToolStripButton();
 			this.saveButton = new System.Windows.Forms.ToolStripButton();
 			this.loadButton = new System.Windows.Forms.ToolStripButton();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabControl = new System.Windows.Forms.TabControl();
-			this.saveAsButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.SuspendLayout();
@@ -64,6 +64,17 @@
 			this.newButton.ToolTipText = "New Project";
 			this.newButton.Click += new System.EventHandler(this.newButton_Click);
 			// 
+			// saveAsButton
+			// 
+			this.saveAsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.saveAsButton.Image = ((System.Drawing.Image)(resources.GetObject("saveAsButton.Image")));
+			this.saveAsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.saveAsButton.Name = "saveAsButton";
+			this.saveAsButton.Size = new System.Drawing.Size(51, 22);
+			this.saveAsButton.Text = "Save As";
+			this.saveAsButton.ToolTipText = "Save Project As";
+			this.saveAsButton.Click += new System.EventHandler(this.saveAsButton_Click);
+			// 
 			// saveButton
 			// 
 			this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
@@ -91,7 +102,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(276, 195);
+			this.tabPage1.Size = new System.Drawing.Size(276, 207);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "tabPage1";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -106,21 +117,10 @@
 			this.tabControl.Location = new System.Drawing.Point(0, 28);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(284, 221);
+			this.tabControl.Size = new System.Drawing.Size(284, 233);
 			this.tabControl.TabIndex = 1;
 			this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
 			this.tabControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseUp);
-			// 
-			// saveAsButton
-			// 
-			this.saveAsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.saveAsButton.Image = ((System.Drawing.Image)(resources.GetObject("saveAsButton.Image")));
-			this.saveAsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.saveAsButton.Name = "saveAsButton";
-			this.saveAsButton.Size = new System.Drawing.Size(51, 22);
-			this.saveAsButton.Text = "Save As";
-			this.saveAsButton.ToolTipText = "Save Project As";
-			this.saveAsButton.Click += new System.EventHandler(this.saveAsButton_Click);
 			// 
 			// WindowForm
 			// 

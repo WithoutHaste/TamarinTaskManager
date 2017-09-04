@@ -60,6 +60,12 @@
     <Compile Include="TaskTableControl.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="TaskTableToolStrip.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="TaskTableToolStrip.Designer.cs">
+      <DependentUpon>TaskTableToolStrip.cs</DependentUpon>
+    </Compile>
     <Compile Include="WindowForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -77,6 +83,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="TaskTableToolStrip.resx">
+      <DependentUpon>TaskTableToolStrip.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="WindowForm.resx">
       <DependentUpon>WindowForm.cs</DependentUpon>
     </EmbeddedResource>
