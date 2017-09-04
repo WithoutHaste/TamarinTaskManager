@@ -3,7 +3,16 @@
   <Profiles />
   <Settings>
     <Setting Name="OpenFilenames" Type="System.String" Scope="User">
-      <Value Profile="(Default)">E:\GitHub\TaskManagerX\saves\test2.xlsx;E:\GitHub\TaskManagerX\saves\test3.xlsx</Value>
+      <Value Profile="(Default)" />
+    </Setting>
+    <Setting Name="WindowMaximized" Type="System.Boolean" Scope="User">
+      <Value Profile="(Default)">False</Value>
+    </Setting>
+    <Setting Name="WindowWidth" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">800</Value>
+    </Setting>
+    <Setting Name="WindowHeight" Type="System.Int32" Scope="User">
+      <Value Profile="(Default)">600</Value>
     </Setting>
   </Settings>
 </SettingsFile>

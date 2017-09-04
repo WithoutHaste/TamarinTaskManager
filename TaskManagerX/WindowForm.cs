@@ -33,6 +33,15 @@ namespace TaskManagerX
 			this.MinimumSize = new Size(675, 300);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 
+			if(Properties.Settings.Default.WindowMaximized)
+			{
+				this.WindowState = FormWindowState.Maximized;
+			}
+			else
+			{
+				this.Size = new Size(Properties.Settings.Default.WindowWidth, Properties.Settings.Default.WindowHeight);
+			}
+
 			InitProjects();
 		}
 
@@ -70,6 +79,9 @@ namespace TaskManagerX
 		{
 			string openFilenames = String.Join(";", projects.Where(x => !x.NotNamed).Select(x => x.FullPath).ToArray());
 			Properties.Settings.Default.OpenFilenames = openFilenames;
+			Properties.Settings.Default.WindowMaximized = (this.WindowState == FormWindowState.Maximized);
+			Properties.Settings.Default.WindowWidth = this.Width;
+			Properties.Settings.Default.WindowHeight = this.Height;
 			Properties.Settings.Default.Save();
 
 			foreach(Project project in projects)
