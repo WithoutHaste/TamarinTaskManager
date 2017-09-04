@@ -179,15 +179,20 @@ namespace TaskManagerX
 			return textBox;
 		}
 
-		private ComboBox NewComboBox(string name, string[] dataSource, string selectedValue = null)
+		private ComboBox NewComboBox(string name, string[] options, string selectedValue = null)
 		{
 			ComboBox comboBox = new ComboBox();
 			comboBox.Font = regularFont;
 			comboBox.FormattingEnabled = true;
-			comboBox.DataSource = dataSource;
 			comboBox.Name = name;
+			foreach(string option in options) //when using datasource, could not set the selected item
+			{
+				comboBox.Items.Add(option);
+			}
 			if(!String.IsNullOrEmpty(selectedValue))
+			{
 				comboBox.SelectedIndex = comboBox.FindString(selectedValue);
+			}
 			comboBox.Size = new System.Drawing.Size(94, 24);
 			comboBox.TabIndex = 2;
 			return comboBox;
