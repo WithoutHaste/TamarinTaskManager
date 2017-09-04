@@ -123,33 +123,26 @@ namespace TaskManagerX
 			GetSheet(active).UpdateTitle(row, text);
 		}
 
-		/// <returns>True if status changed between Active/Inactive or vice versa</returns>
-		public bool UpdateStatus(int row, string status, bool active)
+		public StatusChangeResult UpdateStatus(int row, string status, bool active)
 		{
 			TaskSheet selectedSheet = GetSheet(active);
 			TaskSheet otherSheet = GetSheet(!active);
-			bool moveTask = OneActiveOneInactive(status, selectedSheet.GetStatus(row));
 
-			selectedSheet.UpdateStatus(row, status);
+			StatusChangeResult result = selectedSheet.UpdateStatus(row, status, config.ActiveStatuses);
 
-			if(moveTask)
+			if(result.ActiveInactiveChanged)
 			{
 				Task task = selectedSheet.GetTask(row);
 				otherSheet.InsertTask(2, task);
 				selectedSheet.RemoveTask(row);
 			}
 
-			return moveTask;
+			return result;
 		}
 
 		public void UpdateCategory(int row, string category, bool active)
 		{
 			GetSheet(active).UpdateCategory(row, category);
-		}
-
-		public bool OneActiveOneInactive(string statusA, string statusB)
-		{
-			return (config.ActiveStatuses.Contains(statusA) != config.ActiveStatuses.Contains(statusB));
 		}
 
 		public List<Task> GetTasks(bool active)

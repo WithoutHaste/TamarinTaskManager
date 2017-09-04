@@ -31,7 +31,7 @@ namespace TaskManagerX
 			sheet.Cells[columnLayout.StatusColumn + row].Value = task.Status;
 			sheet.Cells[columnLayout.CategoryColumn + row].Value = task.Category;
 			sheet.Cells[columnLayout.CreateDateColumn + row].Value = task.CreateDateString;
-			sheet.Cells[columnLayout.StatusChangeDateColumn + row].Value = task.StatusChangeDateString;
+			sheet.Cells[columnLayout.DoneDateColumn + row].Value = task.DoneDateString;
 		}
 
 		public string GetStatus(int row)
@@ -49,10 +49,19 @@ namespace TaskManagerX
 			sheet.Cells[columnLayout.TitleColumn + row].Value = text;
 		}
 
-		public void UpdateStatus(int row, string status)
+		public StatusChangeResult UpdateStatus(int row, string status, string[] activeStatuses)
 		{
-			sheet.Cells[columnLayout.StatusChangeDateColumn + row].Value = DateTime.Now.ToShortDateString();
+			bool oldStatusActive = activeStatuses.Contains(sheet.Cells[columnLayout.StatusColumn + row].Value.ToString());
+			bool newStatusActive = activeStatuses.Contains(status);
+
+			StatusChangeResult result = new StatusChangeResult();
+			result.ActiveInactiveChanged = (oldStatusActive != newStatusActive);
+			result.DoneDate = (newStatusActive ? default(DateTime?) : DateTime.Now);
+
 			sheet.Cells[columnLayout.StatusColumn + row].Value = status;
+			sheet.Cells[columnLayout.DoneDateColumn + row].Value = result.DoneDateString;
+
+			return result;
 		}
 
 		public void UpdateCategory(int row, string category)

@@ -14,7 +14,7 @@ namespace TaskManagerX
 		public string Status { get; set; }
 		public string Category { get; set; }
 		public DateTime CreateDate { get; set; }
-		public DateTime? StatusChangeDate { get; set; }
+		public DateTime? DoneDate { get; set; }
 
 		public string CreateDateString {
 			get {
@@ -22,11 +22,11 @@ namespace TaskManagerX
 			}
 		}
 
-		public string StatusChangeDateString {
+		public string DoneDateString {
 			get {
-				if(StatusChangeDate == null)
+				if(DoneDate == null)
 					return "";
-				return StatusChangeDate.Value.ToShortDateString();
+				return DoneDate.Value.ToShortDateString();
 			}
 		}
 
@@ -41,10 +41,10 @@ namespace TaskManagerX
 			Status = ConvertToString(sheet.Cells[columnLayout.StatusColumn + row].Value);
 			Category = ConvertToString(sheet.Cells[columnLayout.CategoryColumn + row].Value);
 			CreateDate = DateTime.Parse(sheet.Cells[columnLayout.CreateDateColumn + row].Value.ToString());
-			string statusChangeDate = sheet.Cells[columnLayout.StatusChangeDateColumn + row].Value.ToString();
+			string statusChangeDate = sheet.Cells[columnLayout.DoneDateColumn + row].Value.ToString();
 			if(!String.IsNullOrEmpty(statusChangeDate))
 			{
-				StatusChangeDate = DateTime.Parse(statusChangeDate);
+				DoneDate = DateTime.Parse(statusChangeDate);
 			}
 		}
 

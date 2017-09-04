@@ -61,7 +61,7 @@ namespace TaskManagerX
 			this.Controls.Add(NewTitleLabel("Status"), 4, 0);
 			this.Controls.Add(NewTitleLabel("Category"), 5, 0);
 			this.Controls.Add(NewTitleLabel("Created"), 6, 0);
-			this.Controls.Add(NewTitleLabel("StatChg"), 7, 0);
+			this.Controls.Add(NewTitleLabel("Done"), 7, 0);
 
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
@@ -98,7 +98,7 @@ namespace TaskManagerX
 			this.Controls.Add(categoryComboBox, 5, rowIndex);
 
 			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), 6, rowIndex);
-			this.Controls.Add(NewDataLabel("StatusChangeDate", task.StatusChangeDateString), 7, rowIndex);
+			this.Controls.Add(NewDataLabel("DoneDate", task.DoneDateString), 7, rowIndex);
 
 			this.RowCount++;
 
@@ -162,11 +162,11 @@ namespace TaskManagerX
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
 
-			bool moveTask = project.UpdateStatus(row + 1, comboBox.Text, active: showActive);
-			Label statusChangeDateLabel = (Label)this.GetControlFromPosition(7, row);
-			statusChangeDateLabel.Text = DateTime.Now.ToShortDateString();
+			StatusChangeResult result = project.UpdateStatus(row + 1, comboBox.Text, active: showActive);
+			Label dateDoneLabel = (Label)this.GetControlFromPosition(7, row);
+			dateDoneLabel.Text = result.DoneDateString;
 
-			if(moveTask)
+			if(result.ActiveInactiveChanged)
 			{
 				RemoveRow(row);
 			}

@@ -17,7 +17,7 @@ namespace TaskManagerX
 		public string StatusColumn { get; set; }
 		public string CategoryColumn { get; set; }
 		public string CreateDateColumn { get; set; }
-		public string StatusChangeDateColumn { get; set; }
+		public string DoneDateColumn { get; set; }
 
 		public bool AllColumnsFound {
 			get {
@@ -26,7 +26,7 @@ namespace TaskManagerX
 					&& !String.IsNullOrEmpty(StatusColumn)
 					&& !String.IsNullOrEmpty(CategoryColumn)
 					&& !String.IsNullOrEmpty(CreateDateColumn)
-					&& !String.IsNullOrEmpty(StatusChangeDateColumn));
+					&& !String.IsNullOrEmpty(DoneDateColumn));
 			}
 		}
 
@@ -35,7 +35,7 @@ namespace TaskManagerX
 		public static string STATUS_HEADER = "Status";
 		public static string CATEGORY_HEADER = "Category";
 		public static string CREATE_DATE_HEADER = "Created";
-		public static string STATUS_CHANGE_DATE_HEADER = "Status Changed";
+		public static string DONE_DATE_HEADER = "Done";
 
 		public ColumnLayout(ExcelWorksheet sheet)
 		{
@@ -69,9 +69,9 @@ namespace TaskManagerX
 					CreateDateColumn = col.ToString();
 					continue;
 				}
-				if(header == STATUS_CHANGE_DATE_HEADER && StatusChangeDateColumn == null)
+				if(header == DONE_DATE_HEADER && DoneDateColumn == null)
 				{
-					StatusChangeDateColumn = col.ToString();
+					DoneDateColumn = col.ToString();
 					continue;
 				}
 			}
@@ -84,7 +84,7 @@ namespace TaskManagerX
 			sheet.Cells["C1"].Value = STATUS_HEADER;
 			sheet.Cells["D1"].Value = CATEGORY_HEADER;
 			sheet.Cells["E1"].Value = CREATE_DATE_HEADER;
-			sheet.Cells["F1"].Value = STATUS_CHANGE_DATE_HEADER;
+			sheet.Cells["F1"].Value = DONE_DATE_HEADER;
 			sheet.Cells["A1:F1"].Style.Font.Bold = true;
 		}
 

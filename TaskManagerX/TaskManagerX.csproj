@@ -55,6 +55,7 @@
     <Compile Include="classes\ConfigSheet.cs" />
     <Compile Include="classes\Project.cs" />
     <Compile Include="classes\Status.cs" />
+    <Compile Include="classes\StatusChangeResult.cs" />
     <Compile Include="classes\Task.cs" />
     <Compile Include="classes\TaskSheet.cs" />
     <Compile Include="TaskTableControl.cs">
