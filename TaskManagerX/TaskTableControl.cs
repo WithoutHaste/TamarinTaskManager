@@ -41,6 +41,7 @@ namespace TaskManagerX
 			showActive = active;
 
 			this.Controls.Clear();
+			this.ColumnStyles.Clear();
 
 			InsertTitleRow();
 
@@ -70,7 +71,7 @@ namespace TaskManagerX
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
+			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, (showActive ? 0F : 80F)));
 
 			this.ColumnCount = 8;
 			this.RowCount = 1;
