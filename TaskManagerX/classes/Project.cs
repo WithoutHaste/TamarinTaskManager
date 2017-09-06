@@ -118,6 +118,12 @@ namespace TaskManagerX
 			return task;
 		}
 
+		public Task MoveRow(int fromRow, int toRow, bool active)
+		{
+			TaskSheet sheet = GetSheet(active);
+			return sheet.MoveRow(fromRow, toRow);
+		}
+
 		public void UpdateTitle(int row, string text, bool active)
 		{
 			GetSheet(active).UpdateTitle(row, text);

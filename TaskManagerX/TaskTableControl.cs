@@ -47,7 +47,7 @@ namespace TaskManagerX
 			int row = 1;
 			foreach(Task task in project.GetTasks(active: active))
 			{
-				InsertTaskRow(row, task);
+				InsertTaskRowAt(row, task);
 				row++;
 			}
 		}
@@ -76,13 +76,22 @@ namespace TaskManagerX
 			this.RowCount = 1;
 		}
 
-		private void InsertTaskRow(int rowIndex, Task task)
+		private void InsertTaskRowAt(int rowIndex, Task task)
 		{
 			this.SuspendLayout(); //avoid screen flickers
 
-			InsertRow(rowIndex);
+			InsertRowAt(rowIndex);
+
 			this.Controls.Add(NewButton("+", addTask_Click), 0, rowIndex);
-			this.Controls.Add(NewDataLabel("Row", rowIndex.ToString()), 1, rowIndex);
+
+			Label rowLabel = NewDataLabel("Row", rowIndex.ToString());
+			//rowLabel.Cursor = Cursors.Hand;
+			//rowLabel.MouseDown += new MouseEventHandler(rowLabel_MouseDown);
+			//rowLabel.AllowDrop = true;
+			//rowLabel.DragEnter += new DragEventHandler(rowLabel_DragEnter);
+			//rowLabel.DragDrop += new DragEventHandler(rowLabel_DragDrop);
+			this.Controls.Add(rowLabel, 1, rowIndex);
+
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), 2, rowIndex);
 
 			TextBox titleBox = NewTextBox("TitleTextBox", task.Title);
@@ -105,7 +114,7 @@ namespace TaskManagerX
 			this.ResumeLayout();
 		}
 
-		private void InsertRow(int rowIndex)
+		private void InsertRowAt(int rowIndex)
 		{
 			foreach(Control control in this.Controls)
 			{
@@ -144,11 +153,63 @@ namespace TaskManagerX
 			}
 		}
 
+		//private void MoveRow(int fromRow, int toRow)
+		//{
+		//	//push down toRow, so insert above it
+		//	if(fromRow == toRow)
+		//		return;
+		//	Task task = project.MoveRow(fromRow + 1, toRow + 1, showActive);
+		//	RemoveRow(fromRow);
+		//	if(toRow > fromRow)
+		//		toRow--;
+		//	InsertTaskRowAt(toRow, task);
+		//}
+
 		private void addTask_Click(object sender, EventArgs e)
 		{
+			//add task below current
 			int row = this.GetRow(sender as Control);
-			InsertTaskRow(row + 1, project.InsertNewTask(row + 2, active: showActive));
+			InsertTaskRowAt(row + 1, project.InsertNewTask(row + 2, active: showActive));
 		}
+
+		//private void rowLabel_MouseDown(object sender, MouseEventArgs e)
+		//{
+		//	Label rowLabel = (sender as Label);
+		//	rowLabel.DoDragDrop(this.GetRow(rowLabel).ToString(), DragDropEffects.Move);
+		//}
+
+		//private void rowLabel_DragEnter(object sender, DragEventArgs e)
+		//{
+		//	if(!e.Data.GetDataPresent(DataFormats.Text))
+		//	{
+		//		e.Effect = DragDropEffects.None;
+		//		return;
+		//	}
+		//	string data = e.Data.GetData(DataFormats.Text).ToString();
+		//	int row;
+		//	if(!Int32.TryParse(data, out row))
+		//	{
+		//		e.Effect = DragDropEffects.None;
+		//		return;
+		//	}
+		//	e.Effect = DragDropEffects.Move;
+		//}
+
+		//private void rowLabel_DragDrop(object sender, DragEventArgs e)
+		//{
+		//	if(!e.Data.GetDataPresent(DataFormats.Text))
+		//	{
+		//		return;
+		//	}
+		//	string data = e.Data.GetData(DataFormats.Text).ToString();
+		//	int fromRow;
+		//	if(!Int32.TryParse(data, out fromRow))
+		//	{
+		//		return;
+		//	}
+		//	int toRow = this.GetRow(sender as Label);
+		//	MoveRow(fromRow, toRow);
+		//}
 
 		private void titleTextBox_TextChanged(object sender, EventArgs e)
 		{

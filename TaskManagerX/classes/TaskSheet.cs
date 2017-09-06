@@ -44,6 +44,16 @@ namespace TaskManagerX
 			return new Task(sheet, columnLayout, row);
 		}
 
+		public Task MoveRow(int fromRow, int toRow)
+		{
+			Task task = GetTask(fromRow);
+			RemoveTask(fromRow);
+			if(toRow > fromRow)
+				toRow--;
+			InsertTask(toRow + 1, task);
+			return task;
+		}
+
 		public void UpdateTitle(int row, string text)
 		{
 			sheet.Cells[columnLayout.TitleColumn + row].Value = text;
