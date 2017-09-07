@@ -13,8 +13,6 @@ namespace TaskManagerX
 {
 	public class TaskTableControl : TableLayoutPanel
 	{
-		//TableLayoutPanel has 0-based row index
-
 		private Project project;
 
 		private bool showActive = true;
@@ -169,8 +167,8 @@ namespace TaskManagerX
 		private void addTask_Click(object sender, EventArgs e)
 		{
 			//add task below current
-			int row = this.GetRow(sender as Control);
-			InsertTaskRowAt(row + 1, project.InsertNewTask(row + 2, active: showActive));
+			int row = this.GetRow(sender as Control) + 1;
+			InsertTaskRowAt(row, project.InsertNewTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive));
 		}
 
 		//private void rowLabel_MouseDown(object sender, MouseEventArgs e)
@@ -216,7 +214,7 @@ namespace TaskManagerX
 		{
 			TextBox textBox = (sender as TextBox);
 			int row = this.GetRow(textBox);
-			project.UpdateTitle(row + 1, textBox.Text, active: showActive);
+			project.UpdateTitle(IndexConverter.TableLayoutPanelToExcelWorksheet(row), textBox.Text, active: showActive);
 		}
 
 		private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -224,7 +222,7 @@ namespace TaskManagerX
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
 
-			StatusChangeResult result = project.UpdateStatus(row + 1, comboBox.Text, active: showActive);
+			StatusChangeResult result = project.UpdateStatus(IndexConverter.TableLayoutPanelToExcelWorksheet(row), comboBox.Text, active: showActive);
 			Label dateDoneLabel = (Label)this.GetControlFromPosition(7, row);
 			dateDoneLabel.Text = result.DoneDateString;
 
@@ -238,7 +236,7 @@ namespace TaskManagerX
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
-			project.UpdateCategory(row + 1, comboBox.Text, active: showActive);
+			project.UpdateCategory(IndexConverter.TableLayoutPanelToExcelWorksheet(row), comboBox.Text, active: showActive);
 		}
 
 		private Label NewTitleLabel(string text)

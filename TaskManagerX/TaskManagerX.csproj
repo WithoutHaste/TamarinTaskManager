@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="classes\ColumnLayout.cs" />
     <Compile Include="classes\ConfigSheet.cs" />
+    <Compile Include="classes\IndexConverter.cs" />
     <Compile Include="classes\Project.cs" />
     <Compile Include="classes\Status.cs" />
     <Compile Include="classes\StatusChangeResult.cs" />
