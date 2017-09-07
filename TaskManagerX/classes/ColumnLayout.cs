@@ -19,14 +19,13 @@ namespace TaskManagerX
 		public string CreateDateColumn { get; set; }
 		public string DoneDateColumn { get; set; }
 
-		public bool AllColumnsFound {
+		public bool ValidLayout {
 			get {
 				return (!String.IsNullOrEmpty(IdColumn)
 					&& !String.IsNullOrEmpty(TitleColumn)
 					&& !String.IsNullOrEmpty(StatusColumn)
 					&& !String.IsNullOrEmpty(CategoryColumn)
-					&& !String.IsNullOrEmpty(CreateDateColumn)
-					&& !String.IsNullOrEmpty(DoneDateColumn));
+					&& !String.IsNullOrEmpty(CreateDateColumn));
 			}
 		}
 
@@ -77,14 +76,17 @@ namespace TaskManagerX
 			}
 		}
 
-		public static void WriteTaskHeaders(ExcelWorksheet sheet)
+		public static void WriteTaskHeaders(ExcelWorksheet sheet, bool active)
 		{
 			sheet.Cells["A1"].Value = ID_HEADER;
 			sheet.Cells["B1"].Value = TITLE_HEADER;
 			sheet.Cells["C1"].Value = STATUS_HEADER;
 			sheet.Cells["D1"].Value = CATEGORY_HEADER;
 			sheet.Cells["E1"].Value = CREATE_DATE_HEADER;
-			sheet.Cells["F1"].Value = DONE_DATE_HEADER;
+			if(!active)
+			{
+				sheet.Cells["F1"].Value = DONE_DATE_HEADER;
+			}
 			sheet.Cells["A1:F1"].Style.Font.Bold = true;
 		}
 

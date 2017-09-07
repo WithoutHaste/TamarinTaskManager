@@ -88,8 +88,8 @@ namespace TaskManagerX
 		private ExcelPackage CreateNewProject()
 		{
 			ExcelPackage excelPackage = new ExcelPackage();
-			activeSheet = new TaskSheet(excelPackage, ACTIVE_SHEET_NAME);
-			inactiveSheet = new TaskSheet(excelPackage, INACTIVE_SHEET_NAME);
+			activeSheet = new TaskSheet(excelPackage, ACTIVE_SHEET_NAME, true);
+			inactiveSheet = new TaskSheet(excelPackage, INACTIVE_SHEET_NAME, false);
 			config = new ConfigSheet(excelPackage);
 			return excelPackage;
 		}
@@ -98,8 +98,8 @@ namespace TaskManagerX
 		{
 			FileInfo file = new FileInfo(FullPath);
 			ExcelPackage excelPackage = new ExcelPackage(file);
-			activeSheet = new TaskSheet(excelPackage, ACTIVE_SHEET_NAME);
-			inactiveSheet = new TaskSheet(excelPackage, INACTIVE_SHEET_NAME);
+			activeSheet = new TaskSheet(excelPackage, ACTIVE_SHEET_NAME, true);
+			inactiveSheet = new TaskSheet(excelPackage, INACTIVE_SHEET_NAME, false);
 			config = new ConfigSheet(excelPackage);
 			return excelPackage;
 		}
@@ -139,6 +139,7 @@ namespace TaskManagerX
 			if(result.ActiveInactiveChanged)
 			{
 				Task task = selectedSheet.GetTask(row);
+				task.DoneDate = DateTime.Now;
 				otherSheet.InsertTask(2, task);
 				selectedSheet.RemoveTask(row);
 			}

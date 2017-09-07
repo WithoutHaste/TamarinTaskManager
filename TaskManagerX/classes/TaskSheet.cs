@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Forms;
 using OfficeOpenXml;
 
 namespace TaskManagerX
@@ -12,13 +13,13 @@ namespace TaskManagerX
 		private ExcelWorksheet sheet;
 		private ColumnLayout columnLayout;
 
-		public TaskSheet(ExcelPackage excelPackage, string name)
+		public TaskSheet(ExcelPackage excelPackage, string name, bool active)
 		{
 			sheet = excelPackage.Workbook.Worksheets[name];
 			if(sheet == null)
 			{
 				sheet = excelPackage.Workbook.Worksheets.Add(name);
-				ColumnLayout.WriteTaskHeaders(sheet);
+				ColumnLayout.WriteTaskHeaders(sheet, active);
 			}
 			columnLayout = new ColumnLayout(sheet); //TODO how to handle if some or all of expected headers are missing
 		}
@@ -31,7 +32,10 @@ namespace TaskManagerX
 			sheet.Cells[columnLayout.StatusColumn + row].Value = task.Status;
 			sheet.Cells[columnLayout.CategoryColumn + row].Value = task.Category;
 			sheet.Cells[columnLayout.CreateDateColumn + row].Value = task.CreateDateString;
-			sheet.Cells[columnLayout.DoneDateColumn + row].Value = task.DoneDateString;
+			if(columnLayout.DoneDateColumn != null)
+			{
+				sheet.Cells[columnLayout.DoneDateColumn + row].Value = task.DoneDateString;
+			}
 		}
 
 		public string GetStatus(int row)
@@ -87,9 +91,12 @@ namespace TaskManagerX
 		public List<Task> LoadTasks()
 		{
 			List<Task> tasks = new List<Task>();
-			ColumnLayout columnLayout = new ColumnLayout(sheet); //todo: are ALL columns required?
-			if(!columnLayout.AllColumnsFound)
+			ColumnLayout columnLayout = new ColumnLayout(sheet);
+			if(!columnLayout.ValidLayout)
+			{
+				MessageBox.Show("Worksheet layout not recognized. Cannot load tasks.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 				return tasks;
+			}
 
 			int row = 2;
 			while(sheet.Cells["A" + row].Value != null)

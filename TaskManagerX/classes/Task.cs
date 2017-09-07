@@ -41,10 +41,13 @@ namespace TaskManagerX
 			Status = ConvertToString(sheet.Cells[columnLayout.StatusColumn + row].Value);
 			Category = ConvertToString(sheet.Cells[columnLayout.CategoryColumn + row].Value);
 			CreateDate = DateTime.Parse(sheet.Cells[columnLayout.CreateDateColumn + row].Value.ToString());
-			string statusChangeDate = sheet.Cells[columnLayout.DoneDateColumn + row].Value.ToString();
-			if(!String.IsNullOrEmpty(statusChangeDate))
+			if(columnLayout.DoneDateColumn != null)
 			{
-				DoneDate = DateTime.Parse(statusChangeDate);
+				string doneDate = sheet.Cells[columnLayout.DoneDateColumn + row].Value.ToString();
+				if(!String.IsNullOrEmpty(doneDate))
+				{
+					DoneDate = DateTime.Parse(doneDate);
+				}
 			}
 		}
 
