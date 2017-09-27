@@ -106,6 +106,18 @@ namespace TaskManagerX
 			WriteConfigSheet(configSheet);
 		}
 
+		public void SetCategories(string[] categories)
+		{
+			List<string> validCategories = categories.Where(x => !String.IsNullOrEmpty(x))
+				.Distinct()
+				.ToList();
+			if(validCategories.Count() == 0)
+				throw new Exception("Project must contain at least one category.");
+
+			Categories = validCategories;
+			WriteConfigSheet(configSheet);
+		}
+
 		private void SetDefaultStatuses()
 		{
 			Statuses = new List<Status>() {

@@ -31,6 +31,8 @@
 			this.toolStrip1 = new System.Windows.Forms.ToolStrip();
 			this.activeRadioButton = new System.Windows.Forms.RadioButton();
 			this.inactiveRadioButton = new System.Windows.Forms.RadioButton();
+			this.editStatusesButton = new System.Windows.Forms.Button();
+			this.editCategoriesButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// toolStrip1
@@ -66,10 +68,32 @@
 			this.inactiveRadioButton.UseVisualStyleBackColor = true;
 			this.inactiveRadioButton.CheckedChanged += new System.EventHandler(this.inactiveRadioButton_CheckedChanged);
 			// 
+			// editStatusesButton
+			// 
+			this.editStatusesButton.Location = new System.Drawing.Point(200, 0);
+			this.editStatusesButton.Name = "editStatusesButton";
+			this.editStatusesButton.Size = new System.Drawing.Size(82, 22);
+			this.editStatusesButton.TabIndex = 3;
+			this.editStatusesButton.Text = "Edit Statuses";
+			this.editStatusesButton.UseVisualStyleBackColor = true;
+			this.editStatusesButton.Click += new System.EventHandler(this.editStatusesButton_Click);
+			// 
+			// editCategoriesButton
+			// 
+			this.editCategoriesButton.Location = new System.Drawing.Point(289, 0);
+			this.editCategoriesButton.Name = "editCategoriesButton";
+			this.editCategoriesButton.Size = new System.Drawing.Size(90, 23);
+			this.editCategoriesButton.TabIndex = 4;
+			this.editCategoriesButton.Text = "Edit Categories";
+			this.editCategoriesButton.UseVisualStyleBackColor = true;
+			this.editCategoriesButton.Click += new System.EventHandler(this.editCategoriesButton_Click);
+			// 
 			// TaskTableToolStrip
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.editCategoriesButton);
+			this.Controls.Add(this.editStatusesButton);
 			this.Controls.Add(this.inactiveRadioButton);
 			this.Controls.Add(this.activeRadioButton);
 			this.Controls.Add(this.toolStrip1);
@@ -85,5 +109,7 @@
 		private System.Windows.Forms.ToolStrip toolStrip1;
 		private System.Windows.Forms.RadioButton activeRadioButton;
 		private System.Windows.Forms.RadioButton inactiveRadioButton;
+		private System.Windows.Forms.Button editStatusesButton;
+		private System.Windows.Forms.Button editCategoriesButton;
 	}
 }

@@ -20,6 +20,16 @@ namespace TaskManagerX
 		private static Font titleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 		private static Font regularFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
+		private static int PLUS_COLUMN_INDEX = 0;
+		private static int ROW_COLUMN_INDEX = 1;
+		private static int ID_COLUMN_INDEX = 2;
+		private static int TITLE_COLUMN_INDEX = 3;
+		private static int STATUS_COLUMN_INDEX = 4;
+		private static int CATEGORY_COLUMN_INDEX = 5;
+		private static int CREATED_COLUMN_INDEX = 6;
+		private static int DONE_COLUMN_INDEX = 7;
+		private static int HEADER_ROW_INDEX = 0;
+
 		public TaskTableControl(Project project)
 		{
 			this.project = project;
@@ -53,14 +63,14 @@ namespace TaskManagerX
 
 		public void InsertTitleRow()
 		{
-			this.Controls.Add(NewButton("+", addTask_Click), 0, 0);
-			this.Controls.Add(NewTitleLabel("Row"), 1, 0);
-			this.Controls.Add(NewTitleLabel("Id"), 2, 0);
-			this.Controls.Add(NewTitleLabel("Title"), 3, 0);
-			this.Controls.Add(NewTitleLabel("Status"), 4, 0);
-			this.Controls.Add(NewTitleLabel("Category"), 5, 0);
-			this.Controls.Add(NewTitleLabel("Created"), 6, 0);
-			this.Controls.Add(NewTitleLabel("Done"), 7, 0);
+			this.Controls.Add(NewButton("+", addTask_Click), PLUS_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(NewTitleLabel("Row"), ROW_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(NewTitleLabel("Id"), ID_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(NewTitleLabel("Title"), TITLE_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(NewTitleLabel("Status"), STATUS_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(NewTitleLabel("Category"), CATEGORY_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(NewTitleLabel("Created"), CREATED_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(NewTitleLabel("Done"), DONE_COLUMN_INDEX, HEADER_ROW_INDEX);
 
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
@@ -71,8 +81,52 @@ namespace TaskManagerX
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, (showActive ? 0F : 80F)));
 
-			this.ColumnCount = 8;
-			this.RowCount = 1;
+			this.ColumnCount = DONE_COLUMN_INDEX + 1;
+			this.RowCount = HEADER_ROW_INDEX + 1;
+		}
+
+		public void EditStatuses()
+		{
+			using(StatusForm statusForm = new StatusForm())
+			{
+				DialogResult result = statusForm.ShowDialog();
+				if(result != DialogResult.OK)
+					return;
+				//todo
+			}
+		}
+
+		public void EditCategories()
+		{
+			using(CategoryForm categoryForm = new CategoryForm(project.Categories))
+			{
+				DialogResult result = categoryForm.ShowDialog();
+				if(result != DialogResult.OK)
+					return;
+				try
+				{
+					project.Categories = categoryForm.GetCategories();
+				}
+				catch(Exception e)
+				{
+					MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+					return;
+				}
+				UpdateCategoryComboBoxOptions();
+			}
+		}
+
+		private void UpdateCategoryComboBoxOptions()
+		{
+			for(int row = 1; row <= this.RowCount; row++)
+			{
+				Control control = this.GetControlFromPosition(CATEGORY_COLUMN_INDEX, row);
+				if(!(control is ComboBox))
+					continue;
+				ComboBox newComboBox = GenerateCategoryComboBox((control as ComboBox).Text);
+				this.Controls.Remove(control);
+				this.Controls.Add(newComboBox, CATEGORY_COLUMN_INDEX, row);
+			}
 		}
 
 		private void InsertTaskRowAt(int rowIndex, Task task)
@@ -81,7 +135,7 @@ namespace TaskManagerX
 
 			InsertRowAt(rowIndex);
 
-			this.Controls.Add(NewButton("+", addTask_Click), 0, rowIndex);
+			this.Controls.Add(NewButton("+", addTask_Click), PLUS_COLUMN_INDEX, rowIndex);
 
 			Label rowLabel = NewDataLabel("Row", rowIndex.ToString());
 			//rowLabel.Cursor = Cursors.Hand;
@@ -89,28 +143,38 @@ namespace TaskManagerX
 			//rowLabel.AllowDrop = true;
 			//rowLabel.DragEnter += new DragEventHandler(rowLabel_DragEnter);
 			//rowLabel.DragDrop += new DragEventHandler(rowLabel_DragDrop);
-			this.Controls.Add(rowLabel, 1, rowIndex);
+			this.Controls.Add(rowLabel, ROW_COLUMN_INDEX, rowIndex);
 
-			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), 2, rowIndex);
+			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
 
 			TextBox titleBox = NewTextBox("TitleTextBox", task.Title);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
-			this.Controls.Add(titleBox, 3, rowIndex);
+			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 
 			ComboBox statusComboBox = NewComboBox("StatusComboBox", project.Statuses, task.Status);
 			statusComboBox.SelectedIndexChanged += new EventHandler(statusComboBox_SelectedIndexChanged);
-			this.Controls.Add(statusComboBox, 4, rowIndex);
+			this.Controls.Add(statusComboBox, STATUS_COLUMN_INDEX, rowIndex);
 
-			ComboBox categoryComboBox = NewComboBox("CategoryComboBox", project.Categories, task.Category);
-			categoryComboBox.SelectedIndexChanged += new EventHandler(categoryComboBox_SelectedIndexChanged);
-			this.Controls.Add(categoryComboBox, 5, rowIndex);
+			ComboBox categoryComboBox = GenerateCategoryComboBox(task.Category);
+			this.Controls.Add(categoryComboBox, CATEGORY_COLUMN_INDEX, rowIndex);
 
-			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), 6, rowIndex);
-			this.Controls.Add(NewDataLabel("DoneDate", task.DoneDateString), 7, rowIndex);
+			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), CREATED_COLUMN_INDEX, rowIndex);
+			this.Controls.Add(NewDataLabel("DoneDate", task.DoneDateString), DONE_COLUMN_INDEX, rowIndex);
 
 			this.RowCount++;
 
 			this.ResumeLayout();
+		}
+
+		private ComboBox GenerateCategoryComboBox(string selectedOption)
+		{
+			List<string> options = project.Categories.ToList();
+			if(!options.Contains(selectedOption))
+				options.Add(selectedOption);
+
+			ComboBox categoryComboBox = NewComboBox("CategoryComboBox", options.ToArray(), selectedOption);
+			categoryComboBox.SelectedIndexChanged += new EventHandler(categoryComboBox_SelectedIndexChanged);
+			return categoryComboBox;
 		}
 
 		private void InsertRowAt(int rowIndex)

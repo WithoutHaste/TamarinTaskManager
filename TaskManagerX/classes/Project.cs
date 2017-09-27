@@ -49,6 +49,9 @@ namespace TaskManagerX
 			get {
 				return config.Categories.ToArray();
 			}
+			set {
+				config.SetCategories(value);
+			}
 		}
 
 		private ExcelPackage excelPackage;

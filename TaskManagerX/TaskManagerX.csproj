@@ -51,6 +51,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CategoryForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CategoryForm.Designer.cs">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="classes\ColumnLayout.cs" />
     <Compile Include="classes\ConfigSheet.cs" />
     <Compile Include="classes\IndexConverter.cs" />
@@ -59,6 +65,12 @@
     <Compile Include="classes\StatusChangeResult.cs" />
     <Compile Include="classes\Task.cs" />
     <Compile Include="classes\TaskSheet.cs" />
+    <Compile Include="StatusForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="StatusForm.Designer.cs">
+      <DependentUpon>StatusForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="TaskTableControl.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -76,6 +88,9 @@
     </Compile>
     <Compile Include="TaskManagerX.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CategoryForm.resx">
+      <DependentUpon>CategoryForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -85,6 +100,9 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
+    <EmbeddedResource Include="StatusForm.resx">
+      <DependentUpon>StatusForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="TaskTableToolStrip.resx">
       <DependentUpon>TaskTableToolStrip.cs</DependentUpon>
     </EmbeddedResource>

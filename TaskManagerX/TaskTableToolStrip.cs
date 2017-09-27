@@ -36,5 +36,15 @@ namespace TaskManagerX
 				return;
 			taskTableControl.ShowTaskSheet(active: false);
 		}
+
+		private void editStatusesButton_Click(object sender, EventArgs e)
+		{
+			taskTableControl.EditStatuses();
+		}
+
+		private void editCategoriesButton_Click(object sender, EventArgs e)
+		{
+			taskTableControl.EditCategories();
+		}
 	}
 }
