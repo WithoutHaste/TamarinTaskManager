@@ -160,13 +160,9 @@ namespace TaskManagerX
 
 			this.Controls.Add(NewButton("+", addTask_Click), PLUS_COLUMN_INDEX, rowIndex);
 
-			Label rowLabel = NewDataLabel("Row", rowIndex.ToString());
-			//rowLabel.Cursor = Cursors.Hand;
-			//rowLabel.MouseDown += new MouseEventHandler(rowLabel_MouseDown);
-			//rowLabel.AllowDrop = true;
-			//rowLabel.DragEnter += new DragEventHandler(rowLabel_DragEnter);
-			//rowLabel.DragDrop += new DragEventHandler(rowLabel_DragDrop);
-			this.Controls.Add(rowLabel, ROW_COLUMN_INDEX, rowIndex);
+			TextBox rowNumberBox = NewTextBox("RowNumberTextBox", rowIndex.ToString());
+			rowNumberBox.LostFocus += new EventHandler(rowNumberTextBox_LostFocus);
+			this.Controls.Add(rowNumberBox, ROW_COLUMN_INDEX, rowIndex);
 
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
 
@@ -222,9 +218,9 @@ namespace TaskManagerX
 
 				this.SetRow(control, controlRow + 1);
 
-				if(control.Name == "Row")
+				if(control.Name == "RowNumberTextBox")
 				{
-					(control as Label).Text = (Int32.Parse((control as Label).Text) + 1).ToString();
+					(control as TextBox).Text = (Int32.Parse((control as TextBox).Text) + 1).ToString();
 				}
 			}
 		}
@@ -244,24 +240,23 @@ namespace TaskManagerX
 
 				this.SetRow(control, controlRow - 1);
 
-				if(control.Name == "Row")
+				if(control.Name == "RowNumberTextBox")
 				{
-					(control as Label).Text = (Int32.Parse((control as Label).Text) - 1).ToString();
+					(control as TextBox).Text = (Int32.Parse((control as TextBox).Text) - 1).ToString();
 				}
 			}
 		}
 
-		//private void MoveRow(int fromRow, int toRow)
-		//{
-		//	//push down toRow, so insert above it
-		//	if(fromRow == toRow)
-		//		return;
-		//	Task task = project.MoveRow(fromRow + 1, toRow + 1, showActive);
-		//	RemoveRow(fromRow);
-		//	if(toRow > fromRow)
-		//		toRow--;
-		//	InsertTaskRowAt(toRow, task);
-		//}
+		private void MoveRow(int fromRow, int toRow)
+		{
+			if(fromRow == toRow)
+				return;
+			Task task = project.MoveRow(IndexConverter.TableLayoutPanelToExcelWorksheet(fromRow), IndexConverter.TableLayoutPanelToExcelWorksheet(toRow), showActive);
+			RemoveRow(fromRow);
+			//going down, push toRow up - already done by removing task
+			//going up, push toRow down
+			InsertTaskRowAt(toRow, task);
+		}
 
 		private void addTask_Click(object sender, EventArgs e)
 		{
@@ -277,44 +272,18 @@ namespace TaskManagerX
 			RemoveRow(row);
 		}
 
-		//private void rowLabel_MouseDown(object sender, MouseEventArgs e)
-		//{
-		//	Label rowLabel = (sender as Label);
-		//	rowLabel.DoDragDrop(this.GetRow(rowLabel).ToString(), DragDropEffects.Move);
-		//}
-
-		//private void rowLabel_DragEnter(object sender, DragEventArgs e)
-		//{
-		//	if(!e.Data.GetDataPresent(DataFormats.Text))
-		//	{
-		//		e.Effect = DragDropEffects.None;
-		//		return;
-		//	}
-		//	string data = e.Data.GetData(DataFormats.Text).ToString();
-		//	int row;
-		//	if(!Int32.TryParse(data, out row))
-		//	{
-		//		e.Effect = DragDropEffects.None;
-		//		return;
-		//	}
-		//	e.Effect = DragDropEffects.Move;
-		//}
-
-		//private void rowLabel_DragDrop(object sender, DragEventArgs e)
-		//{
-		//	if(!e.Data.GetDataPresent(DataFormats.Text))
-		//	{
-		//		return;
-		//	}
-		//	string data = e.Data.GetData(DataFormats.Text).ToString();
-		//	int fromRow;
-		//	if(!Int32.TryParse(data, out fromRow))
-		//	{
-		//		return;
-		//	}
-		//	int toRow = this.GetRow(sender as Label);
-		//	MoveRow(fromRow, toRow);
-		//}
+		private void rowNumberTextBox_LostFocus(object sender, EventArgs e)
+		{
+			TextBox textBox = (sender as TextBox);
+			int row = this.GetRow(textBox);
+			int newRow;
+			if(!Int32.TryParse(textBox.Text, out newRow))
+			{
+				textBox.Text = row.ToString();
+				return;
+			}
+			MoveRow(row, newRow);
+		}
 
 		private void titleTextBox_TextChanged(object sender, EventArgs e)
 		{

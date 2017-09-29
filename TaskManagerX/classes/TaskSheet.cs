@@ -54,9 +54,9 @@ namespace TaskManagerX
 		{
 			Task task = GetTask(fromRow);
 			RemoveTask(fromRow);
-			if(toRow > fromRow)
-				toRow--;
-			InsertTask(toRow + 1, task);
+			//going down, push toRow up - already done by removing task
+			//going up, push toRow down
+			InsertTask(toRow, task);
 			return task;
 		}
 
