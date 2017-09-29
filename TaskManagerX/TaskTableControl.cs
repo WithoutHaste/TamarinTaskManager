@@ -28,6 +28,7 @@ namespace TaskManagerX
 		private static int CATEGORY_COLUMN_INDEX = 5;
 		private static int CREATED_COLUMN_INDEX = 6;
 		private static int DONE_COLUMN_INDEX = 7;
+		private static int DELETE_COLUMN_INDEX = 8;
 		private static int HEADER_ROW_INDEX = 0;
 
 		public TaskTableControl(Project project)
@@ -81,7 +82,7 @@ namespace TaskManagerX
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, (showActive ? 0F : 80F)));
 
-			this.ColumnCount = DONE_COLUMN_INDEX + 1;
+			this.ColumnCount = DELETE_COLUMN_INDEX + 1;
 			this.RowCount = HEADER_ROW_INDEX + 1;
 		}
 
@@ -182,6 +183,8 @@ namespace TaskManagerX
 			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), CREATED_COLUMN_INDEX, rowIndex);
 			this.Controls.Add(NewDataLabel("DoneDate", task.DoneDateString), DONE_COLUMN_INDEX, rowIndex);
 
+			this.Controls.Add(NewButton("X", deleteTask_Click), DELETE_COLUMN_INDEX, rowIndex);
+
 			this.RowCount++;
 
 			this.ResumeLayout();
@@ -228,7 +231,7 @@ namespace TaskManagerX
 
 		private void RemoveRow(int rowIndex)
 		{
-			for(int col = 0; col <= 7; col++)
+			for(int col = 0; col < this.ColumnCount; col++)
 			{
 				Control control = this.GetControlFromPosition(col, rowIndex);
 				this.Controls.Remove(control);
@@ -265,6 +268,13 @@ namespace TaskManagerX
 			//add task below current
 			int row = this.GetRow(sender as Control) + 1;
 			InsertTaskRowAt(row, project.InsertNewTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive));
+		}
+
+		private void deleteTask_Click(object sender, EventArgs e)
+		{
+			int row = this.GetRow(sender as Control);
+			project.RemoveTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+			RemoveRow(row);
 		}
 
 		//private void rowLabel_MouseDown(object sender, MouseEventArgs e)

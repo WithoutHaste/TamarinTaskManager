@@ -131,6 +131,11 @@ namespace TaskManagerX
 			return task;
 		}
 
+		public void RemoveTask(int row, bool active)
+		{
+			GetSheet(active).RemoveTask(row);
+		}
+
 		public Task MoveRow(int fromRow, int toRow, bool active)
 		{
 			TaskSheet sheet = GetSheet(active);
