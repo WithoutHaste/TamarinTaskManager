@@ -45,6 +45,18 @@ namespace TaskManagerX
 			}
 		}
 
+		public string[] ActiveStatuses {
+			get {
+				return config.ActiveStatuses;
+			}
+		}
+
+		public string[] InactiveStatuses {
+			get {
+				return config.InactiveStatuses;
+			}
+		}
+
 		public string[] Categories {
 			get {
 				return config.Categories.ToArray();
@@ -156,6 +168,16 @@ namespace TaskManagerX
 		public List<Task> GetTasks(bool active)
 		{
 			return GetSheet(active).LoadTasks();
+		}
+
+		public void SetStatuses(string[] active, string[] inactive)
+		{
+			//check if any task contradicts these settings
+			activeSheet.ValidateDoesNotContainStatuses(inactive);
+			inactiveSheet.ValidateDoesNotContainStatuses(active);
+
+			//apply settings
+			config.SetStatuses(active, inactive);
 		}
 
 		private TaskSheet GetSheet(bool active)

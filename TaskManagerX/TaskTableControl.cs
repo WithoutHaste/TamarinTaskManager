@@ -87,12 +87,34 @@ namespace TaskManagerX
 
 		public void EditStatuses()
 		{
-			using(StatusForm statusForm = new StatusForm())
+			using(StatusForm statusForm = new StatusForm(project.ActiveStatuses, project.InactiveStatuses))
 			{
 				DialogResult result = statusForm.ShowDialog();
 				if(result != DialogResult.OK)
 					return;
-				//todo
+				try
+				{
+					project.SetStatuses(statusForm.GetActiveStatuses(), statusForm.GetInactiveStatuses());
+				}
+				catch(Exception e)
+				{
+					MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+					return;
+				}
+				UpdateStatusComboBoxOptions();
+			}
+		}
+
+		private void UpdateStatusComboBoxOptions()
+		{
+			for(int row = 1; row <= this.RowCount; row++)
+			{
+				Control control = this.GetControlFromPosition(STATUS_COLUMN_INDEX, row);
+				if(!(control is ComboBox))
+					continue;
+				ComboBox newComboBox = GenerateStatusComboBox((control as ComboBox).Text);
+				this.Controls.Remove(control);
+				this.Controls.Add(newComboBox, STATUS_COLUMN_INDEX, row);
 			}
 		}
 
@@ -151,8 +173,7 @@ namespace TaskManagerX
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 
-			ComboBox statusComboBox = NewComboBox("StatusComboBox", project.Statuses, task.Status);
-			statusComboBox.SelectedIndexChanged += new EventHandler(statusComboBox_SelectedIndexChanged);
+			ComboBox statusComboBox = GenerateStatusComboBox(task.Status);
 			this.Controls.Add(statusComboBox, STATUS_COLUMN_INDEX, rowIndex);
 
 			ComboBox categoryComboBox = GenerateCategoryComboBox(task.Category);
@@ -164,6 +185,17 @@ namespace TaskManagerX
 			this.RowCount++;
 
 			this.ResumeLayout();
+		}
+
+		private ComboBox GenerateStatusComboBox(string selectedOption)
+		{
+			List<string> options = project.Statuses.ToList();
+			if(!options.Contains(selectedOption))
+				options.Add(selectedOption);
+
+			ComboBox statusComboBox = NewComboBox("StatusComboBox", options.ToArray(), selectedOption);
+			statusComboBox.SelectedIndexChanged += new EventHandler(statusComboBox_SelectedIndexChanged);
+			return statusComboBox;
 		}
 
 		private ComboBox GenerateCategoryComboBox(string selectedOption)

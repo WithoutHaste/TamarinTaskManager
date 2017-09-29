@@ -118,6 +118,30 @@ namespace TaskManagerX
 			WriteConfigSheet(configSheet);
 		}
 
+		public void SetStatuses(string[] active, string[] inactive)
+		{
+			List<string> validActive = active.Where(x => !String.IsNullOrEmpty(x))
+				.Distinct()
+				.ToList();
+			if(validActive.Count == 0)
+				throw new Exception("Project must contain at least one Active status.");
+
+			List<string> validInactive = inactive.Where(x => !String.IsNullOrEmpty(x))
+				.Distinct()
+				.ToList();
+			if(validInactive.Count == 0)
+				throw new Exception("Project must contain at least one Inactive status.");
+
+			string[] intersection = validActive.Intersect(validInactive).ToArray();
+			if(intersection.Length > 0)
+				throw new Exception(String.Format("Status(es) cannot be both Active and Inactive: {0}", String.Join(", ", intersection)));
+
+			Statuses.Clear();
+			Statuses.AddRange(validActive.Select(x => new Status(x, true)));
+			Statuses.AddRange(validInactive.Select(x => new Status(x, false)));
+			WriteConfigSheet(configSheet);
+		}
+
 		private void SetDefaultStatuses()
 		{
 			Statuses = new List<Status>() {

@@ -12,6 +12,7 @@ namespace TaskManagerX
 	{
 		private ExcelWorksheet sheet;
 		private ColumnLayout columnLayout;
+		private bool isActive;
 
 		public TaskSheet(ExcelPackage excelPackage, string name, bool active)
 		{
@@ -22,6 +23,7 @@ namespace TaskManagerX
 				ColumnLayout.WriteTaskHeaders(sheet, active);
 			}
 			columnLayout = new ColumnLayout(sheet); //TODO how to handle if some or all of expected headers are missing
+			isActive = active;
 		}
 
 		public void InsertTask(int row, Task task)
@@ -69,7 +71,7 @@ namespace TaskManagerX
 			bool newStatusActive = activeStatuses.Contains(status);
 
 			StatusChangeResult result = new StatusChangeResult();
-			result.ActiveInactiveChanged = (oldStatusActive != newStatusActive);
+			result.ActiveInactiveChanged = (newStatusActive != isActive);
 			result.DoneDate = (newStatusActive ? default(DateTime?) : DateTime.Now);
 
 			sheet.Cells[columnLayout.StatusColumn + row].Value = status;
@@ -94,7 +96,7 @@ namespace TaskManagerX
 			ColumnLayout columnLayout = new ColumnLayout(sheet);
 			if(!columnLayout.ValidLayout)
 			{
-				MessageBox.Show("Worksheet layout not recognized. Cannot load tasks.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+				MessageBox.Show("Worksheet layout not recognized. Cannot load tasks.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk); //todo this is model level, should just throw exception to higher view level for message display
 				return tasks;
 			}
 
@@ -106,6 +108,21 @@ namespace TaskManagerX
 			}
 
 			return tasks;
+		}
+
+		public void ValidateDoesNotContainStatuses(string[] invalidStatuses)
+		{
+			int row = 2;
+			while(sheet.Cells[columnLayout.StatusColumn + row].Value != null)
+			{
+				string taskStatus = sheet.Cells[columnLayout.StatusColumn + row].Value.ToString();
+				if(invalidStatuses.Contains(taskStatus))
+				{
+					int taskId = Int32.Parse(sheet.Cells[columnLayout.IdColumn + row].Value.ToString());
+					throw new Exception(String.Format("Status {0} cannot be both Active and Inactive: see task id {1}.", taskStatus, taskId));
+				}
+				row++;
+			}
 		}
 	}
 }

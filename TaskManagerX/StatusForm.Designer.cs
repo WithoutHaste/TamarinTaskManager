@@ -28,34 +28,92 @@
 		/// </summary>
 		private void InitializeComponent()
 		{
-			this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+			this.activeTextBox = new System.Windows.Forms.RichTextBox();
+			this.activeLabel = new System.Windows.Forms.Label();
+			this.inactiveLabel = new System.Windows.Forms.Label();
+			this.inactiveTextBox = new System.Windows.Forms.RichTextBox();
+			this.applyButton = new System.Windows.Forms.Button();
+			this.helpLabel = new System.Windows.Forms.Label();
 			this.SuspendLayout();
 			// 
-			// richTextBox1
+			// activeTextBox
 			// 
-			this.richTextBox1.Enabled = false;
-			this.richTextBox1.Location = new System.Drawing.Point(12, 12);
-			this.richTextBox1.Name = "richTextBox1";
-			this.richTextBox1.ReadOnly = true;
-			this.richTextBox1.Size = new System.Drawing.Size(257, 38);
-			this.richTextBox1.TabIndex = 1;
-			this.richTextBox1.Text = "Editing and deleting statuses changes the list of options; it has no effect on ex" +
-    "isting tasks.";
+			this.activeTextBox.Location = new System.Drawing.Point(56, 34);
+			this.activeTextBox.Name = "activeTextBox";
+			this.activeTextBox.Size = new System.Drawing.Size(216, 129);
+			this.activeTextBox.TabIndex = 0;
+			this.activeTextBox.Text = "";
+			// 
+			// activeLabel
+			// 
+			this.activeLabel.AutoSize = true;
+			this.activeLabel.Location = new System.Drawing.Point(8, 34);
+			this.activeLabel.Name = "activeLabel";
+			this.activeLabel.Size = new System.Drawing.Size(37, 13);
+			this.activeLabel.TabIndex = 1;
+			this.activeLabel.Text = "Active";
+			// 
+			// inactiveLabel
+			// 
+			this.inactiveLabel.AutoSize = true;
+			this.inactiveLabel.Location = new System.Drawing.Point(5, 170);
+			this.inactiveLabel.Name = "inactiveLabel";
+			this.inactiveLabel.Size = new System.Drawing.Size(45, 13);
+			this.inactiveLabel.TabIndex = 2;
+			this.inactiveLabel.Text = "Inactive";
+			// 
+			// inactiveTextBox
+			// 
+			this.inactiveTextBox.Location = new System.Drawing.Point(56, 170);
+			this.inactiveTextBox.Name = "inactiveTextBox";
+			this.inactiveTextBox.Size = new System.Drawing.Size(216, 129);
+			this.inactiveTextBox.TabIndex = 3;
+			this.inactiveTextBox.Text = "";
+			// 
+			// applyButton
+			// 
+			this.applyButton.Location = new System.Drawing.Point(105, 305);
+			this.applyButton.Name = "applyButton";
+			this.applyButton.Size = new System.Drawing.Size(75, 23);
+			this.applyButton.TabIndex = 4;
+			this.applyButton.Text = "Apply";
+			this.applyButton.UseVisualStyleBackColor = true;
+			this.applyButton.Click += new System.EventHandler(this.applyButton_Click);
+			// 
+			// helpLabel
+			// 
+			this.helpLabel.AutoSize = true;
+			this.helpLabel.Location = new System.Drawing.Point(53, 9);
+			this.helpLabel.Name = "helpLabel";
+			this.helpLabel.Size = new System.Drawing.Size(182, 13);
+			this.helpLabel.TabIndex = 5;
+			this.helpLabel.Text = "Put an <enter> between each status.";
 			// 
 			// StatusForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(284, 261);
-			this.Controls.Add(this.richTextBox1);
+			this.ClientSize = new System.Drawing.Size(284, 340);
+			this.Controls.Add(this.helpLabel);
+			this.Controls.Add(this.applyButton);
+			this.Controls.Add(this.inactiveTextBox);
+			this.Controls.Add(this.inactiveLabel);
+			this.Controls.Add(this.activeLabel);
+			this.Controls.Add(this.activeTextBox);
 			this.Name = "StatusForm";
 			this.Text = "Edit Statuses";
 			this.ResumeLayout(false);
+			this.PerformLayout();
 
 		}
 
 		#endregion
 
-		private System.Windows.Forms.RichTextBox richTextBox1;
+		private System.Windows.Forms.RichTextBox activeTextBox;
+		private System.Windows.Forms.Label activeLabel;
+		private System.Windows.Forms.Label inactiveLabel;
+		private System.Windows.Forms.RichTextBox inactiveTextBox;
+		private System.Windows.Forms.Button applyButton;
+		private System.Windows.Forms.Label helpLabel;
 	}
 }
