@@ -43,8 +43,6 @@ namespace TaskManagerX
 			this.AutoScroll = true;
 
 			ShowTaskSheet(active: showActive);
-
-			ShowHideTaskIds();
 		}
 
 		public void ShowTaskSheet(bool active)
@@ -62,6 +60,9 @@ namespace TaskManagerX
 				InsertTaskRowAt(row, task);
 				row++;
 			}
+
+			ShowHideTaskIds();
+			SetTabIndexes();
 		}
 
 		public void ShowHideTaskIds()
@@ -183,18 +184,22 @@ namespace TaskManagerX
 
 			TextBox rowNumberBox = NewTextBox("RowNumberTextBox", rowIndex.ToString());
 			rowNumberBox.LostFocus += new EventHandler(rowNumberTextBox_LostFocus);
+			rowNumberBox.TabStop = false;
 			this.Controls.Add(rowNumberBox, ROW_COLUMN_INDEX, rowIndex);
 
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
 
 			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Title);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
+			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 
 			ComboBox statusComboBox = GenerateStatusComboBox(task.Status);
+			statusComboBox.TabIndex = 2;
 			this.Controls.Add(statusComboBox, STATUS_COLUMN_INDEX, rowIndex);
 
 			ComboBox categoryComboBox = GenerateCategoryComboBox(task.Category);
+			categoryComboBox.TabIndex = 3;
 			this.Controls.Add(categoryComboBox, CATEGORY_COLUMN_INDEX, rowIndex);
 
 			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), CREATED_COLUMN_INDEX, rowIndex);
@@ -203,6 +208,8 @@ namespace TaskManagerX
 			this.Controls.Add(NewButton("X", deleteTask_Click), DELETE_COLUMN_INDEX, rowIndex);
 
 			this.RowCount++;
+
+			SetTabIndexes();
 
 			this.ResumeLayout();
 		}
@@ -244,6 +251,7 @@ namespace TaskManagerX
 					(control as TextBox).Text = (Int32.Parse((control as TextBox).Text) + 1).ToString();
 				}
 			}
+			SetTabIndexes();
 		}
 
 		private void RemoveRow(int rowIndex)
@@ -266,6 +274,7 @@ namespace TaskManagerX
 					(control as TextBox).Text = (Int32.Parse((control as TextBox).Text) - 1).ToString();
 				}
 			}
+			SetTabIndexes();
 		}
 
 		private void MoveRow(int fromRow, int toRow)
@@ -368,7 +377,6 @@ namespace TaskManagerX
 			textBox.Name = name;
 			textBox.Text = text;
 			textBox.Size = new System.Drawing.Size(119, 22);
-			textBox.TabIndex = 1;
 			return textBox;
 		}
 
@@ -380,7 +388,6 @@ namespace TaskManagerX
 			textBox.Name = name;
 			textBox.Text = text;
 			textBox.Size = new System.Drawing.Size(119, 22 * CountLines(text));
-			textBox.TabIndex = 1;
 			return textBox;
 		}
 
@@ -399,7 +406,6 @@ namespace TaskManagerX
 				comboBox.SelectedIndex = comboBox.FindString(selectedValue);
 			}
 			comboBox.Size = new System.Drawing.Size(94, 24);
-			comboBox.TabIndex = 2;
 			return comboBox;
 		}
 
@@ -409,7 +415,7 @@ namespace TaskManagerX
 			button.Font = regularFont;
 			button.Location = new System.Drawing.Point(3, 3);
 			button.Size = new System.Drawing.Size(19, 23);
-			button.TabIndex = 7;
+			button.TabStop = false;
 			button.Text = text;
 			button.UseVisualStyleBackColor = true;
 			button.Click += onClickHandler;
@@ -421,6 +427,23 @@ namespace TaskManagerX
 			if(String.IsNullOrEmpty(text))
 				return 1;
 			return 1 + text.Count(x => (x == '\n'));
+		}
+
+		private void SetTabIndexes()
+		{
+			for(int row = 1; row < this.RowCount; row++)
+			{
+				Control titleControl = this.GetControlFromPosition(TITLE_COLUMN_INDEX, row);
+				if(titleControl == null)
+					continue;
+				titleControl.TabIndex = (row*10) + 1;
+
+				Control statusControl = this.GetControlFromPosition(STATUS_COLUMN_INDEX, row);
+				statusControl.TabIndex = (row*10) + 2;
+
+				Control categoryControl = this.GetControlFromPosition(CATEGORY_COLUMN_INDEX, row);
+				categoryControl.TabIndex = (row*10) + 3;
+			}
 		}
 	}
 }
