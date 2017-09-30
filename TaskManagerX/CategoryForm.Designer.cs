@@ -31,6 +31,7 @@
 			this.categoriesTextBox = new System.Windows.Forms.RichTextBox();
 			this.applyButton = new System.Windows.Forms.Button();
 			this.helpLabel = new System.Windows.Forms.Label();
+			this.importButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// categoriesTextBox
@@ -43,7 +44,7 @@
 			// 
 			// applyButton
 			// 
-			this.applyButton.Location = new System.Drawing.Point(104, 248);
+			this.applyButton.Location = new System.Drawing.Point(197, 248);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
 			this.applyButton.TabIndex = 1;
@@ -56,15 +57,26 @@
 			this.helpLabel.AutoSize = true;
 			this.helpLabel.Location = new System.Drawing.Point(12, 9);
 			this.helpLabel.Name = "helpLabel";
-			this.helpLabel.Size = new System.Drawing.Size(195, 13);
+			this.helpLabel.Size = new System.Drawing.Size(189, 13);
 			this.helpLabel.TabIndex = 2;
-			this.helpLabel.Text = "Put an <enter> between each category.";
+			this.helpLabel.Text = "Put an [enter] between each category.";
+			// 
+			// importButton
+			// 
+			this.importButton.Location = new System.Drawing.Point(13, 248);
+			this.importButton.Name = "importButton";
+			this.importButton.Size = new System.Drawing.Size(75, 23);
+			this.importButton.TabIndex = 3;
+			this.importButton.Text = "Import";
+			this.importButton.UseVisualStyleBackColor = true;
+			this.importButton.Click += new System.EventHandler(this.importButton_Click);
 			// 
 			// CategoryForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(284, 283);
+			this.Controls.Add(this.importButton);
 			this.Controls.Add(this.helpLabel);
 			this.Controls.Add(this.applyButton);
 			this.Controls.Add(this.categoriesTextBox);
@@ -80,5 +92,6 @@
 		private System.Windows.Forms.RichTextBox categoriesTextBox;
 		private System.Windows.Forms.Button applyButton;
 		private System.Windows.Forms.Label helpLabel;
+		private System.Windows.Forms.Button importButton;
 	}
 }

@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -27,6 +28,25 @@ namespace TaskManagerX
 		private void applyButton_Click(object sender, EventArgs e)
 		{
 			DialogResult = DialogResult.OK;
+		}
+
+		private void importButton_Click(object sender, EventArgs e)
+		{
+			OpenFileDialog openDialog = new OpenFileDialog();
+			openDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+			if(openDialog.ShowDialog() == DialogResult.OK)
+			{
+				string fullPath = openDialog.FileName;
+				if(!File.Exists(fullPath))
+				{
+					MessageBox.Show(String.Format("File does not exist: {0}", fullPath), "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
+					return;
+				}
+				using(Project fromProject = new Project(fullPath))
+				{
+					categoriesTextBox.Text = String.Join("\n", fromProject.Categories);
+				}
+			}
 		}
 	}
 }

@@ -85,9 +85,9 @@
 			this.helpLabel.AutoSize = true;
 			this.helpLabel.Location = new System.Drawing.Point(53, 9);
 			this.helpLabel.Name = "helpLabel";
-			this.helpLabel.Size = new System.Drawing.Size(182, 13);
+			this.helpLabel.Size = new System.Drawing.Size(176, 13);
 			this.helpLabel.TabIndex = 5;
-			this.helpLabel.Text = "Put an <enter> between each status.";
+			this.helpLabel.Text = "Put an [enter] between each status.";
 			// 
 			// StatusForm
 			// 
