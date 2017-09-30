@@ -75,6 +75,25 @@ namespace TaskManagerX
 			}
 		}
 
+		private void settingsButton_Click(object sender, EventArgs e)
+		{
+			using(SettingsForm settingsForm = new SettingsForm())
+			{
+				DialogResult result = settingsForm.ShowDialog();
+				if(result != DialogResult.OK)
+					return;
+				foreach(TabPage tabPage in this.tabControl.Controls)
+				{
+					foreach(Control control in tabPage.Controls)
+					{
+						if(!(control is TaskTableControl))
+							continue;
+						(control as TaskTableControl).ShowHideTaskIds();
+					}
+				}
+			}
+		}
+
 		private void windowForm_Closing(object sender, FormClosingEventArgs e)
 		{
 			string openFilenames = String.Join(";", projects.Where(x => !x.NotNamed).Select(x => x.FullPath).ToArray());

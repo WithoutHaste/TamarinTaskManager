@@ -43,6 +43,8 @@ namespace TaskManagerX
 			this.AutoScroll = true;
 
 			ShowTaskSheet(active: showActive);
+
+			ShowHideTaskIds();
 		}
 
 		public void ShowTaskSheet(bool active)
@@ -60,6 +62,24 @@ namespace TaskManagerX
 				InsertTaskRowAt(row, task);
 				row++;
 			}
+		}
+
+		public void ShowHideTaskIds()
+		{
+			if(Properties.Settings.Default.ShowTaskIds)
+				ShowTaskIds();
+			else
+				HideTaskIds();
+		}
+
+		private void ShowTaskIds()
+		{
+			this.ColumnStyles[ID_COLUMN_INDEX].Width = 45F;
+		}
+
+		private void HideTaskIds()
+		{
+			this.ColumnStyles[ID_COLUMN_INDEX].Width = 10F;
 		}
 
 		public void InsertTitleRow()
@@ -81,6 +101,7 @@ namespace TaskManagerX
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, (showActive ? 0F : 80F)));
+			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 
 			this.ColumnCount = DELETE_COLUMN_INDEX + 1;
 			this.RowCount = HEADER_ROW_INDEX + 1;

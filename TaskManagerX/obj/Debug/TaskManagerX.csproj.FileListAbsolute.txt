@@ -12,3 +12,4 @@ E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\EPPlus.xml
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.TaskTableToolStrip.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.CategoryForm.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.StatusForm.resources
+E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.SettingsForm.resources

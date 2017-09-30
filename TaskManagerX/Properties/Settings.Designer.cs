@@ -70,5 +70,17 @@ namespace TaskManagerX.Properties {
                 this["WindowHeight"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("True")]
+        public bool ShowTaskIds {
+            get {
+                return ((bool)(this["ShowTaskIds"]));
+            }
+            set {
+                this["ShowTaskIds"] = value;
+            }
+        }
     }
 }

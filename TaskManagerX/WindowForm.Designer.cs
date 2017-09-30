@@ -34,6 +34,7 @@
 			this.saveAsButton = new System.Windows.Forms.ToolStripButton();
 			this.saveButton = new System.Windows.Forms.ToolStripButton();
 			this.loadButton = new System.Windows.Forms.ToolStripButton();
+			this.settingsButton = new System.Windows.Forms.ToolStripButton();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabControl = new System.Windows.Forms.TabControl();
 			this.toolStrip.SuspendLayout();
@@ -46,7 +47,8 @@
             this.newButton,
             this.saveAsButton,
             this.saveButton,
-            this.loadButton});
+            this.loadButton,
+            this.settingsButton});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
 			this.toolStrip.Size = new System.Drawing.Size(284, 25);
@@ -96,6 +98,16 @@
 			this.loadButton.Text = "Load";
 			this.loadButton.ToolTipText = "Load Project";
 			this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+			// 
+			// settingsButton
+			// 
+			this.settingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.settingsButton.Image = ((System.Drawing.Image)(resources.GetObject("settingsButton.Image")));
+			this.settingsButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.settingsButton.Name = "settingsButton";
+			this.settingsButton.Size = new System.Drawing.Size(53, 22);
+			this.settingsButton.Text = "Settings";
+			this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
 			// 
 			// tabPage1
 			// 
@@ -148,6 +160,7 @@
 		private System.Windows.Forms.TabPage tabPage1;
 		private System.Windows.Forms.TabControl tabControl;
 		private System.Windows.Forms.ToolStripButton saveAsButton;
+		private System.Windows.Forms.ToolStripButton settingsButton;
 	}
 }
 
