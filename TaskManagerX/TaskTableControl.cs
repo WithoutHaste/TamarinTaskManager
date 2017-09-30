@@ -87,7 +87,7 @@ namespace TaskManagerX
 			this.Controls.Add(NewButton("+", addTask_Click), PLUS_COLUMN_INDEX, HEADER_ROW_INDEX);
 			this.Controls.Add(NewTitleLabel("Row"), ROW_COLUMN_INDEX, HEADER_ROW_INDEX);
 			this.Controls.Add(NewTitleLabel("Id"), ID_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(NewTitleLabel("Title"), TITLE_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(NewTitleLabel("Description"), TITLE_COLUMN_INDEX, HEADER_ROW_INDEX);
 			this.Controls.Add(NewTitleLabel("Status"), STATUS_COLUMN_INDEX, HEADER_ROW_INDEX);
 			this.Controls.Add(NewTitleLabel("Category"), CATEGORY_COLUMN_INDEX, HEADER_ROW_INDEX);
 			this.Controls.Add(NewTitleLabel("Created"), CREATED_COLUMN_INDEX, HEADER_ROW_INDEX);
@@ -187,7 +187,7 @@ namespace TaskManagerX
 
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
 
-			TextBox titleBox = NewTextBox("TitleTextBox", task.Title);
+			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Title);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 
@@ -308,9 +308,11 @@ namespace TaskManagerX
 
 		private void titleTextBox_TextChanged(object sender, EventArgs e)
 		{
-			TextBox textBox = (sender as TextBox);
+			RichTextBox textBox = (sender as RichTextBox);
 			int row = this.GetRow(textBox);
 			project.UpdateTitle(IndexConverter.TableLayoutPanelToExcelWorksheet(row), textBox.Text, active: showActive);
+
+			textBox.Size = new System.Drawing.Size(textBox.Width, 22 * CountLines(textBox.Text));
 		}
 
 		private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -370,6 +372,18 @@ namespace TaskManagerX
 			return textBox;
 		}
 
+		private RichTextBox NewRichTextBox(string name, string text = null)
+		{
+			RichTextBox textBox = new RichTextBox();
+			textBox.Dock = System.Windows.Forms.DockStyle.Top;
+			textBox.Font = regularFont;
+			textBox.Name = name;
+			textBox.Text = text;
+			textBox.Size = new System.Drawing.Size(119, 22 * CountLines(text));
+			textBox.TabIndex = 1;
+			return textBox;
+		}
+
 		private ComboBox NewComboBox(string name, string[] options, string selectedValue = null)
 		{
 			ComboBox comboBox = new ComboBox();
@@ -400,6 +414,13 @@ namespace TaskManagerX
 			button.UseVisualStyleBackColor = true;
 			button.Click += onClickHandler;
 			return button;
+		}
+
+		private int CountLines(string text)
+		{
+			if(String.IsNullOrEmpty(text))
+				return 1;
+			return 1 + text.Count(x => (x == '\n'));
 		}
 	}
 }

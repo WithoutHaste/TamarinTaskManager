@@ -34,6 +34,7 @@
 			this.inactiveTextBox = new System.Windows.Forms.RichTextBox();
 			this.applyButton = new System.Windows.Forms.Button();
 			this.helpLabel = new System.Windows.Forms.Label();
+			this.importButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// activeTextBox
@@ -72,7 +73,7 @@
 			// 
 			// applyButton
 			// 
-			this.applyButton.Location = new System.Drawing.Point(105, 305);
+			this.applyButton.Location = new System.Drawing.Point(197, 305);
 			this.applyButton.Name = "applyButton";
 			this.applyButton.Size = new System.Drawing.Size(75, 23);
 			this.applyButton.TabIndex = 4;
@@ -89,11 +90,22 @@
 			this.helpLabel.TabIndex = 5;
 			this.helpLabel.Text = "Put an [enter] between each status.";
 			// 
+			// importButton
+			// 
+			this.importButton.Location = new System.Drawing.Point(56, 305);
+			this.importButton.Name = "importButton";
+			this.importButton.Size = new System.Drawing.Size(75, 23);
+			this.importButton.TabIndex = 6;
+			this.importButton.Text = "Import";
+			this.importButton.UseVisualStyleBackColor = true;
+			this.importButton.Click += new System.EventHandler(this.importButton_Click);
+			// 
 			// StatusForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
 			this.ClientSize = new System.Drawing.Size(284, 340);
+			this.Controls.Add(this.importButton);
 			this.Controls.Add(this.helpLabel);
 			this.Controls.Add(this.applyButton);
 			this.Controls.Add(this.inactiveTextBox);
@@ -115,5 +127,6 @@
 		private System.Windows.Forms.RichTextBox inactiveTextBox;
 		private System.Windows.Forms.Button applyButton;
 		private System.Windows.Forms.Label helpLabel;
+		private System.Windows.Forms.Button importButton;
 	}
 }
