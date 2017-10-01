@@ -147,6 +147,11 @@ namespace TaskManagerX
 			GetSheet(active).UpdateTitle(row, text);
 		}
 
+		public string GetStatus(int row, bool active)
+		{
+			return GetSheet(active).GetStatus(row);
+		}
+
 		public StatusChangeResult UpdateStatus(int row, string status, bool active)
 		{
 			TaskSheet selectedSheet = GetSheet(active);

@@ -351,15 +351,25 @@ namespace TaskManagerX
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
+			string previousStatus = project.GetStatus(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+			if(previousStatus == comboBox.Text)
+				return;			
 
+			ChangeStatusAction historyAction = new ChangeStatusAction(showActive, row, previousStatus);
 			StatusChangeResult result = project.UpdateStatus(IndexConverter.TableLayoutPanelToExcelWorksheet(row), comboBox.Text, active: showActive);
 			Label dateDoneLabel = (Label)this.GetControlFromPosition(7, row);
 			dateDoneLabel.Text = result.DoneDateString;
 
 			if(result.ActiveInactiveChanged)
 			{
+				historyAction.SetNew(!showActive, 1, comboBox.Text);
 				RemoveRow(row);
 			}
+			else
+			{
+				historyAction.SetNew(showActive, row, comboBox.Text);
+			}
+			history.Add(historyAction);
 		}
 
 		private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -367,6 +377,9 @@ namespace TaskManagerX
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
 			string previousCategory = project.GetCategory(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+			if(previousCategory == comboBox.Text)
+				return;
+
 			project.UpdateCategory(IndexConverter.TableLayoutPanelToExcelWorksheet(row), comboBox.Text, active: showActive);
 			history.Add(new ChangeCategoryAction(showActive, row, previousCategory, comboBox.Text));
 		}
@@ -380,6 +393,26 @@ namespace TaskManagerX
 				comboBox.Items.Add(category);
 			comboBox.SelectedIndex = comboBox.Items.IndexOf(category);
 			history.On();
+		}
+
+		public void ManualChangeTaskStatus(bool currentActiveSheet, int currentRow, bool finalActiveSheet, int finalRow, string status)
+		{
+			this.SuspendLayout(); //avoid screen flickers
+			history.Off();
+			ToolStrip.SelectActiveInactive(currentActiveSheet);
+			ComboBox comboBox = this.GetControlFromPosition(STATUS_COLUMN_INDEX, currentRow) as ComboBox;
+			if(!comboBox.Items.Contains(status))
+				comboBox.Items.Add(status);
+			comboBox.SelectedIndex = comboBox.Items.IndexOf(status);
+
+			if(currentActiveSheet != finalActiveSheet || currentRow != finalRow)
+			{
+				ToolStrip.SelectActiveInactive(finalActiveSheet);
+				MoveRow(1, finalRow);
+			}
+
+			history.On();
+			this.ResumeLayout();
 		}
 
 		private Label NewTitleLabel(string text)
