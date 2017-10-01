@@ -321,8 +321,7 @@ namespace TaskManagerX
 			RichTextBox textBox = (sender as RichTextBox);
 			int row = this.GetRow(textBox);
 			project.UpdateTitle(IndexConverter.TableLayoutPanelToExcelWorksheet(row), textBox.Text, active: showActive);
-
-			textBox.Size = new System.Drawing.Size(textBox.Width, textBoxLineHeight.Value * CountLines(textBox.Text));
+			SetTextBoxHeightByText(textBox);
 		}
 
 		private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -388,16 +387,22 @@ namespace TaskManagerX
 			{
 				using(Graphics g = textBox.CreateGraphics())
 				{
-					textBoxLineHeight = 2 + TextRenderer.MeasureText(g, "TEST", regularFont).Height;
+					textBoxLineHeight = TextRenderer.MeasureText(g, "TEST", regularFont).Height;
 				}
 			}
 
 			textBox.Dock = System.Windows.Forms.DockStyle.Top;
 			textBox.Font = regularFont;
 			textBox.Name = name;
+			textBox.Width = 119;
 			textBox.Text = text;
-			textBox.Size = new System.Drawing.Size(119, textBoxLineHeight.Value * CountLines(text));
+			SetTextBoxHeightByText(textBox);
 			return textBox;
+		}
+
+		private void SetTextBoxHeightByText(RichTextBox textBox)
+		{
+			textBox.Size = new System.Drawing.Size(textBox.Width, 5 + (textBoxLineHeight.Value * CountLines(textBox.Text)));
 		}
 
 		private ComboBox NewComboBox(string name, string[] options, string selectedValue = null)
