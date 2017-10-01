@@ -21,9 +21,22 @@ namespace TaskManagerX
 				return this.tabControl.SelectedIndex;
 			}
 		}
+
 		private Project SelectedProject {
 			get {
 				return projects[SelectedIndex];
+			}
+		}
+
+		private TaskTableControl SelectedTaskTableControl {
+			get {
+				TabPage tabPage = this.tabControl.Controls[SelectedIndex] as TabPage;
+				foreach(Control control in tabPage.Controls)
+				{
+					if(control is TaskTableControl)
+						return (control as TaskTableControl);
+				}
+				throw new Exception("No taskTableControl found.");
 			}
 		}
 
@@ -228,6 +241,16 @@ namespace TaskManagerX
 			int selectedIndex = SelectedIndex;
 			this.tabControl.TabPages.RemoveAt(selectedIndex);
 			projects.RemoveAt(selectedIndex);
+		}
+
+		private void undoButton_Click(object sender, EventArgs e)
+		{
+			SelectedTaskTableControl.Undo();
+		}
+
+		private void redoButton_Click(object sender, EventArgs e)
+		{
+			SelectedTaskTableControl.Redo();
 		}
 	}
 }

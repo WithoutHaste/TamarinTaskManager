@@ -13,7 +13,10 @@ namespace TaskManagerX
 {
 	public class TaskTableControl : TableLayoutPanel
 	{
+		public TaskTableToolStrip ToolStrip { get; set; }
+
 		private Project project;
+		private History history;
 
 		private bool showActive = true;
 
@@ -35,6 +38,7 @@ namespace TaskManagerX
 		public TaskTableControl(Project project)
 		{
 			this.project = project;
+			this.history = new History();
 
 			this.Location = new Point(0, 0);
 			this.Padding = new Padding(left: 0, top: 0, right: SystemInformation.VerticalScrollBarWidth, bottom: 0); //leave room for vertical scrollbar
@@ -43,11 +47,30 @@ namespace TaskManagerX
 			this.BackColor = SystemColors.Control;
 			this.AutoScroll = true;
 
-			ShowTaskSheet(active: showActive);
+			ShowTaskSheet(active: showActive, forced: true);
 		}
 
-		public void ShowTaskSheet(bool active)
+		public void Undo()
 		{
+			if(!history.CanUndo)
+				return;
+			HistoryAction action = history.Undo();
+			action.Undo(this);
+		}
+
+		public void Redo()
+		{
+			if(!history.CanRedo)
+				return;
+			HistoryAction action = history.Redo();
+			action.Redo(this);
+		}
+
+		public void ShowTaskSheet(bool active, bool forced = false)
+		{
+			if(!forced && showActive == active)
+				return;
+
 			showActive = active;
 
 			this.Controls.Clear();
@@ -343,7 +366,20 @@ namespace TaskManagerX
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
+			string previousCategory = project.GetCategory(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
 			project.UpdateCategory(IndexConverter.TableLayoutPanelToExcelWorksheet(row), comboBox.Text, active: showActive);
+			history.Add(new ChangeCategoryAction(showActive, row, previousCategory, comboBox.Text));
+		}
+
+		public void ManualChangeTaskCategory(bool activeSheet, int row, string category)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			ComboBox comboBox = this.GetControlFromPosition(CATEGORY_COLUMN_INDEX, row) as ComboBox;
+			if(!comboBox.Items.Contains(category))
+				comboBox.Items.Add(category);
+			comboBox.SelectedIndex = comboBox.Items.IndexOf(category);
+			history.On();
 		}
 
 		private Label NewTitleLabel(string text)

@@ -17,10 +17,19 @@ namespace TaskManagerX
 		public TaskTableToolStrip(TaskTableControl taskTableControl)
 		{
 			this.taskTableControl = taskTableControl;
+			this.taskTableControl.ToolStrip = this;
 
 			InitializeComponent();
 
 			this.Dock = DockStyle.Bottom;
+		}
+
+		public void SelectActiveInactive(bool active)
+		{
+			if(active)
+				activeRadioButton.Checked = true;
+			else
+				inactiveRadioButton.Checked = true;
 		}
 
 		private void activeRadioButton_CheckedChanged(object sender, EventArgs e)

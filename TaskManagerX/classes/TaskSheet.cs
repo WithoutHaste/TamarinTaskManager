@@ -45,6 +45,11 @@ namespace TaskManagerX
 			return sheet.Cells[columnLayout.StatusColumn + row].Value.ToString();
 		}
 
+		public string GetCategory(int row)
+		{
+			return sheet.Cells[columnLayout.CategoryColumn + row].Value.ToString();
+		}
+
 		public Task GetTask(int row)
 		{
 			return new Task(sheet, columnLayout, row);

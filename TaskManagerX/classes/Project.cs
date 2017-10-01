@@ -165,6 +165,11 @@ namespace TaskManagerX
 			return result;
 		}
 
+		public string GetCategory(int row, bool active)
+		{
+			return GetSheet(active).GetCategory(row);
+		}
+
 		public void UpdateCategory(int row, string category, bool active)
 		{
 			GetSheet(active).UpdateCategory(row, category);

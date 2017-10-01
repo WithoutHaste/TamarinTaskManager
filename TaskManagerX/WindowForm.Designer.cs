@@ -37,6 +37,8 @@
 			this.settingsButton = new System.Windows.Forms.ToolStripButton();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabControl = new System.Windows.Forms.TabControl();
+			this.undoButton = new System.Windows.Forms.ToolStripButton();
+			this.redoButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.SuspendLayout();
@@ -48,10 +50,12 @@
             this.saveAsButton,
             this.saveButton,
             this.loadButton,
-            this.settingsButton});
+            this.settingsButton,
+            this.undoButton,
+            this.redoButton});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
-			this.toolStrip.Size = new System.Drawing.Size(284, 25);
+			this.toolStrip.Size = new System.Drawing.Size(338, 25);
 			this.toolStrip.TabIndex = 0;
 			this.toolStrip.Text = "toolStrip1";
 			// 
@@ -114,7 +118,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(276, 207);
+			this.tabPage1.Size = new System.Drawing.Size(330, 207);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "tabPage1";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -129,16 +133,36 @@
 			this.tabControl.Location = new System.Drawing.Point(0, 28);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(284, 233);
+			this.tabControl.Size = new System.Drawing.Size(338, 233);
 			this.tabControl.TabIndex = 1;
 			this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
 			this.tabControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseUp);
+			// 
+			// undoButton
+			// 
+			this.undoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.undoButton.Image = ((System.Drawing.Image)(resources.GetObject("undoButton.Image")));
+			this.undoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.undoButton.Name = "undoButton";
+			this.undoButton.Size = new System.Drawing.Size(40, 22);
+			this.undoButton.Text = "Undo";
+			this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
+			// 
+			// redoButton
+			// 
+			this.redoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.redoButton.Image = ((System.Drawing.Image)(resources.GetObject("redoButton.Image")));
+			this.redoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.redoButton.Name = "redoButton";
+			this.redoButton.Size = new System.Drawing.Size(38, 22);
+			this.redoButton.Text = "Redo";
+			this.redoButton.Click += new System.EventHandler(this.redoButton_Click);
 			// 
 			// WindowForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(284, 261);
+			this.ClientSize = new System.Drawing.Size(338, 261);
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.toolStrip);
 			this.Name = "WindowForm";
@@ -161,6 +185,8 @@
 		private System.Windows.Forms.TabControl tabControl;
 		private System.Windows.Forms.ToolStripButton saveAsButton;
 		private System.Windows.Forms.ToolStripButton settingsButton;
+		private System.Windows.Forms.ToolStripButton undoButton;
+		private System.Windows.Forms.ToolStripButton redoButton;
 	}
 }
 
