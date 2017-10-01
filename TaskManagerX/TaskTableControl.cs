@@ -19,6 +19,7 @@ namespace TaskManagerX
 
 		private static Font titleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 		private static Font regularFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		private static int? textBoxLineHeight;
 
 		private static int PLUS_COLUMN_INDEX = 0;
 		private static int ROW_COLUMN_INDEX = 1;
@@ -321,7 +322,7 @@ namespace TaskManagerX
 			int row = this.GetRow(textBox);
 			project.UpdateTitle(IndexConverter.TableLayoutPanelToExcelWorksheet(row), textBox.Text, active: showActive);
 
-			textBox.Size = new System.Drawing.Size(textBox.Width, 22 * CountLines(textBox.Text));
+			textBox.Size = new System.Drawing.Size(textBox.Width, textBoxLineHeight.Value * CountLines(textBox.Text));
 		}
 
 		private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -383,11 +384,19 @@ namespace TaskManagerX
 		private RichTextBox NewRichTextBox(string name, string text = null)
 		{
 			RichTextBox textBox = new RichTextBox();
+			if(textBoxLineHeight == null)
+			{
+				using(Graphics g = textBox.CreateGraphics())
+				{
+					textBoxLineHeight = 2 + TextRenderer.MeasureText(g, "TEST", regularFont).Height;
+				}
+			}
+
 			textBox.Dock = System.Windows.Forms.DockStyle.Top;
 			textBox.Font = regularFont;
 			textBox.Name = name;
 			textBox.Text = text;
-			textBox.Size = new System.Drawing.Size(119, 22 * CountLines(text));
+			textBox.Size = new System.Drawing.Size(119, textBoxLineHeight.Value * CountLines(text));
 			return textBox;
 		}
 
