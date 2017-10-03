@@ -58,6 +58,29 @@ namespace TaskManagerX
 			InitProjects();
 		}
 
+		protected override bool ProcessCmdKey(ref Message message, Keys keys)
+		{
+			switch(keys)
+			{
+				case Keys.Control | Keys.A:
+					SelectedTaskTableControl.ToolStrip.SelectActiveInactive(active: true);
+					return true;
+				case Keys.Control | Keys.I:
+					SelectedTaskTableControl.ToolStrip.SelectActiveInactive(active: false);
+					return true;
+				case Keys.Control | Keys.S:
+					saveButton_Click(new object(), new EventArgs());
+					return true;
+				case Keys.Control | Keys.Y:
+					redoButton_Click(new object(), new EventArgs());
+					return true;
+				case Keys.Control | Keys.Z:
+					undoButton_Click(new object(), new EventArgs());
+					return true;
+			}
+			return base.ProcessCmdKey(ref message, keys);
+		}
+
 		private void newButton_Click(object sender, EventArgs e)
 		{
 			NewProject();

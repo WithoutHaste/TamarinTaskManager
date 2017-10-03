@@ -35,10 +35,10 @@
 			this.saveButton = new System.Windows.Forms.ToolStripButton();
 			this.loadButton = new System.Windows.Forms.ToolStripButton();
 			this.settingsButton = new System.Windows.Forms.ToolStripButton();
-			this.tabPage1 = new System.Windows.Forms.TabPage();
-			this.tabControl = new System.Windows.Forms.TabControl();
 			this.undoButton = new System.Windows.Forms.ToolStripButton();
 			this.redoButton = new System.Windows.Forms.ToolStripButton();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabControl = new System.Windows.Forms.TabControl();
 			this.toolStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.SuspendLayout();
@@ -113,6 +113,26 @@
 			this.settingsButton.Text = "Settings";
 			this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
 			// 
+			// undoButton
+			// 
+			this.undoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.undoButton.Image = ((System.Drawing.Image)(resources.GetObject("undoButton.Image")));
+			this.undoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.undoButton.Name = "undoButton";
+			this.undoButton.Size = new System.Drawing.Size(40, 22);
+			this.undoButton.Text = "Undo";
+			this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
+			// 
+			// redoButton
+			// 
+			this.redoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.redoButton.Image = ((System.Drawing.Image)(resources.GetObject("redoButton.Image")));
+			this.redoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.redoButton.Name = "redoButton";
+			this.redoButton.Size = new System.Drawing.Size(38, 22);
+			this.redoButton.Text = "Redo";
+			this.redoButton.Click += new System.EventHandler(this.redoButton_Click);
+			// 
 			// tabPage1
 			// 
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
@@ -137,26 +157,6 @@
 			this.tabControl.TabIndex = 1;
 			this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
 			this.tabControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseUp);
-			// 
-			// undoButton
-			// 
-			this.undoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.undoButton.Image = ((System.Drawing.Image)(resources.GetObject("undoButton.Image")));
-			this.undoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.undoButton.Name = "undoButton";
-			this.undoButton.Size = new System.Drawing.Size(40, 22);
-			this.undoButton.Text = "Undo";
-			this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
-			// 
-			// redoButton
-			// 
-			this.redoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.redoButton.Image = ((System.Drawing.Image)(resources.GetObject("redoButton.Image")));
-			this.redoButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.redoButton.Name = "redoButton";
-			this.redoButton.Size = new System.Drawing.Size(38, 22);
-			this.redoButton.Text = "Redo";
-			this.redoButton.Click += new System.EventHandler(this.redoButton_Click);
 			// 
 			// WindowForm
 			// 

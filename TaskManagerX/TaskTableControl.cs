@@ -320,6 +320,9 @@ namespace TaskManagerX
 		private void FocusOnTitle(int row, int caret = -1, int selectionLength = 0)
 		{
 			Control control = this.GetControlFromPosition(TITLE_COLUMN_INDEX, row);
+			if(control == null)
+				return;
+
 			control.Focus();
 			if(control is RichTextBox)
 			{
