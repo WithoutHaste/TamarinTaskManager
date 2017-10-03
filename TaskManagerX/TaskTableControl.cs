@@ -280,6 +280,8 @@ namespace TaskManagerX
 
 		private void RemoveRow(int rowIndex)
 		{
+			this.SuspendLayout(); //avoid screen flickers
+
 			for(int col = 0; col < this.ColumnCount; col++)
 			{
 				Control control = this.GetControlFromPosition(col, rowIndex);
@@ -299,6 +301,8 @@ namespace TaskManagerX
 				}
 			}
 			SetTabIndexes();
+
+			this.ResumeLayout();
 		}
 
 		private void MoveRow(int fromRow, int toRow)
@@ -317,13 +321,37 @@ namespace TaskManagerX
 			//add task below current
 			int row = this.GetRow(sender as Control) + 1;
 			InsertTaskRowAt(row, project.InsertNewTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive));
+			history.Add(new AddAction(showActive, row));
+		}
+
+		public void ManualAddTask(bool activeSheet, int row, Task task = null)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			if(task == null)
+				task = project.InsertNewTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+			else
+				project.InsertTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive, task: task);
+			InsertTaskRowAt(row, task);
+			history.On();
 		}
 
 		private void deleteTask_Click(object sender, EventArgs e)
 		{
 			int row = this.GetRow(sender as Control);
+			Task task = project.GetTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
 			project.RemoveTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
 			RemoveRow(row);
+			history.Add(new DeleteAction(showActive, row, task));
+		}
+
+		public void ManualDeleteTask(bool activeSheet, int row)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			project.RemoveTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+			RemoveRow(row);
+			history.On();
 		}
 
 		private void rowNumberTextBox_LostFocus(object sender, EventArgs e)

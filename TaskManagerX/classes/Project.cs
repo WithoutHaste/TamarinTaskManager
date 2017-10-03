@@ -126,9 +126,19 @@ namespace TaskManagerX
 				CreateDate = DateTime.Now
 			};
 
-			GetSheet(active).InsertTask(row, task);
+			InsertTask(row, active, task);
 
 			return task;
+		}
+
+		public Task GetTask(int row, bool active)
+		{
+			return GetSheet(active).GetTask(row);
+		}
+
+		public void InsertTask(int row, bool active, Task task)
+		{
+			GetSheet(active).InsertTask(row, task);
 		}
 
 		public void RemoveTask(int row, bool active)

@@ -71,4 +71,50 @@ namespace TaskManagerX
 			control.ManualChangeTaskStatus(PreviousActiveSheet, PreviousRowNumber, NewActiveSheet, NewRowNumber, NewStatus);
 		}
 	}
+
+	public class AddAction : HistoryAction
+	{
+		public bool ActiveSheet;
+		public int RowNumber;
+
+		public AddAction(bool activeSheet, int rowNumber)
+		{
+			ActiveSheet = activeSheet;
+			RowNumber = rowNumber;
+		}
+
+		public override void Undo(TaskTableControl control)
+		{
+			control.ManualDeleteTask(ActiveSheet, RowNumber);
+		}
+
+		public override void Redo(TaskTableControl control)
+		{
+			control.ManualAddTask(ActiveSheet, RowNumber);
+		}
+	}
+
+	public class DeleteAction : HistoryAction
+	{
+		public bool ActiveSheet;
+		public int RowNumber;
+		public Task Task;
+
+		public DeleteAction(bool activeSheet, int rowNumber, Task task)
+		{
+			ActiveSheet = activeSheet;
+			RowNumber = rowNumber;
+			Task = task;
+		}
+
+		public override void Undo(TaskTableControl control)
+		{
+			control.ManualAddTask(ActiveSheet, RowNumber, Task);
+		}
+
+		public override void Redo(TaskTableControl control)
+		{
+			control.ManualDeleteTask(ActiveSheet, RowNumber);
+		}
+	}
 }
