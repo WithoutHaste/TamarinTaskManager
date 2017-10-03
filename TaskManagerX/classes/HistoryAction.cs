@@ -117,4 +117,28 @@ namespace TaskManagerX
 			control.ManualDeleteTask(ActiveSheet, RowNumber);
 		}
 	}
+
+	public class MoveAction : HistoryAction
+	{
+		public bool ActiveSheet;
+		public int PreviousRowNumber;
+		public int NewRowNumber;
+
+		public MoveAction(bool activeSheet, int previousRowNumber, int newRowNumber)
+		{
+			ActiveSheet = activeSheet;
+			PreviousRowNumber = previousRowNumber;
+			NewRowNumber = newRowNumber;
+		}
+
+		public override void Undo(TaskTableControl control)
+		{
+			control.ManualMoveTask(ActiveSheet, NewRowNumber, PreviousRowNumber);
+		}
+
+		public override void Redo(TaskTableControl control)
+		{
+			control.ManualMoveTask(ActiveSheet, PreviousRowNumber, NewRowNumber);
+		}
+	}
 }

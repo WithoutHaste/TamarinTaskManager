@@ -314,6 +314,18 @@ namespace TaskManagerX
 			//going down, push toRow up - already done by removing task
 			//going up, push toRow down
 			InsertTaskRowAt(toRow, task);
+			FocusOnRow(toRow);
+		}
+
+		private void FocusOnRow(int row)
+		{
+			Control control = this.GetControlFromPosition(TITLE_COLUMN_INDEX, row);
+			control.Focus();
+			if(control is RichTextBox)
+			{
+				RichTextBox textBox = (control as RichTextBox);
+				textBox.Select(textBox.Text.Length, 0);
+			}
 		}
 
 		private void addTask_Click(object sender, EventArgs e)
@@ -365,6 +377,15 @@ namespace TaskManagerX
 				return;
 			}
 			MoveRow(row, newRow);
+			history.Add(new MoveAction(showActive, row, newRow));
+		}
+
+		public void ManualMoveTask(bool activeSheet, int fromRowNumber, int toRowNumber)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			MoveRow(fromRowNumber, toRowNumber);
+			history.On();
 		}
 
 		private void titleTextBox_TextChanged(object sender, EventArgs e)
