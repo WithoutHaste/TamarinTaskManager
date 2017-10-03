@@ -1,0 +1,10 @@
+E:\GitHub\TaskManagerX\UnitTests\bin\Debug\UnitTests.dll
+E:\GitHub\TaskManagerX\UnitTests\bin\Debug\UnitTests.pdb
+E:\GitHub\TaskManagerX\UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+E:\GitHub\TaskManagerX\UnitTests\bin\Debug\TaskManagerX.exe
+E:\GitHub\TaskManagerX\UnitTests\bin\Debug\EPPlus.dll
+E:\GitHub\TaskManagerX\UnitTests\bin\Debug\TaskManagerX.pdb
+E:\GitHub\TaskManagerX\UnitTests\bin\Debug\EPPlus.xml
+E:\GitHub\TaskManagerX\UnitTests\obj\Debug\UnitTests.csprojResolveAssemblyReference.cache
+E:\GitHub\TaskManagerX\UnitTests\obj\Debug\UnitTests.dll
+E:\GitHub\TaskManagerX\UnitTests\obj\Debug\UnitTests.pdb

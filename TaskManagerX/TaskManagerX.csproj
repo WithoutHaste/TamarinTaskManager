@@ -61,12 +61,14 @@
     <Compile Include="classes\ConfigSheet.cs" />
     <Compile Include="classes\History.cs" />
     <Compile Include="classes\HistoryAction.cs" />
+    <Compile Include="classes\IMergable.cs" />
     <Compile Include="classes\IndexConverter.cs" />
     <Compile Include="classes\Project.cs" />
     <Compile Include="classes\Status.cs" />
     <Compile Include="classes\StatusChangeResult.cs" />
     <Compile Include="classes\Task.cs" />
     <Compile Include="classes\TaskSheet.cs" />
+    <Compile Include="classes\TextExtension.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>

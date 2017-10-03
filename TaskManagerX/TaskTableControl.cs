@@ -314,17 +314,22 @@ namespace TaskManagerX
 			//going down, push toRow up - already done by removing task
 			//going up, push toRow down
 			InsertTaskRowAt(toRow, task);
-			FocusOnRow(toRow);
+			FocusOnTitle(toRow);
 		}
 
-		private void FocusOnRow(int row)
+		private void FocusOnTitle(int row, int caret = -1, int selectionLength = 0)
 		{
 			Control control = this.GetControlFromPosition(TITLE_COLUMN_INDEX, row);
 			control.Focus();
 			if(control is RichTextBox)
 			{
 				RichTextBox textBox = (control as RichTextBox);
-				textBox.Select(textBox.Text.Length, 0);
+				if(caret == -1)
+				{
+					caret = textBox.Text.Length;
+					selectionLength = 0;
+				}
+				textBox.Select(caret, selectionLength);
 			}
 		}
 
@@ -392,8 +397,20 @@ namespace TaskManagerX
 		{
 			RichTextBox textBox = (sender as RichTextBox);
 			int row = this.GetRow(textBox);
+			string previousText = project.GetTitle(IndexConverter.TableLayoutPanelToExcelWorksheet(row), showActive);
 			project.UpdateTitle(IndexConverter.TableLayoutPanelToExcelWorksheet(row), textBox.Text, active: showActive);
 			SetTextBoxHeightByText(textBox);
+			history.Add(new TextAction(showActive, row, previousText, textBox.Text));
+		}
+
+		public void ManualTextChange(bool activeSheet, int row, string text, int caret, int selectionLength)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			Control control = this.GetControlFromPosition(TITLE_COLUMN_INDEX, row);
+			(control as RichTextBox).Text = text;
+			FocusOnTitle(row, caret, selectionLength);
+			history.On();
 		}
 
 		private void statusComboBox_SelectedIndexChanged(object sender, EventArgs e)

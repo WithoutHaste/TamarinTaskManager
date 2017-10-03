@@ -35,8 +35,23 @@ namespace TaskManagerX
 			if(!isActive)
 				return;
 
-			undoStack.Push(action);
+			if(!TryMerge(action))
+			{
+				undoStack.Push(action);
+			}
+
 			redoStack.Clear();
+		}
+
+		private bool TryMerge(HistoryAction action)
+		{
+			if(!(action is IMergable))
+				return false;
+			if(undoStack.Count == 0)
+				return false;
+			if(!(undoStack.Peek() is IMergable))
+				return false;
+			return (undoStack.Peek() as IMergable).Merge(action);
 		}
 
 		public HistoryAction Undo()
