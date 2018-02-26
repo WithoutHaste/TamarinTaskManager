@@ -44,6 +44,7 @@ namespace TaskManagerX
 		{
 			InitializeComponent();
 			this.MinimumSize = new Size(675, 300);
+			this.Icon = new Icon("icon.ico");
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 
 			if(Properties.Settings.Default.WindowMaximized)

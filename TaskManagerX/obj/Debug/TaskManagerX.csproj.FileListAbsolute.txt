@@ -13,3 +13,4 @@ E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.TaskTableToolStrip.re
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.CategoryForm.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.StatusForm.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.SettingsForm.resources
+E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\icon.ico
