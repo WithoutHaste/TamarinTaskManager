@@ -1,8 +1,9 @@
-E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\icon.ico
-E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\TaskManagerX.exe.config
 E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\TaskManagerX.exe
-E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\TaskManagerX.pdb
 E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\EPPlus.dll
+E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\icon.ico
+E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\Tamarin.exe.config
+E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\Tamarin.exe
+E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\Tamarin.pdb
 E:\GitHub\TaskManagerX\TaskManagerX\bin\Debug\EPPlus.xml
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.CategoryForm.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.Properties.Resources.resources
@@ -11,5 +12,5 @@ E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.StatusForm.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.TaskTableToolStrip.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.WindowForm.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.csproj.GenerateResource.Cache
-E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.exe
-E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.pdb
+E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\Tamarin.exe
+E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\Tamarin.pdb
