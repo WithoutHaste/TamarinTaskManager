@@ -218,6 +218,7 @@ namespace TaskManagerX
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
 
 			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Title);
+			titleBox.GotFocus += new EventHandler(titleTextBox_GotFocus);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
 			titleBox.SizeChanged += new EventHandler(titleTextBox_SizeChanged);
 			titleBox.KeyDown += new KeyEventHandler(titleTextBox_KeyDown);
@@ -404,6 +405,19 @@ namespace TaskManagerX
 			ToolStrip.SelectActiveInactive(activeSheet);
 			MoveRow(fromRowNumber, toRowNumber);
 			history.On();
+		}
+
+		private void titleTextBox_GotFocus(object sender, EventArgs e)
+		{
+			int row = this.GetRow(sender as Control);
+			if(row == 1)
+			{
+				this.ScrollControlIntoView(this.GetControlFromPosition(column: PLUS_COLUMN_INDEX, row: 0));
+			}
+			else
+			{
+				this.ScrollControlIntoView(sender as Control);
+			}
 		}
 
 		private void titleTextBox_TextChanged(object sender, EventArgs e)
