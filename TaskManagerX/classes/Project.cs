@@ -119,10 +119,12 @@ namespace TaskManagerX
 
 		public Task InsertNewTask(int row, bool active)
 		{
+			Task previousTask = GetTask(row - 1, active);
+
 			Task task = new Task() {
 				Id = config.NextId,
-				Status = config.DefaultActiveStatus,
-				Category = config.DefaultCategory,
+				Status = (previousTask == null) ? config.DefaultActiveStatus : previousTask.Status,
+				Category = (previousTask == null) ? config.DefaultCategory : previousTask.Category,
 				CreateDate = DateTime.Now
 			};
 
