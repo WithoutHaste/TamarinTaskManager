@@ -220,6 +220,7 @@ namespace TaskManagerX
 			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Title);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
 			titleBox.SizeChanged += new EventHandler(titleTextBox_SizeChanged);
+			titleBox.KeyUp += new KeyEventHandler(titleTextBox_KeyUp);
 			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 
@@ -347,6 +348,7 @@ namespace TaskManagerX
 			int row = this.GetRow(sender as Control) + 1;
 			InsertTaskRowAt(row, project.InsertNewTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive));
 			history.Add(new AddAction(showActive, row));
+			this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: row).Focus();
 		}
 
 		public void ManualAddTask(bool activeSheet, int row, Task task = null)
@@ -415,6 +417,14 @@ namespace TaskManagerX
 		{
 			RichTextBox textBox = (sender as RichTextBox);
 			SetTextBoxHeightByText(textBox);
+		}
+
+		private void titleTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			if(e.Control && e.KeyCode == Keys.N)
+			{
+				addTask_Click(sender, e);
+			}
 		}
 
 		public void ManualTextChange(bool activeSheet, int row, string text, int caret, int selectionLength)
