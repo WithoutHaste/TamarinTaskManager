@@ -220,6 +220,7 @@ namespace TaskManagerX
 			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Title);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
 			titleBox.SizeChanged += new EventHandler(titleTextBox_SizeChanged);
+			titleBox.KeyDown += new KeyEventHandler(titleTextBox_KeyDown);
 			titleBox.KeyUp += new KeyEventHandler(titleTextBox_KeyUp);
 			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
@@ -417,6 +418,44 @@ namespace TaskManagerX
 		{
 			RichTextBox textBox = (sender as RichTextBox);
 			SetTextBoxHeightByText(textBox);
+		}
+
+		private void titleTextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if(e.KeyCode == Keys.Down)
+			{
+				//if cursor is on last line, move to next textbox
+				RichTextBox textBox = (sender as RichTextBox);
+				int cursorIndex = textBox.SelectionStart;
+				int lineCount = CountLines(textBox);
+				if(textBox.GetFirstCharIndexFromLine(lineCount-1) <= cursorIndex)
+				{
+					int row = this.GetRow(sender as Control);
+					Control nextTextBox = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: row + 1);
+					if(nextTextBox != null)
+					{
+						nextTextBox.Focus();
+					}
+					e.Handled = true;
+				}
+			}
+			if(e.KeyCode == Keys.Up)
+			{
+				//if cursor is on first line, move to previous textbox
+				RichTextBox textBox = (sender as RichTextBox);
+				int cursorIndex = textBox.SelectionStart;
+				int lineCount = CountLines(textBox);
+				if(lineCount == 1 || textBox.GetFirstCharIndexFromLine(1) > cursorIndex)
+				{
+					int row = this.GetRow(sender as Control);
+					Control nextTextBox = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: row - 1);
+					if(nextTextBox != null && nextTextBox is RichTextBox)
+					{
+						nextTextBox.Focus();
+					}
+					e.Handled = true;
+				}
+			}
 		}
 
 		private void titleTextBox_KeyUp(object sender, KeyEventArgs e)
