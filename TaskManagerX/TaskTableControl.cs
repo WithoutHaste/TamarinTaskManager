@@ -215,6 +215,7 @@ namespace TaskManagerX
 
 			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Title);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
+			titleBox.SizeChanged += new EventHandler(titleTextBox_SizeChanged);
 			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 
@@ -406,6 +407,12 @@ namespace TaskManagerX
 			history.Add(new TextAction(showActive, row, previousText, textBox.Text));
 		}
 
+		private void titleTextBox_SizeChanged(object sender, EventArgs e)
+		{
+			RichTextBox textBox = (sender as RichTextBox);
+			SetTextBoxHeightByText(textBox);
+		}
+
 		public void ManualTextChange(bool activeSheet, int row, string text, int caret, int selectionLength)
 		{
 			history.Off();
@@ -540,7 +547,10 @@ namespace TaskManagerX
 
 		private void SetTextBoxHeightByText(RichTextBox textBox)
 		{
-			textBox.Size = new System.Drawing.Size(textBox.Width, 5 + (textBoxLineHeight.Value * CountLines(textBox.Text)));
+			int newHeight = 5 + (textBoxLineHeight.Value * CountLines(textBox));
+			if(newHeight == textBox.Size.Height)
+				return; //do not go into a resizing loop
+			textBox.Size = new System.Drawing.Size(textBox.Width, newHeight);
 		}
 
 		private ComboBox NewComboBox(string name, string[] options, string selectedValue = null)
@@ -574,11 +584,14 @@ namespace TaskManagerX
 			return button;
 		}
 
-		private int CountLines(string text)
+		private int CountLines(RichTextBox textBox)
 		{
-			if(String.IsNullOrEmpty(text))
-				return 1;
-			return 1 + text.Count(x => (x == '\n'));
+			int lineCount = 1;
+			while(textBox.GetFirstCharIndexFromLine(lineCount) > -1)
+			{
+				lineCount++;
+			}
+			return lineCount;
 		}
 
 		private void SetTabIndexes()
