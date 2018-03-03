@@ -212,6 +212,7 @@ namespace TaskManagerX
 
 			TextBox rowNumberBox = NewTextBox("RowNumberTextBox", rowIndex.ToString());
 			rowNumberBox.LostFocus += new EventHandler(rowNumberTextBox_LostFocus);
+			rowNumberBox.Margin = new Padding(0);
 			rowNumberBox.TabStop = false;
 			this.Controls.Add(rowNumberBox, ROW_COLUMN_INDEX, rowIndex);
 
@@ -223,14 +224,18 @@ namespace TaskManagerX
 			titleBox.SizeChanged += new EventHandler(titleTextBox_SizeChanged);
 			titleBox.KeyDown += new KeyEventHandler(titleTextBox_KeyDown);
 			titleBox.KeyUp += new KeyEventHandler(titleTextBox_KeyUp);
+			titleBox.Margin = new Padding(0);
+			titleBox.BorderStyle = BorderStyle.FixedSingle; //on RichTextBox, FixedSingle displays as Fixed3D
 			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 
 			ComboBox statusComboBox = GenerateStatusComboBox(task.Status);
+			statusComboBox.Margin = new Padding(0);
 			statusComboBox.TabStop = false;
 			this.Controls.Add(statusComboBox, STATUS_COLUMN_INDEX, rowIndex);
 
 			ComboBox categoryComboBox = GenerateCategoryComboBox(task.Category);
+			categoryComboBox.Margin = new Padding(0);
 			categoryComboBox.TabStop = false;
 			this.Controls.Add(categoryComboBox, CATEGORY_COLUMN_INDEX, rowIndex);
 
@@ -648,6 +653,7 @@ namespace TaskManagerX
 			button.TabStop = false;
 			button.Text = text;
 			button.UseVisualStyleBackColor = true;
+			button.Margin = new Padding(0);
 			button.Click += onClickHandler;
 			return button;
 		}
