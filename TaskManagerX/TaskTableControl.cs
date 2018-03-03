@@ -71,6 +71,8 @@ namespace TaskManagerX
 			if(!forced && showActive == active)
 				return;
 
+			this.SuspendLayout(); //avoid screen flickers
+
 			showActive = active;
 
 			this.Controls.Clear();
@@ -87,6 +89,8 @@ namespace TaskManagerX
 
 			ShowHideTaskIds();
 			SetTabIndexes();
+
+			this.ResumeLayout();
 		}
 
 		public void ShowHideTaskIds()

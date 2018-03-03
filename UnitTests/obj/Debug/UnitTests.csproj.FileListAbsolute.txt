@@ -1,3 +1,4 @@
+E:\GitHub\TaskManagerX\UnitTests\bin\Debug\icon.ico
 E:\GitHub\TaskManagerX\UnitTests\bin\Debug\UnitTests.dll
 E:\GitHub\TaskManagerX\UnitTests\bin\Debug\UnitTests.pdb
 E:\GitHub\TaskManagerX\UnitTests\bin\Debug\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
