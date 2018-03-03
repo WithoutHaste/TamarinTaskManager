@@ -219,7 +219,7 @@ namespace TaskManagerX
 
 			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Title);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
-			//titleBox.SizeChanged += new EventHandler(titleTextBox_SizeChanged);
+			titleBox.SizeChanged += new EventHandler(titleTextBox_SizeChanged);
 			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 
