@@ -22,32 +22,32 @@
         }
         "Entry"
         {
-        "MsmKey" = "8:_3718CC993DCD682B179B6B328CA8B19C"
+        "MsmKey" = "8:_D07BBAF239E9DE27556F796F6576F258"
         "OwnerKey" = "8:_356728618E3E4F46BD599889291FD14E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_85F6BA7CA032BE977768C833674719AD"
-        "OwnerKey" = "8:_356728618E3E4F46BD599889291FD14E"
-        "MsmSig" = "8:_UNDEFINED"
-        }
-        "Entry"
-        {
-        "MsmKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_E8415904D4CD72A681061618A683C802"
         "OwnerKey" = "8:_356728618E3E4F46BD599889291FD14E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_85F6BA7CA032BE977768C833674719AD"
+        "OwnerKey" = "8:_356728618E3E4F46BD599889291FD14E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_3718CC993DCD682B179B6B328CA8B19C"
+        "OwnerKey" = "8:_E8415904D4CD72A681061618A683C802"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_D07BBAF239E9DE27556F796F6576F258"
         "MsmSig" = "8:_UNDEFINED"
         }
     }
@@ -90,7 +90,7 @@
         "DisplayName" = "8:Release"
         "IsDebugOnly" = "11:FALSE"
         "IsReleaseOnly" = "11:TRUE"
-        "OutputFilename" = "8:Release\\Setup.msi"
+        "OutputFilename" = "8:Release\\Setup_Tamax.msi"
         "PackageFilesAs" = "3:2"
         "PackageFileSize" = "3:-2147483648"
         "CabType" = "3:1"
@@ -107,6 +107,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.5"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.5 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.5"
+                    }
+                }
             }
         }
     }
@@ -137,14 +145,14 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_3718CC993DCD682B179B6B328CA8B19C"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_D07BBAF239E9DE27556F796F6576F258"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:System.Net.Http, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a"
                 "ScatterAssemblies"
                 {
-                    "_3718CC993DCD682B179B6B328CA8B19C"
+                    "_D07BBAF239E9DE27556F796F6576F258"
                     {
                     "Name" = "8:System.Net.Http.dll"
                     "Attributes" = "3:512"
@@ -168,14 +176,14 @@
             "IsDependency" = "11:TRUE"
             "IsolateTo" = "8:"
             }
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_85F6BA7CA032BE977768C833674719AD"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_E8415904D4CD72A681061618A683C802"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
             "AssemblyAsmDisplayName" = "8:EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_85F6BA7CA032BE977768C833674719AD"
+                    "_E8415904D4CD72A681061618A683C802"
                     {
                     "Name" = "8:EPPlus.dll"
                     "Attributes" = "3:512"
@@ -254,9 +262,9 @@
         "Product"
         {
         "Name" = "8:Microsoft Visual Studio"
-        "ProductName" = "8:TaskManagerX"
+        "ProductName" = "8:Tamax"
         "ProductCode" = "8:{0DF1244D-906A-4C99-946F-86A89F7AFBFE}"
-        "PackageCode" = "8:{2A64E20D-634A-4F41-9566-97EAAEDCBE25}"
+        "PackageCode" = "8:{3D71930F-61BE-4810-9154-8A982869D9E4}"
         "UpgradeCode" = "8:{5DD4C39B-4850-4686-B40C-9399C72E847C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -267,7 +275,7 @@
         "Manufacturer" = "8:WithoutHaste"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
-        "Title" = "8:TaskManagerX"
+        "Title" = "8:Tamax"
         "Subject" = "8:"
         "ARPCONTACT" = "8:WithoutHaste"
         "Keywords" = "8:"
@@ -777,7 +785,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_356728618E3E4F46BD599889291FD14E"
             {
-            "SourcePath" = "8:..\\obj\\Debug\\TaskManagerX.exe"
+            "SourcePath" = "8:..\\obj\\Release\\TaskManagerX.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_25705D710C5547BCADC8D8CF0FCA4B20"
