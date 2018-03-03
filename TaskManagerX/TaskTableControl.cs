@@ -227,10 +227,12 @@ namespace TaskManagerX
 
 			ComboBox statusComboBox = GenerateStatusComboBox(task.Status);
 			statusComboBox.TabStop = false;
+			statusComboBox.MouseWheel += new MouseEventHandler(comboBox_MouseWheel);
 			this.Controls.Add(statusComboBox, STATUS_COLUMN_INDEX, rowIndex);
 
 			ComboBox categoryComboBox = GenerateCategoryComboBox(task.Category);
 			categoryComboBox.TabStop = false;
+			categoryComboBox.MouseWheel += new MouseEventHandler(comboBox_MouseWheel);
 			this.Controls.Add(categoryComboBox, CATEGORY_COLUMN_INDEX, rowIndex);
 
 			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), CREATED_COLUMN_INDEX, rowIndex);
@@ -511,6 +513,11 @@ namespace TaskManagerX
 
 			project.UpdateCategory(IndexConverter.TableLayoutPanelToExcelWorksheet(row), comboBox.Text, active: showActive);
 			history.Add(new ChangeCategoryAction(showActive, row, previousCategory, comboBox.Text));
+		}
+
+		private void comboBox_MouseWheel(object sender, MouseEventArgs e)
+		{
+			(e as HandledMouseEventArgs).Handled = true;
 		}
 
 		public void ManualChangeTaskCategory(bool activeSheet, int row, string category)
