@@ -119,7 +119,7 @@ namespace TaskManagerX
 
 		public Task InsertNewTask(int row, bool active)
 		{
-			Task previousTask = GetTask(row - 1, active);
+			Task previousTask = (row <= 2) ? default(Task) : GetTask(row - 1, active);
 
 			Task task = new Task() {
 				Id = config.NextId,
