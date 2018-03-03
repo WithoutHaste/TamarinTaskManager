@@ -225,11 +225,11 @@ namespace TaskManagerX
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 
 			ComboBox statusComboBox = GenerateStatusComboBox(task.Status);
-			statusComboBox.TabIndex = 2;
+			statusComboBox.TabStop = false;
 			this.Controls.Add(statusComboBox, STATUS_COLUMN_INDEX, rowIndex);
 
 			ComboBox categoryComboBox = GenerateCategoryComboBox(task.Category);
-			categoryComboBox.TabIndex = 3;
+			categoryComboBox.TabStop = false;
 			this.Controls.Add(categoryComboBox, CATEGORY_COLUMN_INDEX, rowIndex);
 
 			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), CREATED_COLUMN_INDEX, rowIndex);
