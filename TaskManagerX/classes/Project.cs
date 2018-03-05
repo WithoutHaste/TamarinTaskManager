@@ -25,6 +25,26 @@ namespace TaskManagerX
 			}
 		}
 
+		public DateTime? LastSavedDateTime {
+			get;
+			set;
+		}
+
+		public DateTime? LastEditedDateTime {
+			get;
+			set;
+		}
+
+		public bool EditedSinceLastSave {
+			get {
+				if(!LastEditedDateTime.HasValue)
+					return false;
+				if(!LastSavedDateTime.HasValue)
+					return true;
+				return (LastEditedDateTime.Value > LastSavedDateTime.Value);
+			}
+		}
+
 		public string Name {
 			get {
 				if (FullPath == null)
@@ -84,6 +104,7 @@ namespace TaskManagerX
 		{
 			FullPath = fullPath;
 			excelPackage = OpenProject();
+			LastSavedDateTime = DateTime.Now;
 		}
 
 		public void Save()
@@ -91,6 +112,7 @@ namespace TaskManagerX
 			if(excelPackage.File == null)
 				throw new Exception("Filename not set.");
 			excelPackage.Save();
+			LastSavedDateTime = DateTime.Now;
 		}
 
 		public void Dispose()
@@ -145,22 +167,26 @@ namespace TaskManagerX
 
 		public void InsertTask(int row, bool active, Task task)
 		{
+			LastEditedDateTime = DateTime.Now;
 			GetSheet(active).InsertTask(row, task);
 		}
 
 		public void RemoveTask(int row, bool active)
 		{
+			LastEditedDateTime = DateTime.Now;
 			GetSheet(active).RemoveTask(row);
 		}
 
 		public Task MoveRow(int fromRow, int toRow, bool active)
 		{
+			LastEditedDateTime = DateTime.Now;
 			TaskSheet sheet = GetSheet(active);
 			return sheet.MoveRow(fromRow, toRow);
 		}
 
 		public void UpdateTitle(int row, string text, bool active)
 		{
+			LastEditedDateTime = DateTime.Now;
 			GetSheet(active).UpdateTitle(row, text);
 		}
 
@@ -171,6 +197,7 @@ namespace TaskManagerX
 
 		public StatusChangeResult UpdateStatus(int row, string status, bool active)
 		{
+			LastEditedDateTime = DateTime.Now;
 			TaskSheet selectedSheet = GetSheet(active);
 			TaskSheet otherSheet = GetSheet(!active);
 
@@ -194,6 +221,7 @@ namespace TaskManagerX
 
 		public void UpdateCategory(int row, string category, bool active)
 		{
+			LastEditedDateTime = DateTime.Now;
 			GetSheet(active).UpdateCategory(row, category);
 		}
 
@@ -204,6 +232,8 @@ namespace TaskManagerX
 
 		public void SetStatuses(string[] active, string[] inactive)
 		{
+			LastEditedDateTime = DateTime.Now;
+
 			//check if any task contradicts these settings
 			activeSheet.ValidateDoesNotContainStatuses(inactive);
 			inactiveSheet.ValidateDoesNotContainStatuses(active);

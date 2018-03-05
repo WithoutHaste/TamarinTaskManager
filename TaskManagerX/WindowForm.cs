@@ -140,9 +140,16 @@ namespace TaskManagerX
 			Properties.Settings.Default.WindowHeight = this.Height;
 			Properties.Settings.Default.Save();
 
-			foreach(Project project in projects)
+			try
 			{
-				project.Dispose();
+				while(this.tabControl.TabPages.Count > 0)
+				{
+					CloseProject();
+				}
+			}
+			catch(CancelException)
+			{
+				e.Cancel = true; //don't close window
 			}
 		}
 
@@ -163,7 +170,14 @@ namespace TaskManagerX
 				if(closeButton.Contains(e.Location))
 				{
 					this.tabControl.SelectedIndex = i;
-					CloseProject();
+					try
+					{
+						CloseProject();
+					}
+					catch(CancelException)
+					{
+						//no action
+					}
 					return;
 				}
 			}
@@ -254,13 +268,20 @@ namespace TaskManagerX
 
 		private void CloseProject()
 		{
-			if(SelectedProject.NotNamed) //todo: update to not saved since last edit
+			if(SelectedProject.NotNamed || SelectedProject.EditedSinceLastSave)
 			{
-				DialogResult result = MessageBox.Show("Save before closing?", "Confirm", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
+				DialogResult result = MessageBox.Show("Save " + SelectedProject.Name + " before closing?", "Confirm", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question);
 				if(result == DialogResult.Cancel)
-					return;
+				{
+					throw new CancelException();
+				}
 				if(result == DialogResult.Yes)
-					SaveAsProject();
+				{
+					if(SelectedProject.NotNamed)
+						SaveAsProject();
+					else
+						SaveProject();
+				}
 			}
 			int selectedIndex = SelectedIndex;
 			this.tabControl.TabPages.RemoveAt(selectedIndex);

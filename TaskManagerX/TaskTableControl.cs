@@ -620,7 +620,7 @@ namespace TaskManagerX
 
 		private void SetTextBoxHeightByText(RichTextBox textBox)
 		{
-			int newHeight = 5 + (textBoxLineHeight.Value * CountLines(textBox));
+			int newHeight = 10 + (textBoxLineHeight.Value * CountLines(textBox));
 			if(newHeight == textBox.Size.Height)
 				return; //do not go into a resizing loop
 			textBox.Size = new System.Drawing.Size(textBox.Width, newHeight);

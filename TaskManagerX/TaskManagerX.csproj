@@ -77,6 +77,7 @@
     </Compile>
     <Compile Include="classes\ColumnLayout.cs" />
     <Compile Include="classes\ConfigSheet.cs" />
+    <Compile Include="classes\Exceptions.cs" />
     <Compile Include="classes\History.cs" />
     <Compile Include="classes\HistoryAction.cs" />
     <Compile Include="classes\IMergable.cs" />
