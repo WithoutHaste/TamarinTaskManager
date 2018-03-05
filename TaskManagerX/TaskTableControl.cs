@@ -46,8 +46,35 @@ namespace TaskManagerX
 			this.Dock = DockStyle.Fill;
 			this.BackColor = SystemColors.Control;
 			this.AutoScroll = true;
+			this.VisibleChanged += new EventHandler(taskTableControl_VisibleChanged);
 
 			ShowTaskSheet(active: showActive, forced: true);
+		}
+
+		private void taskTableControl_VisibleChanged(object sender, EventArgs e)
+		{
+			if(!(sender as Control).Visible)
+				return;
+			CheckForOutsideEdits();
+		}
+
+		public void CheckForOutsideEdits()
+		{
+			if(project.EditedByOutsideSource)
+			{
+				DialogResult result = MessageBox.Show(project.Name + " has been edited by an outside source. Reload?\nYou will lose any changed since your last save.", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
+				if(result == DialogResult.Yes)
+				{
+					ReloadProject();
+				}
+			}
+		}
+
+		private void ReloadProject()
+		{
+			history.Clear();
+			project.ReloadProject();
+			ShowTaskSheet(showActive, forced:true);
 		}
 
 		public void Undo()

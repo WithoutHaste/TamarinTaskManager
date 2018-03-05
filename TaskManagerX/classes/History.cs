@@ -72,5 +72,11 @@ namespace TaskManagerX
 			return action;
 		}
 
+		public void Clear()
+		{
+			undoStack.Clear();
+			redoStack.Clear();
+		}
+
 	}
 }

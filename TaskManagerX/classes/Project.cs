@@ -45,6 +45,12 @@ namespace TaskManagerX
 			}
 		}
 
+		public bool EditedByOutsideSource {
+			get {
+				return (File.GetLastWriteTime(FullPath) > LastSavedDateTime);
+			}
+		}
+
 		public string Name {
 			get {
 				if (FullPath == null)
@@ -137,6 +143,12 @@ namespace TaskManagerX
 			inactiveSheet = new TaskSheet(excelPackage, INACTIVE_SHEET_NAME, false);
 			config = new ConfigSheet(excelPackage);
 			return excelPackage;
+		}
+
+		public void ReloadProject()
+		{
+			excelPackage = OpenProject();
+			LastSavedDateTime = DateTime.Now;
 		}
 
 		public Task InsertNewTask(int row, bool active)

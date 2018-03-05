@@ -45,6 +45,7 @@ namespace TaskManagerX
 			InitializeComponent();
 			this.MinimumSize = new Size(675, 300);
 			this.Icon = new Icon("icon.ico");
+			this.Activated += new EventHandler(windowForm_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 
 			if(Properties.Settings.Default.WindowMaximized)
@@ -129,6 +130,11 @@ namespace TaskManagerX
 					}
 				}
 			}
+		}
+
+		private void windowForm_Activated(object sender, EventArgs e)
+		{
+			SelectedTaskTableControl.CheckForOutsideEdits();
 		}
 
 		private void windowForm_Closing(object sender, FormClosingEventArgs e)
