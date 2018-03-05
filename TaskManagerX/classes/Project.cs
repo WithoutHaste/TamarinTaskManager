@@ -47,6 +47,8 @@ namespace TaskManagerX
 
 		public bool EditedByOutsideSource {
 			get {
+				if(FullPath == null || !File.Exists(FullPath))
+					return false;
 				return (File.GetLastWriteTime(FullPath) > LastSavedDateTime);
 			}
 		}
