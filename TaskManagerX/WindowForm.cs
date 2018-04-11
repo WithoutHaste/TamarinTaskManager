@@ -43,7 +43,7 @@ namespace TaskManagerX
 		public WindowForm()
 		{
 			InitializeComponent();
-			this.MinimumSize = new Size(675, 300);
+			this.MinimumSize = new Size(800, 300);
 			this.Icon = new Icon("icon.ico");
 			this.Activated += new EventHandler(windowForm_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
@@ -211,6 +211,9 @@ namespace TaskManagerX
 			{
 				LoadProject(filename);
 			}
+
+			this.tabControl.SelectTab(0);
+
 			return true;
 		}
 

@@ -35,6 +35,17 @@ namespace TaskManagerX
 		private static int DELETE_COLUMN_INDEX = 8;
 		private static int HEADER_ROW_INDEX = 0;
 
+		private static float COLUMN_HIDDEN_WIDTH = 0F;
+		private static float ID_COLUMN_HIDDEN_WIDTH = 5F;
+		private static float ID_COLUMN_WIDTH = 45F;
+		private static float CATEGORY_COLUMN_WIDTH = 100F;
+
+		private bool DisplayCategories {
+			get {
+				return (project.Categories.Length > 1);
+			}
+		}
+
 		public TaskTableControl(Project project)
 		{
 			this.project = project;
@@ -115,6 +126,7 @@ namespace TaskManagerX
 			}
 
 			ShowHideTaskIds();
+			ShowHideCategories();
 			SetTabIndexes();
 
 			this.ResumeLayout();
@@ -132,12 +144,30 @@ namespace TaskManagerX
 
 		private void ShowTaskIds()
 		{
-			this.ColumnStyles[ID_COLUMN_INDEX].Width = 45F;
+			this.ColumnStyles[ID_COLUMN_INDEX].Width = ID_COLUMN_WIDTH;
 		}
 
 		private void HideTaskIds()
 		{
-			this.ColumnStyles[ID_COLUMN_INDEX].Width = 5F;
+			this.ColumnStyles[ID_COLUMN_INDEX].Width = ID_COLUMN_HIDDEN_WIDTH;
+		}
+
+		public void ShowHideCategories()
+		{
+			if(DisplayCategories)
+				ShowCategories();
+			else
+				HideCategories();
+		}
+
+		private void ShowCategories()
+		{
+			this.ColumnStyles[CATEGORY_COLUMN_INDEX].Width = CATEGORY_COLUMN_WIDTH;
+		}
+
+		private void HideCategories()
+		{
+			this.ColumnStyles[CATEGORY_COLUMN_INDEX].Width = COLUMN_HIDDEN_WIDTH;
 		}
 
 		public void InsertTitleRow()
@@ -153,12 +183,12 @@ namespace TaskManagerX
 
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
+			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, ID_COLUMN_WIDTH));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
+			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, (DisplayCategories ? COLUMN_HIDDEN_WIDTH : CATEGORY_COLUMN_WIDTH)));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, (showActive ? 0F : 80F)));
+			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, (showActive ? COLUMN_HIDDEN_WIDTH : 80F)));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 
 			this.ColumnCount = DELETE_COLUMN_INDEX + 1;
@@ -215,6 +245,7 @@ namespace TaskManagerX
 					return;
 				}
 				UpdateCategoryComboBoxOptions();
+				ShowHideCategories();
 			}
 		}
 
