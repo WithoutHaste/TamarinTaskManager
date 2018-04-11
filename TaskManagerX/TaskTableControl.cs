@@ -275,6 +275,8 @@ namespace TaskManagerX
 			rowNumberBox.LostFocus += new EventHandler(rowNumberTextBox_LostFocus);
 			rowNumberBox.Margin = new Padding(0);
 			rowNumberBox.TabStop = false;
+			rowNumberBox.KeyDown += new KeyEventHandler(rowNumberTextBox_KeyDown);
+			rowNumberBox.KeyUp += new KeyEventHandler(rowNumberTextBox_KeyUp);
 			this.Controls.Add(rowNumberBox, ROW_COLUMN_INDEX, rowIndex);
 			
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
@@ -393,6 +395,7 @@ namespace TaskManagerX
 
 		private void MoveRow(int fromRow, int toRow)
 		{
+			Console.WriteLine("MoveRow {0} to {1}", fromRow, toRow);
 			if(fromRow == toRow)
 				return;
 			Task task = project.MoveRow(IndexConverter.TableLayoutPanelToExcelWorksheet(fromRow), IndexConverter.TableLayoutPanelToExcelWorksheet(toRow), showActive);
@@ -401,6 +404,11 @@ namespace TaskManagerX
 			//going up, push toRow down
 			InsertTaskRowAt(toRow, task);
 			FocusOnTitle(toRow);
+			Control control = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: toRow);
+			if(control is RichTextBox)
+			{
+				SetTextBoxHeightByText(control as RichTextBox);
+			}
 		}
 
 		private void FocusOnTitle(int row, int caret = -1, int selectionLength = 0)
@@ -473,6 +481,27 @@ namespace TaskManagerX
 			}
 			MoveRow(row, newRow);
 			history.Add(new MoveAction(showActive, row, newRow));
+		}
+
+		private void rowNumberTextBox_KeyDown(object sender, KeyEventArgs e)
+		{
+			if(e.KeyCode == Keys.Enter)
+			{
+				e.Handled = true;
+				e.SuppressKeyPress = true; //stop the error-ding from sounding
+			}
+		}
+
+		private void rowNumberTextBox_KeyUp(object sender, KeyEventArgs e)
+		{
+			TextBox textBox = (sender as TextBox);
+			int row = this.GetRow(textBox);
+
+			if(e.KeyCode == Keys.Enter)
+			{
+				this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: row).Focus(); //lose focus here to trigger move event
+				e.Handled = true;
+			}
 		}
 
 		public void ManualMoveTask(bool activeSheet, int fromRowNumber, int toRowNumber)
