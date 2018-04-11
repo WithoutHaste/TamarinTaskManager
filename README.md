@@ -1,9 +1,10 @@
-# TaskManagerX
+# Tamarin Task Manager
+
 Bare-bones task manager for single users.  Saves to standard Excel file format.
 
-Version 1 complete.  Windows installation file at TaskManagerX/Setup/Release/Setup.msi.
+Version 2 complete.  Windows installation file at TaskManagerX/Setup/Release/Setup_Tamarin.msi.
 
-#Hot Keys
+# Hot Keys
 
 Ctrl-A: display active tasks
 Ctrl-I: display inactive tasks
@@ -17,7 +18,7 @@ Ctrl-N: add new task below current task
 Ctrl-UpArrow: move to beginning of previous task
 Ctrl-DownArrow: move to beginning of next task
 
-#Misc
+# Misc
 
 The task Id column can be shown or hidden with application-wide Settings.
 
