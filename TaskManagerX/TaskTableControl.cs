@@ -403,7 +403,7 @@ namespace TaskManagerX
 			//going down, push toRow up - already done by removing task
 			//going up, push toRow down
 			InsertTaskRowAt(toRow, task);
-			FocusOnTitle(toRow);
+			FocusOnTitle(fromRow);
 			Control control = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: toRow);
 			if(control is RichTextBox)
 			{
@@ -423,11 +423,24 @@ namespace TaskManagerX
 				RichTextBox textBox = (control as RichTextBox);
 				if(caret == -1)
 				{
-					caret = textBox.Text.Length;
+					caret = 0;
 					selectionLength = 0;
 				}
 				textBox.Select(caret, selectionLength);
 			}
+		}
+
+		private void SelectTitleTextBox(int fromRow, int toRow)
+		{
+			if(toRow <= 0)
+				return;
+			RichTextBox previousTextBox = (RichTextBox)this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: fromRow);
+			int caret = previousTextBox.SelectionStart;
+			if(fromRow < toRow)
+			{
+				caret = 0;
+			}
+			FocusOnTitle(toRow, caret);
 		}
 
 		private void addTask_Click(object sender, EventArgs e)
@@ -436,7 +449,7 @@ namespace TaskManagerX
 			int row = this.GetRow(sender as Control) + 1;
 			InsertTaskRowAt(row, project.InsertNewTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive));
 			history.Add(new AddAction(showActive, row));
-			SelectTitleTextBox(row);
+			FocusOnTitle(row);
 		}
 
 		public void ManualAddTask(bool activeSheet, int row, Task task = null)
@@ -552,7 +565,7 @@ namespace TaskManagerX
 				if(textBox.GetFirstCharIndexFromLine(lineCount-1) <= cursorIndex)
 				{
 					int row = this.GetRow(sender as Control);
-					SelectTitleTextBox(row + 1);
+					SelectTitleTextBox(row, row + 1);
 					e.Handled = true;
 				}
 			}
@@ -565,7 +578,7 @@ namespace TaskManagerX
 				if(lineCount == 1 || textBox.GetFirstCharIndexFromLine(1) > cursorIndex)
 				{
 					int row = this.GetRow(sender as Control);
-					SelectTitleTextBox(row - 1);
+					SelectTitleTextBox(row, row - 1);
 					e.Handled = true;
 				}
 			}
@@ -612,7 +625,7 @@ namespace TaskManagerX
 				historyAction.SetNew(showActive, row, comboBox.Text);
 			}
 			history.Add(historyAction);
-			SelectTitleTextBox(row);
+			FocusOnTitle(row);
 		}
 
 		private void categoryComboBox_SelectedIndexChanged(object sender, EventArgs e)
@@ -625,7 +638,7 @@ namespace TaskManagerX
 
 			project.UpdateCategory(IndexConverter.TableLayoutPanelToExcelWorksheet(row), comboBox.Text, active: showActive);
 			history.Add(new ChangeCategoryAction(showActive, row, previousCategory, comboBox.Text));
-			SelectTitleTextBox(row);
+			FocusOnTitle(row);
 		}
 
 		private void comboBox_MouseWheel(object sender, MouseEventArgs e)
@@ -802,15 +815,6 @@ namespace TaskManagerX
 
 				Control categoryControl = this.GetControlFromPosition(CATEGORY_COLUMN_INDEX, row);
 				categoryControl.TabIndex = (row*10) + 3;
-			}
-		}
-
-		private void SelectTitleTextBox(int row)
-		{
-			Control nextTextBox = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: row);
-			if(nextTextBox != null && nextTextBox is RichTextBox)
-			{
-				nextTextBox.Focus();
 			}
 		}
 
