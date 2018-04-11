@@ -44,7 +44,7 @@ namespace TaskManagerX
 			this.Padding = new Padding(left: 0, top: 0, right: SystemInformation.VerticalScrollBarWidth, bottom: 0); //leave room for vertical scrollbar
 			this.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
 			this.Dock = DockStyle.Fill;
-			this.BackColor = SystemColors.Control;
+			this.BackColor = Color.White;
 			this.AutoScroll = true;
 			this.VisibleChanged += new EventHandler(taskTableControl_VisibleChanged);
 
@@ -118,6 +118,8 @@ namespace TaskManagerX
 			SetTabIndexes();
 
 			this.ResumeLayout();
+
+			UpdateTextBoxSizes();
 		}
 
 		public void ShowHideTaskIds()
@@ -135,7 +137,7 @@ namespace TaskManagerX
 
 		private void HideTaskIds()
 		{
-			this.ColumnStyles[ID_COLUMN_INDEX].Width = 10F;
+			this.ColumnStyles[ID_COLUMN_INDEX].Width = 5F;
 		}
 
 		public void InsertTitleRow()
@@ -235,16 +237,17 @@ namespace TaskManagerX
 
 			InsertRowAt(rowIndex);
 
-			this.Controls.Add(NewButton("+", addTask_Click), PLUS_COLUMN_INDEX, rowIndex);
-
+			Button addButton = NewButton("+", addTask_Click);
+			this.Controls.Add(addButton, PLUS_COLUMN_INDEX, rowIndex);
+			
 			TextBox rowNumberBox = NewTextBox("RowNumberTextBox", rowIndex.ToString());
 			rowNumberBox.LostFocus += new EventHandler(rowNumberTextBox_LostFocus);
 			rowNumberBox.Margin = new Padding(0);
 			rowNumberBox.TabStop = false;
 			this.Controls.Add(rowNumberBox, ROW_COLUMN_INDEX, rowIndex);
-
+			
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
-
+			
 			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Title);
 			titleBox.GotFocus += new EventHandler(titleTextBox_GotFocus);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
@@ -252,10 +255,10 @@ namespace TaskManagerX
 			titleBox.KeyDown += new KeyEventHandler(titleTextBox_KeyDown);
 			titleBox.KeyUp += new KeyEventHandler(titleTextBox_KeyUp);
 			titleBox.Margin = new Padding(0);
-			titleBox.BorderStyle = BorderStyle.FixedSingle; //on RichTextBox, FixedSingle displays as Fixed3D
+			titleBox.BorderStyle = BorderStyle.None; //on RichTextBox, FixedSingle displays as Fixed3D
 			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
-
+			
 			ComboBox statusComboBox = GenerateStatusComboBox(task.Status);
 			statusComboBox.Margin = new Padding(0);
 			statusComboBox.TabStop = false;
@@ -266,11 +269,20 @@ namespace TaskManagerX
 			categoryComboBox.TabStop = false;
 			this.Controls.Add(categoryComboBox, CATEGORY_COLUMN_INDEX, rowIndex);
 
-			this.Controls.Add(NewDataLabel("CreateDate", task.CreateDateString), CREATED_COLUMN_INDEX, rowIndex);
-			this.Controls.Add(NewDataLabel("DoneDate", task.DoneDateString), DONE_COLUMN_INDEX, rowIndex);
+			Label createLabel = NewDataLabel("CreateDate", task.CreateDateString);
+			createLabel.Margin = new Padding(0);
+			createLabel.TextAlign = ContentAlignment.TopRight;
+			createLabel.Dock = DockStyle.Right;
+			this.Controls.Add(createLabel, CREATED_COLUMN_INDEX, rowIndex);
+
+			Label doneLabel = NewDataLabel("DoneDate", task.DoneDateString);
+			doneLabel.Margin = new Padding(0);
+			doneLabel.TextAlign = ContentAlignment.TopRight;
+			doneLabel.Dock = DockStyle.Right;
+			this.Controls.Add(doneLabel, DONE_COLUMN_INDEX, rowIndex);
 
 			this.Controls.Add(NewButton("X", deleteTask_Click), DELETE_COLUMN_INDEX, rowIndex);
-
+			
 			this.RowCount++;
 
 			SetTabIndexes();
@@ -286,7 +298,7 @@ namespace TaskManagerX
 
 			ComboBox statusComboBox = NewComboBox("StatusComboBox", options.ToArray(), selectedOption);
 			statusComboBox.SelectedIndexChanged += new EventHandler(statusComboBox_SelectedIndexChanged);
-			statusComboBox.MouseWheel += new MouseEventHandler(comboBox_MouseWheel);
+			statusComboBox.MouseWheel += new MouseEventHandler(passMouseWheelToParent);
 			return statusComboBox;
 		}
 
@@ -298,7 +310,7 @@ namespace TaskManagerX
 
 			ComboBox categoryComboBox = NewComboBox("CategoryComboBox", options.ToArray(), selectedOption);
 			categoryComboBox.SelectedIndexChanged += new EventHandler(categoryComboBox_SelectedIndexChanged);
-			categoryComboBox.MouseWheel += new MouseEventHandler(comboBox_MouseWheel);
+			categoryComboBox.MouseWheel += new MouseEventHandler(passMouseWheelToParent);
 			return categoryComboBox;
 		}
 
@@ -641,12 +653,32 @@ namespace TaskManagerX
 			textBox.Name = name;
 			textBox.Width = 119;
 			textBox.Text = text;
-			SetTextBoxHeightByText(textBox);
+			textBox.MouseWheel += new MouseEventHandler(passMouseWheelToParent);
 			return textBox;
+		}
+
+		private void passMouseWheelToParent(object sender, MouseEventArgs e)
+		{
+			Control parent = (sender as Control).Parent;
+			System.Reflection.MethodInfo onMouseWheel = parent.GetType().GetMethod("OnMouseWheel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+			onMouseWheel.Invoke(parent, new object[] { e });
+		}
+
+		private void UpdateTextBoxSizes()
+		{
+			for(int row = 1; row <= this.RowCount; row++)
+			{
+				Control control = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: row);
+				if(!(control is RichTextBox))
+					continue;
+				SetTextBoxHeightByText(control as RichTextBox);
+			}
 		}
 
 		private void SetTextBoxHeightByText(RichTextBox textBox)
 		{
+			if(textBox.Width < 10)
+				return; //wait until textBox is a likely real size before arranging it, otherwise the table layout gets artificially tall
 			int newHeight = 10 + (textBoxLineHeight.Value * CountLines(textBox));
 			if(newHeight == textBox.Size.Height)
 				return; //do not go into a resizing loop
