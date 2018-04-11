@@ -13,4 +13,3 @@ E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.WindowForm.resources
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.csproj.GenerateResource.Cache
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\Tamarin.exe
 E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\Tamarin.pdb
-E:\GitHub\TaskManagerX\TaskManagerX\obj\Debug\TaskManagerX.csprojResolveAssemblyReference.cache
