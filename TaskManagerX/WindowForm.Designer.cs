@@ -166,7 +166,7 @@
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.toolStrip);
 			this.Name = "WindowForm";
-			this.Text = "Tamax";
+			this.Text = "Tamarin";
 			this.toolStrip.ResumeLayout(false);
 			this.toolStrip.PerformLayout();
 			this.tabControl.ResumeLayout(false);

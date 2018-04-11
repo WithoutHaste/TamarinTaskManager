@@ -33,6 +33,7 @@
 			this.inactiveRadioButton = new System.Windows.Forms.RadioButton();
 			this.editStatusesButton = new System.Windows.Forms.Button();
 			this.editCategoriesButton = new System.Windows.Forms.Button();
+			this.clearInactiveButton = new System.Windows.Forms.Button();
 			this.SuspendLayout();
 			// 
 			// toolStrip1
@@ -40,7 +41,7 @@
 			this.toolStrip1.Dock = System.Windows.Forms.DockStyle.Fill;
 			this.toolStrip1.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip1.Name = "toolStrip1";
-			this.toolStrip1.Size = new System.Drawing.Size(466, 22);
+			this.toolStrip1.Size = new System.Drawing.Size(486, 22);
 			this.toolStrip1.TabIndex = 0;
 			this.toolStrip1.Text = "toolStrip1";
 			// 
@@ -82,23 +83,34 @@
 			// 
 			this.editCategoriesButton.Location = new System.Drawing.Point(289, 0);
 			this.editCategoriesButton.Name = "editCategoriesButton";
-			this.editCategoriesButton.Size = new System.Drawing.Size(90, 23);
+			this.editCategoriesButton.Size = new System.Drawing.Size(90, 22);
 			this.editCategoriesButton.TabIndex = 4;
 			this.editCategoriesButton.Text = "Edit Categories";
 			this.editCategoriesButton.UseVisualStyleBackColor = true;
 			this.editCategoriesButton.Click += new System.EventHandler(this.editCategoriesButton_Click);
 			// 
+			// clearInactiveButton
+			// 
+			this.clearInactiveButton.Location = new System.Drawing.Point(385, 0);
+			this.clearInactiveButton.Name = "clearInactiveButton";
+			this.clearInactiveButton.Size = new System.Drawing.Size(90, 22);
+			this.clearInactiveButton.TabIndex = 5;
+			this.clearInactiveButton.Text = "Clear Inactive";
+			this.clearInactiveButton.UseVisualStyleBackColor = true;
+			this.clearInactiveButton.Click += new System.EventHandler(this.clearInactiveButton_Click);
+			// 
 			// TaskTableToolStrip
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.Controls.Add(this.clearInactiveButton);
 			this.Controls.Add(this.editCategoriesButton);
 			this.Controls.Add(this.editStatusesButton);
 			this.Controls.Add(this.inactiveRadioButton);
 			this.Controls.Add(this.activeRadioButton);
 			this.Controls.Add(this.toolStrip1);
 			this.Name = "TaskTableToolStrip";
-			this.Size = new System.Drawing.Size(466, 22);
+			this.Size = new System.Drawing.Size(486, 22);
 			this.ResumeLayout(false);
 			this.PerformLayout();
 
@@ -111,5 +123,6 @@
 		private System.Windows.Forms.RadioButton inactiveRadioButton;
 		private System.Windows.Forms.Button editStatusesButton;
 		private System.Windows.Forms.Button editCategoriesButton;
+		private System.Windows.Forms.Button clearInactiveButton;
 	}
 }

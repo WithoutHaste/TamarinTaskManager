@@ -179,7 +179,7 @@ namespace TaskManagerX
 			this.Controls.Add(NewTitleLabel("Status"), STATUS_COLUMN_INDEX, HEADER_ROW_INDEX);
 			this.Controls.Add(NewTitleLabel("Category"), CATEGORY_COLUMN_INDEX, HEADER_ROW_INDEX);
 			this.Controls.Add(NewTitleLabel("Created"), CREATED_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(NewTitleLabel("Done"), DONE_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(NewTitleLabel("Finished"), DONE_COLUMN_INDEX, HEADER_ROW_INDEX);
 
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
@@ -385,6 +385,7 @@ namespace TaskManagerX
 					(control as TextBox).Text = (Int32.Parse((control as TextBox).Text) - 1).ToString();
 				}
 			}
+			this.RowCount--;
 			SetTabIndexes();
 
 			this.ResumeLayout();
@@ -782,6 +783,25 @@ namespace TaskManagerX
 			{
 				nextTextBox.Focus();
 			}
+		}
+
+		public void ClearAllInactive()
+		{
+			if(showActive)
+			{
+				MessageBox.Show("Cannot delete inactive items while active items are displayed.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+				return;
+			}
+			MultipleAction multipleAction = new MultipleAction();
+			int row = 1;
+			while(this.RowCount > 1)
+			{
+				Task task = project.GetTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+				project.RemoveTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+				RemoveRow(row);
+				multipleAction.AddAction(new DeleteAction(showActive, row, task));
+			}
+			history.Add(multipleAction);
 		}
 	}
 }
