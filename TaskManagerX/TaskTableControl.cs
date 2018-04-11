@@ -414,7 +414,7 @@ namespace TaskManagerX
 		private void FocusOnTitle(int row, int caret = -1, int selectionLength = 0)
 		{
 			Control control = this.GetControlFromPosition(TITLE_COLUMN_INDEX, row);
-			if(control == null)
+			if(control == null || !(control is RichTextBox))
 				return;
 
 			control.Focus();
@@ -556,30 +556,49 @@ namespace TaskManagerX
 
 		private void titleTextBox_KeyDown(object sender, KeyEventArgs e)
 		{
+			RichTextBox textBox = (sender as RichTextBox);
 			if(e.KeyCode == Keys.Down)
 			{
-				//if cursor is on last line, move to next textbox
-				RichTextBox textBox = (sender as RichTextBox);
-				int cursorIndex = textBox.SelectionStart;
-				int lineCount = CountLines(textBox);
-				if(textBox.GetFirstCharIndexFromLine(lineCount-1) <= cursorIndex)
+				if(e.Control)
 				{
+					//move to beginning of next textbox
 					int row = this.GetRow(sender as Control);
-					SelectTitleTextBox(row, row + 1);
+					FocusOnTitle(row + 1);
 					e.Handled = true;
+				}
+				else
+				{
+					//if cursor is on last line, move to next textbox
+					int cursorIndex = textBox.SelectionStart;
+					int lineCount = CountLines(textBox);
+					if(textBox.GetFirstCharIndexFromLine(lineCount - 1) <= cursorIndex)
+					{
+						int row = this.GetRow(sender as Control);
+						SelectTitleTextBox(row, row + 1);
+						e.Handled = true;
+					}
 				}
 			}
 			if(e.KeyCode == Keys.Up)
 			{
-				//if cursor is on first line, move to previous textbox
-				RichTextBox textBox = (sender as RichTextBox);
-				int cursorIndex = textBox.SelectionStart;
-				int lineCount = CountLines(textBox);
-				if(lineCount == 1 || textBox.GetFirstCharIndexFromLine(1) > cursorIndex)
+				if(e.Control)
 				{
+					//move to beginning of next textbox
 					int row = this.GetRow(sender as Control);
-					SelectTitleTextBox(row, row - 1);
+					FocusOnTitle(row - 1);
 					e.Handled = true;
+				}
+				else
+				{
+					//if cursor is on first line, move to previous textbox
+					int cursorIndex = textBox.SelectionStart;
+					int lineCount = CountLines(textBox);
+					if(lineCount == 1 || textBox.GetFirstCharIndexFromLine(1) > cursorIndex)
+					{
+						int row = this.GetRow(sender as Control);
+						SelectTitleTextBox(row, row - 1);
+						e.Handled = true;
+					}
 				}
 			}
 		}

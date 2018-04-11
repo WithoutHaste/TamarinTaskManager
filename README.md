@@ -12,3 +12,7 @@ Ctrl-S: save list
 
 Ctrl-Z: undo
 Ctrl-Y: redo
+
+Ctrl-N: add new task below current task
+Ctrl-UpArrow: move to beginning of previous task
+Ctrl-DownArrow: move to beginning of next task

@@ -91,6 +91,7 @@ namespace TaskManagerX
 			}
 			set {
 				config.SetCategories(value);
+				LastEditedDateTime = DateTime.Now;
 			}
 		}
 
