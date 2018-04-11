@@ -790,7 +790,7 @@ namespace TaskManagerX
 			}
 			if(!String.IsNullOrEmpty(selectedValue))
 			{
-				comboBox.SelectedIndex = comboBox.FindString(selectedValue);
+				comboBox.SelectedIndex = comboBox.FindStringExact(selectedValue);
 			}
 			comboBox.Size = new System.Drawing.Size(94, 24);
 			return comboBox;
