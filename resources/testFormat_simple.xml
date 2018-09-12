@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?mso-application progid="Excel.Sheet"?>
+<Workbook xmlns:c="urn:schemas-microsoft-com:office:component:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x2="http://schemas.microsoft.com/office/excel/2003/xml" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x="urn:schemas-microsoft-com:office:excel">
+	<ss:Worksheet ss:Name="Active">
+		<Table>
+			<Row>
+				<Cell>
+					<Data ss:Type="String">Col 1</Data>
+				</Cell>
+				<Cell>
+					<Data ss:Type="String">Col 2</Data>
+				</Cell>
+			</Row>
+			<Row>
+				<Cell>
+					<Data ss:Type="String">a</Data>
+				</Cell>
+				<Cell>
+					<Data ss:Type="Number">1</Data>
+				</Cell>
+			</Row>
+			<Row>
+				<Cell>
+					<Data ss:Type="String">b</Data>
+				</Cell>
+				<Cell>
+					<Data ss:Type="Number">2</Data>
+				</Cell>
+			</Row>
+			<Row>
+				<Cell>
+					<Data ss:Type="String">c</Data>
+				</Cell>
+				<Cell>
+					<Data ss:Type="Number">3</Data>
+				</Cell>
+			</Row>
+		</Table>
+		<x:WorksheetOptions/>
+	</ss:Worksheet>
+	<ss:Worksheet ss:Name="Inactive">
+		<Table>
+			<Row>
+				<Cell>
+					<Data ss:Type="String">Sheet 2 col 1</Data>
+				</Cell>
+				<Cell>
+					<Data ss:Type="String">Sheet 2 col 2</Data>
+				</Cell>
+			</Row>
+			<Row>
+				<Cell>
+					<Data ss:Type="String">d</Data>
+				</Cell>
+				<Cell>
+					<Data ss:Type="Number">4</Data>
+				</Cell>
+			</Row>
+			<Row>
+				<Cell>
+					<Data ss:Type="String">e</Data>
+				</Cell>
+				<Cell>
+					<Data ss:Type="Number">5</Data>
+				</Cell>
+			</Row>
+			<Row>
+				<Cell>
+					<Data ss:Type="String">f</Data>
+				</Cell>
+				<Cell>
+					<Data ss:Type="Number">6</Data>
+				</Cell>
+			</Row>
+		</Table>
+		<x:WorksheetOptions/>
+	</ss:Worksheet>
+</Workbook>
