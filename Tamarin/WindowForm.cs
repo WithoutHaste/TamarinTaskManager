@@ -44,7 +44,7 @@ namespace TaskManagerX
 		{
 			InitializeComponent();
 			this.MinimumSize = new Size(800, 300);
-			this.Icon = Properties.Resources.iconResource;
+			//this.Icon = Properties.Resources.iconResource; //todo: fix this
 			this.Activated += new EventHandler(windowForm_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 

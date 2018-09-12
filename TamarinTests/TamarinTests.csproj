@@ -6,8 +6,8 @@
     <ProjectGuid>{1890FEAF-C179-46C9-9273-F4DD4E6F15CC}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>UnitTests</RootNamespace>
-    <AssemblyName>UnitTests</AssemblyName>
+    <RootNamespace>TamarinTests</RootNamespace>
+    <AssemblyName>TamarinTests</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{3AC096D0-A1C2-E12C-1390-A8335801FDAB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
@@ -54,7 +54,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\TaskManagerX\TaskManagerX.csproj">
+    <ProjectReference Include="..\Tamarin\Tamarin.csproj">
       <Project>{c034fc47-1184-4d74-86cc-074a00e9588c}</Project>
       <Name>TaskManagerX</Name>
     </ProjectReference>

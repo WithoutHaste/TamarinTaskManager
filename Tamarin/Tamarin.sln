@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 14
 VisualStudioVersion = 14.0.25420.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaskManagerX", "TaskManagerX.csproj", "{C034FC47-1184-4D74-86CC-074A00E9588C}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tamarin", "Tamarin.csproj", "{C034FC47-1184-4D74-86CC-074A00E9588C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "UnitTests", "..\UnitTests\UnitTests.csproj", "{1890FEAF-C179-46C9-9273-F4DD4E6F15CC}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TamarinTests", "..\TamarinTests\TamarinTests.csproj", "{1890FEAF-C179-46C9-9273-F4DD4E6F15CC}"
 EndProject
 Project("{54435603-DBB4-11D2-8724-00A0C9A8B90C}") = "Setup", "Setup\Setup.vdproj", "{8CBC9E0E-7F1A-4B7F-9F37-1058D0D17C59}"
 EndProject
