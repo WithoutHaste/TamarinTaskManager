@@ -202,6 +202,13 @@ namespace TaskManagerX
 				sheet.DeleteRow(rowFrom: 1, rows: 100, shiftOtherRowsUp: true);
 			}
 		}
+
+		public void WriteTo(ExcelPackage package)
+		{
+			package.Workbook.Worksheets.Add(SHEET_NAME);
+			ExcelWorksheet worksheet = package.Workbook.Worksheets.Last();
+			WriteConfigSheet(worksheet);
+		}
 	}
 }
 

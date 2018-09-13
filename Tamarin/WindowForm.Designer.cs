@@ -39,6 +39,8 @@
 			this.redoButton = new System.Windows.Forms.ToolStripButton();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabControl = new System.Windows.Forms.TabControl();
+			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+			this.convertButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.SuspendLayout();
@@ -52,10 +54,12 @@
             this.loadButton,
             this.settingsButton,
             this.undoButton,
-            this.redoButton});
+            this.redoButton,
+            this.toolStripSeparator1,
+            this.convertButton});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
-			this.toolStrip.Size = new System.Drawing.Size(338, 25);
+			this.toolStrip.Size = new System.Drawing.Size(402, 25);
 			this.toolStrip.TabIndex = 0;
 			this.toolStrip.Text = "toolStrip1";
 			// 
@@ -138,7 +142,7 @@
 			this.tabPage1.Location = new System.Drawing.Point(4, 22);
 			this.tabPage1.Name = "tabPage1";
 			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-			this.tabPage1.Size = new System.Drawing.Size(330, 207);
+			this.tabPage1.Size = new System.Drawing.Size(394, 207);
 			this.tabPage1.TabIndex = 0;
 			this.tabPage1.Text = "tabPage1";
 			this.tabPage1.UseVisualStyleBackColor = true;
@@ -153,16 +157,31 @@
 			this.tabControl.Location = new System.Drawing.Point(0, 28);
 			this.tabControl.Name = "tabControl";
 			this.tabControl.SelectedIndex = 0;
-			this.tabControl.Size = new System.Drawing.Size(338, 233);
+			this.tabControl.Size = new System.Drawing.Size(402, 233);
 			this.tabControl.TabIndex = 1;
 			this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
 			this.tabControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseUp);
+			// 
+			// toolStripSeparator1
+			// 
+			this.toolStripSeparator1.Name = "toolStripSeparator1";
+			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+			// 
+			// convertButton
+			// 
+			this.convertButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.convertButton.Image = ((System.Drawing.Image)(resources.GetObject("convertButton.Image")));
+			this.convertButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+			this.convertButton.Name = "convertButton";
+			this.convertButton.Size = new System.Drawing.Size(53, 22);
+			this.convertButton.Text = "Convert";
+			this.convertButton.Click += new System.EventHandler(this.convertButton_Click);
 			// 
 			// WindowForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
 			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-			this.ClientSize = new System.Drawing.Size(338, 261);
+			this.ClientSize = new System.Drawing.Size(402, 261);
 			this.Controls.Add(this.tabControl);
 			this.Controls.Add(this.toolStrip);
 			this.Name = "WindowForm";
@@ -187,6 +206,8 @@
 		private System.Windows.Forms.ToolStripButton settingsButton;
 		private System.Windows.Forms.ToolStripButton undoButton;
 		private System.Windows.Forms.ToolStripButton redoButton;
+		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+		private System.Windows.Forms.ToolStripButton convertButton;
 	}
 }
 

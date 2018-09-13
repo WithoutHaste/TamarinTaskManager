@@ -12,6 +12,7 @@ namespace TaskManagerX
 	{
 		private ExcelWorksheet sheet;
 		private ColumnLayout columnLayout;
+		private List<Task> tasks;
 		private bool isActive;
 
 		public TaskSheet(ExcelPackage excelPackage, string name, bool active)
@@ -23,6 +24,7 @@ namespace TaskManagerX
 				ColumnLayout.WriteTaskHeaders(sheet, active);
 			}
 			columnLayout = new ColumnLayout(sheet); //TODO how to handle if some or all of expected headers are missing
+			tasks = LoadTasks();
 			isActive = active;
 		}
 
@@ -126,6 +128,23 @@ namespace TaskManagerX
 					int taskId = Int32.Parse(sheet.Cells[columnLayout.IdColumn + row].Value.ToString());
 					throw new Exception(String.Format("Status {0} cannot be both Active and Inactive: see task id {1}.", taskStatus, taskId));
 				}
+				row++;
+			}
+		}
+
+		public void WriteTo(ExcelPackage package)
+		{
+			string worksheetName = (isActive ? "Active" : "Inactive");
+			package.Workbook.Worksheets.Add(worksheetName);
+			ExcelWorksheet worksheet = package.Workbook.Worksheets.Last();
+			ColumnLayout.WriteTaskHeaders(worksheet, isActive);
+
+			List<Task> tasks = LoadTasks();
+			int row = 2;
+			worksheet.InsertRow(row, tasks.Count);
+			foreach(Task task in tasks)
+			{
+				columnLayout.WriteTask(worksheet, task, row, isActive);
 				row++;
 			}
 		}

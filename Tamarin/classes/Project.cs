@@ -25,6 +25,12 @@ namespace TaskManagerX
 			}
 		}
 
+		public string FileExtension {
+			get {
+				return Path.GetExtension(FullPath);
+			}
+		}
+
 		public DateTime? LastSavedDateTime {
 			get;
 			set;
@@ -120,7 +126,13 @@ namespace TaskManagerX
 		{
 			if(excelPackage.File == null)
 				throw new Exception("Filename not set.");
-			excelPackage.Save();
+
+			ExcelPackage newPackage = new ExcelPackage();
+			activeSheet.WriteTo(newPackage);
+			inactiveSheet.WriteTo(newPackage);
+			config.WriteTo(newPackage);
+			newPackage.SaveAs(excelPackage.File);
+
 			LastSavedDateTime = DateTime.Now;
 		}
 

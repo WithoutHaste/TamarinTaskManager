@@ -76,18 +76,31 @@ namespace TaskManagerX
 			}
 		}
 
-		public static void WriteTaskHeaders(ExcelWorksheet sheet, bool active)
+		public static void WriteTaskHeaders(ExcelWorksheet worksheet, bool active)
 		{
-			sheet.Cells["A1"].Value = ID_HEADER;
-			sheet.Cells["B1"].Value = TITLE_HEADER;
-			sheet.Cells["C1"].Value = STATUS_HEADER;
-			sheet.Cells["D1"].Value = CATEGORY_HEADER;
-			sheet.Cells["E1"].Value = CREATE_DATE_HEADER;
+			worksheet.Cells["A1"].Value = ID_HEADER;
+			worksheet.Cells["B1"].Value = TITLE_HEADER;
+			worksheet.Cells["C1"].Value = STATUS_HEADER;
+			worksheet.Cells["D1"].Value = CATEGORY_HEADER;
+			worksheet.Cells["E1"].Value = CREATE_DATE_HEADER;
 			if(!active)
 			{
-				sheet.Cells["F1"].Value = DONE_DATE_HEADER;
+				worksheet.Cells["F1"].Value = DONE_DATE_HEADER;
 			}
-			sheet.Cells["A1:F1"].Style.Font.Bold = true;
+			worksheet.Cells["A1:F1"].Style.Font.Bold = true;
+		}
+
+		public void WriteTask(ExcelWorksheet worksheet, Task task, int row, bool active)
+		{
+			worksheet.Cells[IdColumn + row].Value = task.Id;
+			worksheet.Cells[TitleColumn + row].Value = task.Title;
+			worksheet.Cells[StatusColumn + row].Value = task.Status;
+			worksheet.Cells[CategoryColumn + row].Value = task.Category;
+			worksheet.Cells[CreateDateColumn + row].Value = task.CreateDateString;
+			if(!active)
+			{
+				worksheet.Cells[DoneDateColumn + row].Value = task.DoneDateString;
+			}
 		}
 
 	}
