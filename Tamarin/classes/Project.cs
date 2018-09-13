@@ -8,22 +8,9 @@ using OfficeOpenXml;
 
 namespace TaskManagerX
 {
-	public class Project : IDisposable
+	public class Project
 	{
-		public string FullPath {
-			get {
-				return fullPath;
-			}
-			set {
-				if(String.IsNullOrEmpty(value))
-					throw new Exception("Cannot save to empty path.");
-				if(excelPackage != null)
-				{
-					excelPackage.File = new FileInfo(value);
-				}
-				fullPath = value;
-			}
-		}
+		public string FullPath { get; set; }
 
 		public string FileExtension {
 			get {
@@ -101,10 +88,8 @@ namespace TaskManagerX
 			}
 		}
 
-		private ExcelPackage excelPackage;
 		private TaskSheet activeSheet;
 		private TaskSheet inactiveSheet;
-		private string fullPath;
 		private ConfigSheet config;
 
 		private static string ACTIVE_SHEET_NAME = "Active";
@@ -112,57 +97,49 @@ namespace TaskManagerX
 
 		public Project()
 		{
-			excelPackage = CreateNewProject();
+			CreateNewProject();
 		}
 
 		public Project(string fullPath)
 		{
 			FullPath = fullPath;
-			excelPackage = OpenProject();
+			OpenProject();
 			LastSavedDateTime = DateTime.Now;
 		}
 
 		public void Save()
 		{
-			if(excelPackage.File == null)
+			if(FullPath == null)
 				throw new Exception("Filename not set.");
 
 			ExcelPackage newPackage = new ExcelPackage();
 			activeSheet.WriteTo(newPackage);
 			inactiveSheet.WriteTo(newPackage);
 			config.WriteTo(newPackage);
-			newPackage.SaveAs(excelPackage.File);
+			newPackage.SaveAs(new FileInfo(FullPath));
 
 			LastSavedDateTime = DateTime.Now;
 		}
 
-		public void Dispose()
+		private void CreateNewProject()
 		{
-			excelPackage.Dispose();
+			config = new ConfigSheet();
+			activeSheet = new TaskSheet(isActive: true);
+			inactiveSheet = new TaskSheet(isActive: false);
 		}
 
-		private ExcelPackage CreateNewProject()
-		{
-			ExcelPackage excelPackage = new ExcelPackage();
-			activeSheet = new TaskSheet(excelPackage, ACTIVE_SHEET_NAME, true);
-			inactiveSheet = new TaskSheet(excelPackage, INACTIVE_SHEET_NAME, false);
-			config = new ConfigSheet(excelPackage);
-			return excelPackage;
-		}
-
-		private ExcelPackage OpenProject()
+		private void OpenProject()
 		{
 			FileInfo file = new FileInfo(FullPath);
 			ExcelPackage excelPackage = new ExcelPackage(file);
 			activeSheet = new TaskSheet(excelPackage, ACTIVE_SHEET_NAME, true);
 			inactiveSheet = new TaskSheet(excelPackage, INACTIVE_SHEET_NAME, false);
 			config = new ConfigSheet(excelPackage);
-			return excelPackage;
 		}
 
 		public void ReloadProject()
 		{
-			excelPackage = OpenProject();
+			OpenProject();
 			LastSavedDateTime = DateTime.Now;
 		}
 
@@ -184,42 +161,42 @@ namespace TaskManagerX
 
 		public Task GetTask(int row, bool active)
 		{
-			return GetSheet(active).GetTask(row);
+			return GetSheet(active).GetTask(ProjectIndex(row));
 		}
 
 		public string GetTitle(int row, bool active)
 		{
-			return GetSheet(active).GetTask(row).Title;
+			return GetSheet(active).GetTask(ProjectIndex(row)).Title;
 		}
 
 		public void InsertTask(int row, bool active, Task task)
 		{
 			LastEditedDateTime = DateTime.Now;
-			GetSheet(active).InsertTask(row, task);
+			GetSheet(active).InsertTask(ProjectIndex(row), task);
 		}
 
 		public void RemoveTask(int row, bool active)
 		{
 			LastEditedDateTime = DateTime.Now;
-			GetSheet(active).RemoveTask(row);
+			GetSheet(active).RemoveTask(ProjectIndex(row));
 		}
 
 		public Task MoveRow(int fromRow, int toRow, bool active)
 		{
 			LastEditedDateTime = DateTime.Now;
 			TaskSheet sheet = GetSheet(active);
-			return sheet.MoveRow(fromRow, toRow);
+			return sheet.MoveRow(ProjectIndex(fromRow), ProjectIndex(toRow));
 		}
 
 		public void UpdateTitle(int row, string text, bool active)
 		{
 			LastEditedDateTime = DateTime.Now;
-			GetSheet(active).UpdateTitle(row, text);
+			GetSheet(active).UpdateTitle(ProjectIndex(row), text);
 		}
 
 		public string GetStatus(int row, bool active)
 		{
-			return GetSheet(active).GetStatus(row);
+			return GetSheet(active).GetStatus(ProjectIndex(row));
 		}
 
 		public StatusChangeResult UpdateStatus(int row, string status, bool active)
@@ -228,14 +205,14 @@ namespace TaskManagerX
 			TaskSheet selectedSheet = GetSheet(active);
 			TaskSheet otherSheet = GetSheet(!active);
 
-			StatusChangeResult result = selectedSheet.UpdateStatus(row, status, config.ActiveStatuses);
+			StatusChangeResult result = selectedSheet.UpdateStatus(ProjectIndex(row), status, config.ActiveStatuses);
 
 			if(result.ActiveInactiveChanged)
 			{
-				Task task = selectedSheet.GetTask(row);
+				Task task = selectedSheet.GetTask(ProjectIndex(row));
 				task.DoneDate = DateTime.Now;
-				otherSheet.InsertTask(2, task);
-				selectedSheet.RemoveTask(row);
+				otherSheet.InsertTask(0, task);
+				selectedSheet.RemoveTask(ProjectIndex(row));
 			}
 
 			return result;
@@ -243,18 +220,18 @@ namespace TaskManagerX
 
 		public string GetCategory(int row, bool active)
 		{
-			return GetSheet(active).GetCategory(row);
+			return GetSheet(active).GetCategory(ProjectIndex(row));
 		}
 
 		public void UpdateCategory(int row, string category, bool active)
 		{
 			LastEditedDateTime = DateTime.Now;
-			GetSheet(active).UpdateCategory(row, category);
+			GetSheet(active).UpdateCategory(ProjectIndex(row), category);
 		}
 
 		public List<Task> GetTasks(bool active)
 		{
-			return GetSheet(active).LoadTasks();
+			return GetSheet(active).Tasks;
 		}
 
 		public void SetStatuses(string[] active, string[] inactive)
@@ -272,6 +249,11 @@ namespace TaskManagerX
 		private TaskSheet GetSheet(bool active)
 		{
 			return (active ? activeSheet : inactiveSheet);
+		}
+
+		private int ProjectIndex(int tableIndex)
+		{
+			return tableIndex - 1;
 		}
 	}
 }

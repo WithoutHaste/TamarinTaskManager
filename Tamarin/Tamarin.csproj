@@ -81,7 +81,6 @@
     <Compile Include="classes\History.cs" />
     <Compile Include="classes\HistoryAction.cs" />
     <Compile Include="classes\IMergable.cs" />
-    <Compile Include="classes\IndexConverter.cs" />
     <Compile Include="classes\Project.cs" />
     <Compile Include="classes\Status.cs" />
     <Compile Include="classes\StatusChangeResult.cs" />

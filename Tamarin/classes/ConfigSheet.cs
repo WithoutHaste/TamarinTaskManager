@@ -28,7 +28,6 @@ namespace TaskManagerX
 		public int NextId {
 			get {
 				MaxId++;
-				configSheet.Cells["F2"].Value = MaxId;
 				return MaxId;
 			}
 		}
@@ -45,8 +44,6 @@ namespace TaskManagerX
 			}
 		}
 
-		private ExcelWorksheet configSheet;
-
 		private static string SHEET_NAME = "Config";
 		private static string STATUS_NAME = "Status";
 		private static string ACTIVE_NAME = "Active";
@@ -54,9 +51,16 @@ namespace TaskManagerX
 		private static string ID_NAME = "Max Id";
 		private static int DEFAULT_ID = 0;
 
+		public ConfigSheet()
+		{
+			SetDefaultStatuses();
+			SetDefaultCategories();
+			MaxId = DEFAULT_ID;
+		}
+
 		public ConfigSheet(ExcelPackage excelPackage)
 		{
-			configSheet = excelPackage.Workbook.Worksheets[SHEET_NAME];
+			ExcelWorksheet configSheet = excelPackage.Workbook.Worksheets[SHEET_NAME];
 			if(configSheet == null)
 			{
 				AddDefaultConfigSheet(excelPackage);
@@ -115,7 +119,6 @@ namespace TaskManagerX
 				throw new Exception("Project must contain at least one category.");
 
 			Categories = validCategories;
-			WriteConfigSheet(configSheet);
 		}
 
 		public void SetStatuses(string[] active, string[] inactive)
@@ -139,7 +142,6 @@ namespace TaskManagerX
 			Statuses.Clear();
 			Statuses.AddRange(validActive.Select(x => new Status(x, true)));
 			Statuses.AddRange(validInactive.Select(x => new Status(x, false)));
-			WriteConfigSheet(configSheet);
 		}
 
 		private void SetDefaultStatuses()
@@ -160,7 +162,7 @@ namespace TaskManagerX
 
 		private void AddDefaultConfigSheet(ExcelPackage excelPackage)
 		{
-			configSheet = excelPackage.Workbook.Worksheets.Add(SHEET_NAME);
+			ExcelWorksheet configSheet = excelPackage.Workbook.Worksheets.Add(SHEET_NAME);
 			SetDefaultStatuses();
 			SetDefaultCategories();
 			MaxId = DEFAULT_ID;

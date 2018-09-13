@@ -398,7 +398,7 @@ namespace TaskManagerX
 			Console.WriteLine("MoveRow {0} to {1}", fromRow, toRow);
 			if(fromRow == toRow)
 				return;
-			Task task = project.MoveRow(IndexConverter.TableLayoutPanelToExcelWorksheet(fromRow), IndexConverter.TableLayoutPanelToExcelWorksheet(toRow), showActive);
+			Task task = project.MoveRow(fromRow, toRow, showActive);
 			RemoveRow(fromRow);
 			//going down, push toRow up - already done by removing task
 			//going up, push toRow down
@@ -447,7 +447,7 @@ namespace TaskManagerX
 		{
 			//add task below current
 			int row = this.GetRow(sender as Control) + 1;
-			InsertTaskRowAt(row, project.InsertNewTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive));
+			InsertTaskRowAt(row, project.InsertNewTask(row, active: showActive));
 			history.Add(new AddAction(showActive, row));
 			FocusOnTitle(row);
 		}
@@ -457,9 +457,9 @@ namespace TaskManagerX
 			history.Off();
 			ToolStrip.SelectActiveInactive(activeSheet);
 			if(task == null)
-				task = project.InsertNewTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+				task = project.InsertNewTask(row, active: showActive);
 			else
-				project.InsertTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive, task: task);
+				project.InsertTask(row, active: showActive, task: task);
 			InsertTaskRowAt(row, task);
 			history.On();
 		}
@@ -467,8 +467,8 @@ namespace TaskManagerX
 		private void deleteTask_Click(object sender, EventArgs e)
 		{
 			int row = this.GetRow(sender as Control);
-			Task task = project.GetTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
-			project.RemoveTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+			Task task = project.GetTask(row, active: showActive);
+			project.RemoveTask(row, active: showActive);
 			RemoveRow(row);
 			history.Add(new DeleteAction(showActive, row, task));
 		}
@@ -477,7 +477,7 @@ namespace TaskManagerX
 		{
 			history.Off();
 			ToolStrip.SelectActiveInactive(activeSheet);
-			project.RemoveTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+			project.RemoveTask(row, active: showActive);
 			RemoveRow(row);
 			history.On();
 		}
@@ -542,8 +542,8 @@ namespace TaskManagerX
 		{
 			RichTextBox textBox = (sender as RichTextBox);
 			int row = this.GetRow(textBox);
-			string previousText = project.GetTitle(IndexConverter.TableLayoutPanelToExcelWorksheet(row), showActive);
-			project.UpdateTitle(IndexConverter.TableLayoutPanelToExcelWorksheet(row), textBox.Text, active: showActive);
+			string previousText = project.GetTitle(row, showActive);
+			project.UpdateTitle(row, textBox.Text, active: showActive);
 			SetTextBoxHeightByText(textBox);
 			history.Add(new TextAction(showActive, row, previousText, textBox.Text));
 		}
@@ -625,12 +625,12 @@ namespace TaskManagerX
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
-			string previousStatus = project.GetStatus(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+			string previousStatus = project.GetStatus(row, active: showActive);
 			if(previousStatus == comboBox.Text)
 				return;			
 
 			ChangeStatusAction historyAction = new ChangeStatusAction(showActive, row, previousStatus);
-			StatusChangeResult result = project.UpdateStatus(IndexConverter.TableLayoutPanelToExcelWorksheet(row), comboBox.Text, active: showActive);
+			StatusChangeResult result = project.UpdateStatus(row, comboBox.Text, active: showActive);
 			Label dateDoneLabel = (Label)this.GetControlFromPosition(7, row);
 			dateDoneLabel.Text = result.DoneDateString;
 
@@ -651,11 +651,11 @@ namespace TaskManagerX
 		{
 			ComboBox comboBox = (sender as ComboBox);
 			int row = this.GetRow(comboBox);
-			string previousCategory = project.GetCategory(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+			string previousCategory = project.GetCategory(row, active: showActive);
 			if(previousCategory == comboBox.Text)
 				return;
 
-			project.UpdateCategory(IndexConverter.TableLayoutPanelToExcelWorksheet(row), comboBox.Text, active: showActive);
+			project.UpdateCategory(row, comboBox.Text, active: showActive);
 			history.Add(new ChangeCategoryAction(showActive, row, previousCategory, comboBox.Text));
 			FocusOnTitle(row);
 		}
@@ -848,8 +848,8 @@ namespace TaskManagerX
 			int row = 1;
 			while(this.RowCount > 1)
 			{
-				Task task = project.GetTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
-				project.RemoveTask(IndexConverter.TableLayoutPanelToExcelWorksheet(row), active: showActive);
+				Task task = project.GetTask(row, active: showActive);
+				project.RemoveTask(row, active: showActive);
 				RemoveRow(row);
 				multipleAction.AddAction(new DeleteAction(showActive, row, task));
 			}

@@ -66,6 +66,12 @@ namespace TaskManagerX
 		public static bool AddedOneChar(this string a, string b, out int index)
 		{
 			index = -1;
+			if(String.IsNullOrEmpty(a) && !String.IsNullOrEmpty(b))
+			{
+				index = 0;
+				return true;
+			}
+
 			if(a.Length != b.Length - 1)
 				return false;
 			string aMiddle;

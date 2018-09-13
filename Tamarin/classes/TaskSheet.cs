@@ -10,57 +10,55 @@ namespace TaskManagerX
 {
 	public class TaskSheet
 	{
-		private ExcelWorksheet sheet;
 		private ColumnLayout columnLayout;
-		private List<Task> tasks;
 		private bool isActive;
 
-		public TaskSheet(ExcelPackage excelPackage, string name, bool active)
+		public List<Task> Tasks { get; set; }
+
+		public TaskSheet(bool isActive)
 		{
-			sheet = excelPackage.Workbook.Worksheets[name];
-			if(sheet == null)
+			this.isActive = isActive;
+			columnLayout = new ColumnLayout();
+			Tasks = new List<Task>();
+		}
+
+		public TaskSheet(ExcelPackage excelPackage, string name, bool isActive)
+		{
+			this.isActive = isActive;
+			ExcelWorksheet sheet = excelPackage.Workbook.Worksheets[name];
+			columnLayout = (sheet == null) ? new ColumnLayout() : new ColumnLayout(sheet);
+			if(!columnLayout.ValidLayout)
 			{
-				sheet = excelPackage.Workbook.Worksheets.Add(name);
-				ColumnLayout.WriteTaskHeaders(sheet, active);
+				MessageBox.Show("Worksheet layout not recognized. Cannot load tasks.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk); //todo this is model level, should just throw exception to higher view level for message display
+				return;
 			}
-			columnLayout = new ColumnLayout(sheet); //TODO how to handle if some or all of expected headers are missing
-			tasks = LoadTasks();
-			isActive = active;
+			Tasks = LoadTasks(sheet);
 		}
 
 		public void InsertTask(int row, Task task)
 		{
-			sheet.InsertRow(row, 1);
-			sheet.Cells[columnLayout.IdColumn + row].Value = task.Id;
-			sheet.Cells[columnLayout.TitleColumn + row].Value = task.Title;
-			sheet.Cells[columnLayout.StatusColumn + row].Value = task.Status;
-			sheet.Cells[columnLayout.CategoryColumn + row].Value = task.Category;
-			sheet.Cells[columnLayout.CreateDateColumn + row].Value = task.CreateDateString;
-			if(columnLayout.DoneDateColumn != null)
-			{
-				sheet.Cells[columnLayout.DoneDateColumn + row].Value = task.DoneDateString;
-			}
+			Tasks.Insert(row, task);
 		}
 
 		public string GetStatus(int row)
 		{
-			return sheet.Cells[columnLayout.StatusColumn + row].Value.ToString();
+			return Tasks[row].Status;
 		}
 
 		public string GetCategory(int row)
 		{
-			return sheet.Cells[columnLayout.CategoryColumn + row].Value.ToString();
+			return Tasks[row].Category;
 		}
 
 		public Task GetTask(int row)
 		{
-			return new Task(sheet, columnLayout, row);
+			return Tasks[row];
 		}
 
 		public Task MoveRow(int fromRow, int toRow)
 		{
-			Task task = GetTask(fromRow);
-			RemoveTask(fromRow);
+			Task task = Tasks[fromRow];
+			Tasks.Remove(task);
 			//going down, push toRow up - already done by removing task
 			//going up, push toRow down
 			InsertTask(toRow, task);
@@ -69,66 +67,55 @@ namespace TaskManagerX
 
 		public void UpdateTitle(int row, string text)
 		{
-			sheet.Cells[columnLayout.TitleColumn + row].Value = text;
+			Tasks[row].Title = text;
 		}
 
 		public StatusChangeResult UpdateStatus(int row, string status, string[] activeStatuses)
 		{
-			bool oldStatusActive = activeStatuses.Contains(sheet.Cells[columnLayout.StatusColumn + row].Value.ToString());
+			Task task = Tasks[row];
+			bool oldStatusActive = activeStatuses.Contains(task.Status);
 			bool newStatusActive = activeStatuses.Contains(status);
 
 			StatusChangeResult result = new StatusChangeResult();
 			result.ActiveInactiveChanged = (newStatusActive != isActive);
 			result.DoneDate = (newStatusActive ? default(DateTime?) : DateTime.Now);
 
-			sheet.Cells[columnLayout.StatusColumn + row].Value = status;
-			sheet.Cells[columnLayout.DoneDateColumn + row].Value = result.DoneDateString;
+			task.Status = status;
+			task.DoneDate = result.DoneDate;
 
 			return result;
 		}
 
 		public void UpdateCategory(int row, string category)
 		{
-			sheet.Cells[columnLayout.CategoryColumn + row].Value = category;
+			Tasks[row].Category = category;
 		}
 
 		public void RemoveTask(int row)
 		{
-			sheet.DeleteRow(row);
+			Tasks.RemoveAt(row);
 		}
 
-		public List<Task> LoadTasks()
+		private List<Task> LoadTasks(ExcelWorksheet worksheet)
 		{
 			List<Task> tasks = new List<Task>();
-			ColumnLayout columnLayout = new ColumnLayout(sheet);
-			if(!columnLayout.ValidLayout)
-			{
-				MessageBox.Show("Worksheet layout not recognized. Cannot load tasks.", "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk); //todo this is model level, should just throw exception to higher view level for message display
-				return tasks;
-			}
-
 			int row = 2;
-			while(sheet.Cells["A" + row].Value != null)
+			while(worksheet.Cells["A" + row].Value != null)
 			{
-				tasks.Add(GetTask(row));
+				tasks.Add(new Task(worksheet, columnLayout, row));
 				row++;
 			}
-
 			return tasks;
 		}
 
 		public void ValidateDoesNotContainStatuses(string[] invalidStatuses)
 		{
-			int row = 2;
-			while(sheet.Cells[columnLayout.StatusColumn + row].Value != null)
+			foreach(Task task in Tasks)
 			{
-				string taskStatus = sheet.Cells[columnLayout.StatusColumn + row].Value.ToString();
-				if(invalidStatuses.Contains(taskStatus))
+				if(invalidStatuses.Contains(task.Status))
 				{
-					int taskId = Int32.Parse(sheet.Cells[columnLayout.IdColumn + row].Value.ToString());
-					throw new Exception(String.Format("Status {0} cannot be both Active and Inactive: see task id {1}.", taskStatus, taskId));
+					throw new Exception(String.Format("Status {0} cannot be both Active and Inactive: see task id {1}.", task.Status, task.Id));
 				}
-				row++;
 			}
 		}
 
@@ -139,10 +126,9 @@ namespace TaskManagerX
 			ExcelWorksheet worksheet = package.Workbook.Worksheets.Last();
 			ColumnLayout.WriteTaskHeaders(worksheet, isActive);
 
-			List<Task> tasks = LoadTasks();
 			int row = 2;
-			worksheet.InsertRow(row, tasks.Count);
-			foreach(Task task in tasks)
+			worksheet.InsertRow(row, Tasks.Count);
+			foreach(Task task in Tasks)
 			{
 				columnLayout.WriteTask(worksheet, task, row, isActive);
 				row++;

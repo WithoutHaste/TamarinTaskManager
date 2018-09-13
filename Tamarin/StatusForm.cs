@@ -48,11 +48,10 @@ namespace TaskManagerX
 					MessageBox.Show(String.Format("File does not exist: {0}", fullPath), "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 					return;
 				}
-				using(Project fromProject = new Project(fullPath))
-				{
-					activeTextBox.Text = String.Join("\n", fromProject.ActiveStatuses);
-					inactiveTextBox.Text = String.Join("\n", fromProject.InactiveStatuses);
-				}
+
+				Project fromProject = new Project(fullPath);
+				activeTextBox.Text = String.Join("\n", fromProject.ActiveStatuses);
+				inactiveTextBox.Text = String.Join("\n", fromProject.InactiveStatuses);
 			}
 		}
 	}

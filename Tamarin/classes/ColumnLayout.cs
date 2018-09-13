@@ -36,8 +36,19 @@ namespace TaskManagerX
 		public static string CREATE_DATE_HEADER = "Created";
 		public static string DONE_DATE_HEADER = "Done";
 
+		public ColumnLayout()
+		{
+			IdColumn = "A";
+			TitleColumn = "B";
+			StatusColumn = "C";
+			CategoryColumn = "D";
+			CreateDateColumn = "E";
+			DoneDateColumn = "F";
+		}
+
 		public ColumnLayout(ExcelWorksheet sheet)
 		{
+			//TODO how to handle if some or all of expected headers are missing
 			for(char col = 'A'; col <= 'Z'; col++)
 			{
 				if(sheet.Cells[col + "1"].Value == null)
