@@ -39,8 +39,6 @@
 			this.redoButton = new System.Windows.Forms.ToolStripButton();
 			this.tabPage1 = new System.Windows.Forms.TabPage();
 			this.tabControl = new System.Windows.Forms.TabControl();
-			this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-			this.convertButton = new System.Windows.Forms.ToolStripButton();
 			this.toolStrip.SuspendLayout();
 			this.tabControl.SuspendLayout();
 			this.SuspendLayout();
@@ -54,9 +52,7 @@
             this.loadButton,
             this.settingsButton,
             this.undoButton,
-            this.redoButton,
-            this.toolStripSeparator1,
-            this.convertButton});
+            this.redoButton});
 			this.toolStrip.Location = new System.Drawing.Point(0, 0);
 			this.toolStrip.Name = "toolStrip";
 			this.toolStrip.Size = new System.Drawing.Size(402, 25);
@@ -162,21 +158,6 @@
 			this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
 			this.tabControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseUp);
 			// 
-			// toolStripSeparator1
-			// 
-			this.toolStripSeparator1.Name = "toolStripSeparator1";
-			this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-			// 
-			// convertButton
-			// 
-			this.convertButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
-			this.convertButton.Image = ((System.Drawing.Image)(resources.GetObject("convertButton.Image")));
-			this.convertButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-			this.convertButton.Name = "convertButton";
-			this.convertButton.Size = new System.Drawing.Size(53, 22);
-			this.convertButton.Text = "Convert";
-			this.convertButton.Click += new System.EventHandler(this.convertButton_Click);
-			// 
 			// WindowForm
 			// 
 			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -206,8 +187,6 @@
 		private System.Windows.Forms.ToolStripButton settingsButton;
 		private System.Windows.Forms.ToolStripButton undoButton;
 		private System.Windows.Forms.ToolStripButton redoButton;
-		private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
-		private System.Windows.Forms.ToolStripButton convertButton;
 	}
 }
 

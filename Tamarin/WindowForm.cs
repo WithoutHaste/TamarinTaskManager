@@ -320,22 +320,5 @@ namespace Tamarin
 		{
 			SelectedTaskTableControl.Redo();
 		}
-
-		private void convertButton_Click(object sender, EventArgs e)
-		{
-			if(SelectedProject.FileExtension != ".xlsx")
-			{
-				MessageBox.Show("This tool is only for converting xlsx format to xml format.", "Convert File", MessageBoxButtons.OK, MessageBoxIcon.Information);
-				return;
-			}
-
-			DialogResult result = MessageBox.Show("Convert xlsx file to xml format?", "Convert File", MessageBoxButtons.OKCancel, MessageBoxIcon.Question);
-			if(result == DialogResult.Cancel)
-			{
-				return;
-			}
-
-
-		}
 	}
 }
