@@ -35,6 +35,14 @@
 					<Data ss:Type="Number">3</Data>
 				</Cell>
 			</Row>
+			<Row>
+				<Cell>
+					<Data ss:Type="DateTime">2018-09-11T00:00:00.000</Data>
+				</Cell>
+				<Cell>
+					<Data ss:Type="DateTime">2018-10-02T00:00:00.000</Data>
+				</Cell>
+			</Row>
 		</Table>
 		<x:WorksheetOptions/>
 	</ss:Worksheet>

@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml;
 using OfficeOpenXml;
 
 namespace TaskManagerX
@@ -133,6 +134,29 @@ namespace TaskManagerX
 				columnLayout.WriteTask(worksheet, task, row, isActive);
 				row++;
 			}
+		}
+
+		public void WriteTo(XmlDocument xml, XmlNode workbookNode, string shortDateStyleId, string headerStyleId, string paragraphStyleId)
+		{
+			XmlNode worksheetNode = xml.CreateElement("ss", "Worksheet", "urn:schemas-microsoft-com:office:spreadsheet");
+			XmlAttribute titleAttribute = xml.CreateAttribute("ss", "Name", "urn:schemas-microsoft-com:office:spreadsheet");
+			titleAttribute.Value = (isActive ? "Active" : "Inactive");
+			worksheetNode.Attributes.Append(titleAttribute);
+			workbookNode.AppendChild(worksheetNode);
+
+			XmlNode tableNode = xml.CreateElement("Table", workbookNode.NamespaceURI);
+			worksheetNode.AppendChild(tableNode);
+			
+			columnLayout.WriteTaskHeaders(xml, tableNode, isActive, workbookNode.NamespaceURI, headerStyleId);
+
+			foreach(Task task in Tasks)
+			{
+				columnLayout.WriteTask(xml, tableNode, task, isActive, workbookNode.NamespaceURI, shortDateStyleId, paragraphStyleId);
+			}
+
+			XmlNode optionsNode = xml.CreateElement("x", "WorksheetOptions", "urn:schemas-microsoft-com:office:excel");
+			worksheetNode.AppendChild(optionsNode);
+			
 		}
 	}
 }

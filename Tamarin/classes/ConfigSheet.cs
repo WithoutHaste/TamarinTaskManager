@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using OfficeOpenXml;
 
 namespace TaskManagerX
@@ -210,6 +211,79 @@ namespace TaskManagerX
 			package.Workbook.Worksheets.Add(SHEET_NAME);
 			ExcelWorksheet worksheet = package.Workbook.Worksheets.Last();
 			WriteConfigSheet(worksheet);
+		}
+
+		public void WriteTo(XmlDocument xml, XmlNode workbookNode, string headerStyleId)
+		{
+			XmlNode worksheetNode = xml.CreateElement("ss", "Worksheet", "urn:schemas-microsoft-com:office:spreadsheet");
+			XmlAttribute titleAttribute = xml.CreateAttribute("ss", "Name", "urn:schemas-microsoft-com:office:spreadsheet");
+			titleAttribute.Value = SHEET_NAME;
+			worksheetNode.Attributes.Append(titleAttribute);
+			workbookNode.AppendChild(worksheetNode);
+
+			XmlNode tableNode = xml.CreateElement("Table", workbookNode.NamespaceURI);
+			worksheetNode.AppendChild(tableNode);
+
+			XmlNode headerRowNode = xml.CreateElement("Row", workbookNode.NamespaceURI);
+			tableNode.AppendChild(headerRowNode);
+			headerRowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, STATUS_NAME, workbookNode.NamespaceURI, headerStyleId));
+			headerRowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, ACTIVE_NAME, workbookNode.NamespaceURI, headerStyleId));
+			headerRowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI, headerStyleId));
+			headerRowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, CATEGORY_NAME, workbookNode.NamespaceURI, headerStyleId));
+			headerRowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI, headerStyleId));
+			headerRowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, ID_NAME, workbookNode.NamespaceURI, headerStyleId));
+
+			XmlNode rowNode = null;
+			List<XmlNode> rows = new List<XmlNode>();
+			foreach(Status status in Statuses)
+			{
+				rowNode = xml.CreateElement("Row", workbookNode.NamespaceURI);
+				tableNode.AppendChild(rowNode);
+				rows.Add(rowNode);
+
+				rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, status.Name, workbookNode.NamespaceURI));
+				rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, (status.Active ? "Active" : "Inactive"), workbookNode.NamespaceURI));
+			}
+			int index = 0;
+			foreach(string category in Categories)
+			{
+				rowNode = null;
+				if(index < rows.Count)
+				{
+					rowNode = rows[index];
+				}
+				else
+				{
+					rowNode = xml.CreateElement("Row", workbookNode.NamespaceURI);
+					tableNode.AppendChild(rowNode);
+					rows.Add(rowNode);
+
+					rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI));
+					rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI));
+				}
+				rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI));
+				rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, category, workbookNode.NamespaceURI));
+				index++;
+			}
+			//max id
+			rowNode = null;
+			if(rows.Count > 0)
+			{
+				rowNode = rows[0];
+			}
+			else
+			{
+				rowNode = xml.CreateElement("Row", workbookNode.NamespaceURI);
+				tableNode.AppendChild(rowNode);
+				rows.Add(rowNode);
+
+				rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI));
+				rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI));
+				rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI));
+				rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI));
+			}
+			rowNode.AppendChild(ColumnLayout.GenerateStringCell(xml, "", workbookNode.NamespaceURI));
+			rowNode.AppendChild(ColumnLayout.GenerateNumberCell(xml, MaxId, workbookNode.NamespaceURI));
 		}
 	}
 }

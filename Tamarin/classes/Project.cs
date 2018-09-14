@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using OfficeOpenXml;
 
 namespace TaskManagerX
@@ -112,13 +113,93 @@ namespace TaskManagerX
 			if(FullPath == null)
 				throw new Exception("Filename not set.");
 
+			SaveXML();
+			//SaveXLSX();
+
+			LastSavedDateTime = DateTime.Now;
+		}
+
+		private void SaveXML()
+		{
+			if(FileExtension.ToLower() != ".xml")
+			{
+				FullPath = FullPath.Replace(FileExtension, ".xml");
+			}
+
+			XmlDocument xml = new XmlDocument();
+
+			XmlNode versionNode = xml.CreateXmlDeclaration("1.0", "UTF-8", null);
+			xml.AppendChild(versionNode);
+
+			XmlDocumentFragment applicationNode = xml.CreateDocumentFragment();
+			applicationNode.InnerXml = "<?mso-application progid=\"Excel.Sheet\"?>";
+			xml.AppendChild(applicationNode);
+
+			XmlDocumentFragment workbookFragment = xml.CreateDocumentFragment();
+			workbookFragment.InnerXml = "<Workbook xmlns:c='urn:schemas-microsoft-com:office:component:spreadsheet' xmlns:html='http://www.w3.org/TR/REC-html40' xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance' xmlns='urn:schemas-microsoft-com:office:spreadsheet' xmlns:x2='http://schemas.microsoft.com/office/excel/2003/xml' xmlns:ss='urn:schemas-microsoft-com:office:spreadsheet' xmlns:x='urn:schemas-microsoft-com:office:excel'></Workbook>";
+			xml.AppendChild(workbookFragment);
+
+			XmlNode workbookNode = xml.GetElementsByTagName("Workbook")[0];
+
+			//passing workbookNode.NamespaceURI (the root's namespace) into child that do not need any namespace so that an empty xmlns="" is not added to that tag
+			XmlNode stylesNode = xml.CreateElement("Styles", workbookNode.NamespaceURI);
+			workbookNode.AppendChild(stylesNode);
+
+			string shortDateStyleId = "cellShortDate";
+			XmlNode shortDateStyleNode = xml.CreateElement("Style", workbookNode.NamespaceURI);
+			XmlAttribute shortDateAttribute = xml.CreateAttribute("ss", "ID", "urn:schemas-microsoft-com:office:spreadsheet");
+			shortDateAttribute.Value = shortDateStyleId;
+			shortDateStyleNode.Attributes.Append(shortDateAttribute);
+			stylesNode.AppendChild(shortDateStyleNode);
+			XmlNode numberFormatNode = xml.CreateElement("NumberFormat", workbookNode.NamespaceURI);
+			XmlAttribute numberFormatAttribute = xml.CreateAttribute("ss", "Format", "urn:schemas-microsoft-com:office:spreadsheet");
+			numberFormatAttribute.Value = "Short Date";
+			numberFormatNode.Attributes.Append(numberFormatAttribute);
+			shortDateStyleNode.AppendChild(numberFormatNode);
+
+			string headerStyleId = "header";
+			XmlNode headerStyleNode = xml.CreateElement("Style", workbookNode.NamespaceURI);
+			XmlAttribute headerAttribute = xml.CreateAttribute("ss", "ID", "urn:schemas-microsoft-com:office:spreadsheet");
+			headerAttribute.Value = headerStyleId;
+			headerStyleNode.Attributes.Append(headerAttribute);
+			stylesNode.AppendChild(headerStyleNode);
+			XmlNode fontFormatNode = xml.CreateElement("Font", workbookNode.NamespaceURI);
+			XmlAttribute fontFormatAttribute = xml.CreateAttribute("ss", "Bold", "urn:schemas-microsoft-com:office:spreadsheet");
+			fontFormatAttribute.Value = "1";
+			fontFormatNode.Attributes.Append(fontFormatAttribute);
+			headerStyleNode.AppendChild(fontFormatNode);
+
+			string paragraphStyleId = "paragraph";
+			XmlNode paragraphStyleNode = xml.CreateElement("Style", workbookNode.NamespaceURI);
+			XmlAttribute paragraphAttribute = xml.CreateAttribute("ss", "ID", "urn:schemas-microsoft-com:office:spreadsheet");
+			paragraphAttribute.Value = paragraphStyleId;
+			paragraphStyleNode.Attributes.Append(paragraphAttribute);
+			stylesNode.AppendChild(paragraphStyleNode);
+			XmlNode alignmentNode = xml.CreateElement("Alignment", workbookNode.NamespaceURI);
+			XmlAttribute alignmentAttribute = xml.CreateAttribute("ss", "WrapText", "urn:schemas-microsoft-com:office:spreadsheet");
+			alignmentAttribute.Value = "1";
+			alignmentNode.Attributes.Append(alignmentAttribute);
+			paragraphStyleNode.AppendChild(alignmentNode);
+
+			activeSheet.WriteTo(xml, workbookNode, shortDateStyleId, headerStyleId, paragraphStyleId);
+			inactiveSheet.WriteTo(xml, workbookNode, shortDateStyleId, headerStyleId, paragraphStyleId);
+			config.WriteTo(xml, workbookNode, headerStyleId);
+
+			xml.Save(FullPath);
+		}
+
+		private void SaveXLSX()
+		{
+			if(FileExtension.ToLower() != ".xlsx")
+			{
+				FullPath = FullPath.Replace(FileExtension, ".xlsx");
+			}
+
 			ExcelPackage newPackage = new ExcelPackage();
 			activeSheet.WriteTo(newPackage);
 			inactiveSheet.WriteTo(newPackage);
 			config.WriteTo(newPackage);
 			newPackage.SaveAs(new FileInfo(FullPath));
-
-			LastSavedDateTime = DateTime.Now;
 		}
 
 		private void CreateNewProject()
@@ -129,6 +210,30 @@ namespace TaskManagerX
 		}
 
 		private void OpenProject()
+		{
+			switch(FileExtension.ToLower())
+			{
+				case ".xml":
+					OpenProjectXML();
+					break;
+				case ".xlsx":
+					OpenProjectXLSX();
+					break;
+				default: throw new NotSupportedException("File format not supported: " + FileExtension);
+			}
+		}
+
+		private void OpenProjectXML()
+		{
+			//TODO
+			if(FileExtension.ToLower() != ".xlsx")
+			{
+				FullPath = FullPath.Replace(FileExtension, ".xlsx");
+			}
+			OpenProjectXLSX();
+		}
+
+		private void OpenProjectXLSX()
 		{
 			FileInfo file = new FileInfo(FullPath);
 			ExcelPackage excelPackage = new ExcelPackage(file);

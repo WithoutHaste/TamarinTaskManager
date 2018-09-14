@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using OfficeOpenXml;
 
 namespace TaskManagerX
@@ -114,5 +115,102 @@ namespace TaskManagerX
 			}
 		}
 
+		public void WriteTaskHeaders(XmlDocument xml, XmlNode tableNode, bool active, string rootNamespace, string headerStyleId)
+		{
+			XmlNode rowNode = xml.CreateElement("Row", rootNamespace);
+			tableNode.AppendChild(rowNode);
+
+			List<string> headers = new List<string> { ID_HEADER, TITLE_HEADER, STATUS_HEADER, CATEGORY_HEADER, CREATE_DATE_HEADER, DONE_DATE_HEADER };
+			if(active)
+			{
+				headers.Remove(DONE_DATE_HEADER);
+			}
+			foreach(string header in headers)
+			{
+				int width = 60;
+				if(header == TITLE_HEADER) width = 300;
+				else if(header == ID_HEADER) width = 25;
+
+				XmlNode columnNode = xml.CreateElement("Column", rootNamespace);
+				XmlAttribute columnAttribute = xml.CreateAttribute("ss", "Width", "urn:schemas-microsoft-com:office:spreadsheet");
+				columnAttribute.Value = width.ToString();
+				columnNode.Attributes.Append(columnAttribute);
+				tableNode.AppendChild(columnNode);
+			}
+			foreach(string header in headers)
+			{
+				rowNode.AppendChild(GenerateStringCell(xml, header, rootNamespace, headerStyleId));
+			}
+		}
+
+		public void WriteTask(XmlDocument xml, XmlNode tableNode, Task task, bool active, string rootNamespace, string shortDateStyleId, string paragraphStyleId)
+		{
+			XmlNode rowNode = xml.CreateElement("Row", rootNamespace);
+			tableNode.AppendChild(rowNode);
+
+			rowNode.AppendChild(GenerateNumberCell(xml, task.Id, rootNamespace));
+			rowNode.AppendChild(GenerateStringCell(xml, task.Title, rootNamespace, paragraphStyleId));
+			rowNode.AppendChild(GenerateStringCell(xml, task.Status, rootNamespace));
+			rowNode.AppendChild(GenerateStringCell(xml, task.Category, rootNamespace));
+			rowNode.AppendChild(GenerateDateCell(xml, task.CreateDate, rootNamespace, shortDateStyleId));
+			if(!active && task.DoneDate.HasValue)
+			{
+				rowNode.AppendChild(GenerateDateCell(xml, task.DoneDate.Value, rootNamespace, shortDateStyleId));
+			}
+		}
+
+		public static XmlNode GenerateStringCell(XmlDocument xml, string data, string rootNamespace, string styleId = null)
+		{
+			XmlNode cellNode = xml.CreateElement("Cell", rootNamespace);
+			if(styleId != null)
+			{
+				XmlAttribute cellAttribute = xml.CreateAttribute("ss", "StyleID", "urn:schemas-microsoft-com:office:spreadsheet");
+				cellAttribute.Value = styleId;
+				cellNode.Attributes.Append(cellAttribute);
+			}
+
+			XmlNode dataNode = xml.CreateElement("Data", rootNamespace);
+			XmlAttribute typeAttribute = xml.CreateAttribute("ss", "Type", "urn:schemas-microsoft-com:office:spreadsheet");
+			typeAttribute.Value = "String";
+			dataNode.Attributes.Append(typeAttribute);
+			dataNode.InnerText = data;
+
+			cellNode.AppendChild(dataNode);
+
+			return cellNode;
+		}
+
+		public static XmlNode GenerateNumberCell(XmlDocument xml, int data, string rootNamespace)
+		{
+			XmlNode cellNode = xml.CreateElement("Cell", rootNamespace);
+
+			XmlNode dataNode = xml.CreateElement("Data", rootNamespace);
+			XmlAttribute typeAttribute = xml.CreateAttribute("ss", "Type", "urn:schemas-microsoft-com:office:spreadsheet");
+			typeAttribute.Value = "Number";
+			dataNode.Attributes.Append(typeAttribute);
+			dataNode.InnerText = data.ToString();
+
+			cellNode.AppendChild(dataNode);
+
+			return cellNode;
+		}
+
+		public static XmlNode GenerateDateCell(XmlDocument xml, DateTime data, string rootNamespace, string shortDateStyleId)
+		{
+			XmlNode cellNode = xml.CreateElement("Cell", rootNamespace);
+			XmlAttribute cellAttribute = xml.CreateAttribute("ss", "StyleID", "urn:schemas-microsoft-com:office:spreadsheet");
+			cellAttribute.Value = shortDateStyleId;
+			cellNode.Attributes.Append(cellAttribute);
+
+			XmlNode dataNode = xml.CreateElement("Data", rootNamespace);
+			XmlAttribute typeAttribute = xml.CreateAttribute("ss", "Type", "urn:schemas-microsoft-com:office:spreadsheet");
+			typeAttribute.Value = "DateTime";
+			dataNode.Attributes.Append(typeAttribute);
+			dataNode.InnerText = data.ToString("yyyy-MM-ddT00:00:00.000");
+
+			cellNode.AppendChild(dataNode);
+
+			return cellNode;
+		}
 	}
 }
