@@ -1,33 +1,36 @@
 # Tamarin Task Manager
 
-Bare-bones task manager for single users.  Saves to standard Excel file format.
+Bare-bones task manager for single users.
 
-Version 2 complete.  
+Saves to Microsoft Excel 2003 XML format.
 
-Windows installation file at TaskManagerX/Setup/Release/Setup_Tamarin.msi.
+This application is under active development. Report bugs and request features on Github, or to wohaste@gmail.com.
 
-# Hot Keys
+## Documentation
 
-Ctrl-A: display active tasks
+[Documentation](blob/master/documentation/documentation.md)
 
-Ctrl-I: display inactive tasks
+## License
 
-Ctrl-S: save list
+[MIT License](blob/master/LICENSE) 
 
-Ctrl-Z: undo
+## Support
 
-Ctrl-Y: redo
+[Become a patron](https://www.patreon.com/withouthaste) of this and other Without Haste open source projects.
 
-Ctrl-N: add new task below current task
+## Version Notes
 
-Ctrl-UpArrow: move to beginning of previous task
+Uses [Semantic Versioning 2.0.0](https://semver.org/).
 
-Ctrl-DownArrow: move to beginning of next task
+### Version 2.0.0
 
-# Misc
+[Support XML Format - v2.0.0](releases/tag/v2.0.0)
 
-The task Id column can be shown or hidden with application-wide Settings.
+* Adds support for Microsoft Excel 2003 XML format
+  - Backward compatible with previous *.xlsx format
+  - Will only save to new *.xml format
+  - Change made to enable version control automatically merging changes to files
 
-The Category column will only be displayed when there is more than one possible category.
+### Version 1.0.0
 
-Clicking the "X" button on a task will permanently delete it. Set the task to an Inactive Status to move it off the Active list.
+[Initial Release - v1.0.0](releases/tag/v1.0.0)
