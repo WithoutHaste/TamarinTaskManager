@@ -90,7 +90,7 @@ namespace Tamarin
 					IdColumn = col.ToString();
 					continue;
 				}
-				if(header == DESCRIPTION_HEADER && DescriptionColumn == null)
+				if((header == DESCRIPTION_HEADER || header == OLD_DESCRIPTION_HEADER) && DescriptionColumn == null)
 				{
 					DescriptionColumn = col.ToString();
 					continue;

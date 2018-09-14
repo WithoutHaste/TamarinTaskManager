@@ -6,6 +6,8 @@ using System.Data;
 using System.Drawing;
 using System.IO;
 using System.Linq;
+using System.Resources;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -46,7 +48,15 @@ namespace Tamarin
 		{
 			InitializeComponent();
 			this.MinimumSize = new Size(800, 300);
-			this.Icon = Icon.ExtractAssociatedIcon("icon.ico");
+			try
+			{
+				Assembly myAssembly = Assembly.GetAssembly(typeof(WindowForm));
+				Stream iconStream = myAssembly.GetManifestResourceStream("Tamarin.icon.ico");
+				this.Icon = new Icon(iconStream);
+			}
+			catch(Exception)
+			{
+			}
 			this.Activated += new EventHandler(windowForm_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 

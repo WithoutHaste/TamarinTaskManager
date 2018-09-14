@@ -264,7 +264,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Tamarin"
         "ProductCode" = "8:{0DF1244D-906A-4C99-946F-86A89F7AFBFE}"
-        "PackageCode" = "8:{DBA07947-504E-414E-B6BD-0D57F2156D5F}"
+        "PackageCode" = "8:{4A7312FE-C4DB-45BF-A497-463E8C401702}"
         "UpgradeCode" = "8:{5DD4C39B-4850-4686-B40C-9399C72E847C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -272,7 +272,7 @@
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
         "ProductVersion" = "8:2.0.0"
-        "Manufacturer" = "8:Without Haste, LLC"
+        "Manufacturer" = "8:WithoutHaste"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
         "Title" = "8:Tamarin"
@@ -799,7 +799,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_356728618E3E4F46BD599889291FD14E"
             {
-            "SourcePath" = "8:..\\obj\\Debug\\Tamarin.exe"
+            "SourcePath" = "8:..\\obj\\Release\\Tamarin.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_25705D710C5547BCADC8D8CF0FCA4B20"
