@@ -296,7 +296,7 @@ namespace TaskManagerX
 
 		public string GetTitle(int row, bool active)
 		{
-			return GetSheet(active).GetTask(ProjectIndex(row)).Title;
+			return GetSheet(active).GetTask(ProjectIndex(row)).Description;
 		}
 
 		public void InsertTask(int row, bool active, Task task)

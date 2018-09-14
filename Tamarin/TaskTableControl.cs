@@ -281,7 +281,7 @@ namespace TaskManagerX
 			
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
 			
-			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Title);
+			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Description);
 			titleBox.GotFocus += new EventHandler(titleTextBox_GotFocus);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
 			titleBox.SizeChanged += new EventHandler(titleTextBox_SizeChanged);

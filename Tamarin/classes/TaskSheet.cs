@@ -89,7 +89,7 @@ namespace TaskManagerX
 
 		public void UpdateTitle(int row, string text)
 		{
-			Tasks[row].Title = text;
+			Tasks[row].Description = text;
 		}
 
 		public StatusChangeResult UpdateStatus(int row, string status, string[] activeStatuses)

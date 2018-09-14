@@ -11,7 +11,7 @@ namespace TaskManagerX
 	public class Task
 	{
 		public int Id { get; set; }
-		public string Title { get; set; }
+		public string Description { get; set; }
 		public string Status { get; set; }
 		public string Category { get; set; }
 		public DateTime CreateDate { get; set; }
@@ -47,7 +47,7 @@ namespace TaskManagerX
 				switch(header)
 				{
 					case ColumnLayout.ID_HEADER: Id = Int32.Parse(cellValue); break;
-					case ColumnLayout.TITLE_HEADER: Title = cellValue; break;
+					case ColumnLayout.DESCRIPTION_HEADER: Description = cellValue; break;
 					case ColumnLayout.STATUS_HEADER: Status = cellValue; break;
 					case ColumnLayout.CATEGORY_HEADER: Category = cellValue; break;
 					case ColumnLayout.CREATE_DATE_HEADER: CreateDate = DateTime.Parse(cellValue); break;
@@ -61,7 +61,7 @@ namespace TaskManagerX
 		public Task(ExcelWorksheet sheet, ColumnLayout columnLayout, int row)
 		{
 			Id = Int32.Parse(sheet.Cells[columnLayout.IdColumn + row].Value.ToString());
-			Title = ConvertToString(sheet.Cells[columnLayout.TitleColumn + row].Value);
+			Description = ConvertToString(sheet.Cells[columnLayout.DescriptionColumn + row].Value);
 			Status = ConvertToString(sheet.Cells[columnLayout.StatusColumn + row].Value);
 			Category = ConvertToString(sheet.Cells[columnLayout.CategoryColumn + row].Value);
 			CreateDate = DateTime.Parse(sheet.Cells[columnLayout.CreateDateColumn + row].Value.ToString());

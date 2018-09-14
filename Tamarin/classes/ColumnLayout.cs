@@ -14,7 +14,7 @@ namespace TaskManagerX
 		//look for the expected columns
 
 		public string IdColumn { get; set; }
-		public string TitleColumn { get; set; }
+		public string DescriptionColumn { get; set; }
 		public string StatusColumn { get; set; }
 		public string CategoryColumn { get; set; }
 		public string CreateDateColumn { get; set; }
@@ -23,7 +23,7 @@ namespace TaskManagerX
 		public bool ValidLayout {
 			get {
 				return (!String.IsNullOrEmpty(IdColumn)
-					&& !String.IsNullOrEmpty(TitleColumn)
+					&& !String.IsNullOrEmpty(DescriptionColumn)
 					&& !String.IsNullOrEmpty(StatusColumn)
 					&& !String.IsNullOrEmpty(CategoryColumn)
 					&& !String.IsNullOrEmpty(CreateDateColumn));
@@ -31,7 +31,8 @@ namespace TaskManagerX
 		}
 
 		public const string ID_HEADER = "Id";
-		public const string TITLE_HEADER = "Title";
+		public const string DESCRIPTION_HEADER = "Description";
+		public const string OLD_DESCRIPTION_HEADER = "Title";
 		public const string STATUS_HEADER = "Status";
 		public const string CATEGORY_HEADER = "Category";
 		public const string CREATE_DATE_HEADER = "Created";
@@ -40,7 +41,7 @@ namespace TaskManagerX
 		public ColumnLayout()
 		{
 			IdColumn = "A";
-			TitleColumn = "B";
+			DescriptionColumn = "B";
 			StatusColumn = "C";
 			CategoryColumn = "D";
 			CreateDateColumn = "E";
@@ -62,7 +63,8 @@ namespace TaskManagerX
 					switch(cellValue)
 					{
 						case ID_HEADER: IdColumn = columnChar.ToString(); break;
-						case TITLE_HEADER: TitleColumn = columnChar.ToString(); break;
+						case OLD_DESCRIPTION_HEADER:
+						case DESCRIPTION_HEADER: DescriptionColumn = columnChar.ToString(); break;
 						case STATUS_HEADER: StatusColumn = columnChar.ToString(); break;
 						case CATEGORY_HEADER: CategoryColumn = columnChar.ToString(); break;
 						case CREATE_DATE_HEADER: CreateDateColumn = columnChar.ToString(); break;
@@ -88,9 +90,9 @@ namespace TaskManagerX
 					IdColumn = col.ToString();
 					continue;
 				}
-				if(header == TITLE_HEADER && TitleColumn == null)
+				if(header == DESCRIPTION_HEADER && DescriptionColumn == null)
 				{
-					TitleColumn = col.ToString();
+					DescriptionColumn = col.ToString();
 					continue;
 				}
 				if(header == STATUS_HEADER && StatusColumn == null)
@@ -119,7 +121,7 @@ namespace TaskManagerX
 		public static void WriteTaskHeaders(ExcelWorksheet worksheet, bool active)
 		{
 			worksheet.Cells["A1"].Value = ID_HEADER;
-			worksheet.Cells["B1"].Value = TITLE_HEADER;
+			worksheet.Cells["B1"].Value = DESCRIPTION_HEADER;
 			worksheet.Cells["C1"].Value = STATUS_HEADER;
 			worksheet.Cells["D1"].Value = CATEGORY_HEADER;
 			worksheet.Cells["E1"].Value = CREATE_DATE_HEADER;
@@ -133,7 +135,7 @@ namespace TaskManagerX
 		public void WriteTask(ExcelWorksheet worksheet, Task task, int row, bool active)
 		{
 			worksheet.Cells[IdColumn + row].Value = task.Id;
-			worksheet.Cells[TitleColumn + row].Value = task.Title;
+			worksheet.Cells[DescriptionColumn + row].Value = task.Description;
 			worksheet.Cells[StatusColumn + row].Value = task.Status;
 			worksheet.Cells[CategoryColumn + row].Value = task.Category;
 			worksheet.Cells[CreateDateColumn + row].Value = task.CreateDateString;
@@ -148,7 +150,7 @@ namespace TaskManagerX
 			XmlNode rowNode = xml.CreateElement("Row", rootNamespace);
 			tableNode.AppendChild(rowNode);
 
-			List<string> headers = new List<string> { ID_HEADER, TITLE_HEADER, STATUS_HEADER, CATEGORY_HEADER, CREATE_DATE_HEADER, DONE_DATE_HEADER };
+			List<string> headers = new List<string> { ID_HEADER, DESCRIPTION_HEADER, STATUS_HEADER, CATEGORY_HEADER, CREATE_DATE_HEADER, DONE_DATE_HEADER };
 			if(active)
 			{
 				headers.Remove(DONE_DATE_HEADER);
@@ -156,7 +158,7 @@ namespace TaskManagerX
 			foreach(string header in headers)
 			{
 				int width = 60;
-				if(header == TITLE_HEADER) width = 300;
+				if(header == DESCRIPTION_HEADER) width = 300;
 				else if(header == ID_HEADER) width = 25;
 
 				XmlNode columnNode = xml.CreateElement("Column", rootNamespace);
@@ -177,7 +179,7 @@ namespace TaskManagerX
 			tableNode.AppendChild(rowNode);
 
 			rowNode.AppendChild(GenerateNumberCell(xml, task.Id, rootNamespace));
-			rowNode.AppendChild(GenerateStringCell(xml, task.Title, rootNamespace, paragraphStyleId));
+			rowNode.AppendChild(GenerateStringCell(xml, task.Description, rootNamespace, paragraphStyleId));
 			rowNode.AppendChild(GenerateStringCell(xml, task.Status, rootNamespace));
 			rowNode.AppendChild(GenerateStringCell(xml, task.Category, rootNamespace));
 			rowNode.AppendChild(GenerateDateCell(xml, task.CreateDate, rootNamespace, shortDateStyleId));
@@ -255,7 +257,7 @@ namespace TaskManagerX
 		public string GetHeaderByColumnChar(string columnChar)
 		{
 			if(columnChar == IdColumn) return ID_HEADER;
-			if(columnChar == TitleColumn) return TITLE_HEADER;
+			if(columnChar == DescriptionColumn) return DESCRIPTION_HEADER;
 			if(columnChar == StatusColumn) return STATUS_HEADER;
 			if(columnChar == CategoryColumn) return CATEGORY_HEADER;
 			if(columnChar == CreateDateColumn) return CREATE_DATE_HEADER;
