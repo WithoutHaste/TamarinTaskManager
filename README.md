@@ -8,11 +8,11 @@ This application is under active development. Report bugs and request features o
 
 ## Documentation
 
-[Documentation](blob/master/documentation/documentation.md)
+[Documentation](documentation/documentation.md)
 
 ## License
 
-[MIT License](blob/master/LICENSE) 
+[MIT License](LICENSE) 
 
 ## Support
 
