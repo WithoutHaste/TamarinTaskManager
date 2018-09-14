@@ -38,6 +38,42 @@
       <Column ss:Width="60" />
       <Row>
         <Cell>
+          <Data ss:Type="Number">63</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">refactor: pull out XML formatting library
+and add all the XML stuff to C# notes</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-14T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">64</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">refactor: pull of Excel operations library
+and add all the Excel stuff to C# notes</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-14T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
           <Data ss:Type="Number">60</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
@@ -47,7 +83,24 @@
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Documentation</Data>
+          <Data ss:Type="String">Task</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-14T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">62</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">display version number in gui somewhere</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-09-14T00:00:00.000</Data>
@@ -71,7 +124,7 @@ this will certainly need to be documented behavior</Data>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Feature</Data>
+          <Data ss:Type="String">Feature - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-09-13T00:00:00.000</Data>
@@ -106,10 +159,27 @@ this will certainly need to be documented behavior</Data>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Task</Data>
+          <Data ss:Type="String">Feature - Major</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-09-13T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">66</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">refactor all forms: all layout in code, none in designed</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-14T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -123,7 +193,7 @@ this will certainly need to be documented behavior</Data>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Task</Data>
+          <Data ss:Type="String">Bug - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-04-11T00:00:00.000</Data>
@@ -140,28 +210,10 @@ this will certainly need to be documented behavior</Data>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Bug</Data>
+          <Data ss:Type="String">Bug - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2017-10-28T00:00:00.000</Data>
-        </Cell>
-      </Row>
-      <Row>
-        <Cell>
-          <Data ss:Type="Number">33</Data>
-        </Cell>
-        <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">I think fixing the lingering layout/scrolling issues will require a massive redesign of the gui layout system
-maybe in version 3</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Todo</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Bug</Data>
-        </Cell>
-        <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2018-04-11T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -175,7 +227,7 @@ maybe in version 3</Data>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Feature</Data>
+          <Data ss:Type="String">Feature - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-04-11T00:00:00.000</Data>
@@ -192,7 +244,7 @@ maybe in version 3</Data>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Feature</Data>
+          <Data ss:Type="String">Feature - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-04-11T00:00:00.000</Data>
@@ -209,7 +261,7 @@ maybe in version 3</Data>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Bug</Data>
+          <Data ss:Type="String">Feature - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-04-11T00:00:00.000</Data>
@@ -227,25 +279,7 @@ maybe in version 3</Data>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Bug</Data>
-        </Cell>
-        <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2018-08-09T00:00:00.000</Data>
-        </Cell>
-      </Row>
-      <Row>
-        <Cell>
-          <Data ss:Type="Number">43</Data>
-        </Cell>
-        <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">probably need to roll my own layout manager
-it takes WAY too long to switch lists, open lists, close lists</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Todo</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Bug</Data>
+          <Data ss:Type="String">Bug - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-08-09T00:00:00.000</Data>
@@ -262,10 +296,27 @@ it takes WAY too long to switch lists, open lists, close lists</Data>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Bug</Data>
+          <Data ss:Type="String">Feature - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-09-12T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">65</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">enlarge Category dropdrowns to fit largest Category</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-14T00:00:00.000</Data>
         </Cell>
       </Row>
     </Table>
@@ -1177,14 +1228,14 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Feature</Data>
+          <Data ss:Type="String">Feature - Major</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">61</Data>
+          <Data ss:Type="Number">66</Data>
         </Cell>
       </Row>
       <Row>
@@ -1199,7 +1250,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Task</Data>
+          <Data ss:Type="String">Feature - Minor</Data>
         </Cell>
       </Row>
       <Row>
@@ -1214,7 +1265,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Bug</Data>
+          <Data ss:Type="String">Bug - Major</Data>
         </Cell>
       </Row>
       <Row>
@@ -1229,7 +1280,41 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
+          <Data ss:Type="String">Bug - Minor</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
           <Data ss:Type="String">Documentation</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Task</Data>
         </Cell>
       </Row>
     </Table>

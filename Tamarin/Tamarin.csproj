@@ -67,6 +67,9 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
+    <Reference Include="WithoutHaste.DataFormats">
+      <HintPath>..\..\WithoutHaste.DataFormats\DataFormats\bin\Release\WithoutHaste.DataFormats.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryForm.cs">

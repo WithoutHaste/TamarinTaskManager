@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using OfficeOpenXml;
+using WithoutHaste.DataFormats;
 
 namespace Tamarin
 {
@@ -37,23 +38,21 @@ namespace Tamarin
 
 		public Task(XmlNode rowNode, ColumnLayout columnLayout)
 		{
-			char columnChar = 'A';
-			foreach(XmlNode cellNode in rowNode.ChildNodes)
-			{
-				if(cellNode.LocalName != "Cell") continue;
+			List<string> values = MSExcel2003XmlFormat.GetRowValues(rowNode);
 
-				string cellValue = ColumnLayout.GetCellValue(cellNode);
+			char columnChar = 'A';
+			foreach(string value in values)
+			{
 				string header = columnLayout.GetHeaderByColumnChar(columnChar.ToString());
 				switch(header)
 				{
-					case ColumnLayout.ID_HEADER: Id = Int32.Parse(cellValue); break;
-					case ColumnLayout.DESCRIPTION_HEADER: Description = cellValue; break;
-					case ColumnLayout.STATUS_HEADER: Status = cellValue; break;
-					case ColumnLayout.CATEGORY_HEADER: Category = cellValue; break;
-					case ColumnLayout.CREATE_DATE_HEADER: CreateDate = DateTime.Parse(cellValue); break;
-					case ColumnLayout.DONE_DATE_HEADER: DoneDate = DateTime.Parse(cellValue); break;
+					case ColumnLayout.ID_HEADER: Id = Int32.Parse(value); break;
+					case ColumnLayout.DESCRIPTION_HEADER: Description = value; break;
+					case ColumnLayout.STATUS_HEADER: Status = value; break;
+					case ColumnLayout.CATEGORY_HEADER: Category = value; break;
+					case ColumnLayout.CREATE_DATE_HEADER: CreateDate = DateTime.Parse(value); break;
+					case ColumnLayout.DONE_DATE_HEADER: DoneDate = DateTime.Parse(value); break;
 				}
-
 				columnChar++;
 			}
 		}

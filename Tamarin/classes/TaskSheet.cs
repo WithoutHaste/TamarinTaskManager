@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Xml;
 using OfficeOpenXml;
+using WithoutHaste.DataFormats;
 
 namespace Tamarin
 {
@@ -29,17 +30,8 @@ namespace Tamarin
 			Tasks = new List<Task>();
 
 			columnLayout = new ColumnLayout(tableNode);
-			bool foundHeaderRow = false;
-			foreach(XmlNode rowNode in tableNode.ChildNodes)
+			foreach(XmlNode rowNode in MSExcel2003XmlFormat.GetRows(tableNode, skipFirstRow: true))
 			{
-				if(rowNode.LocalName != "Row") continue;
-
-				if(!foundHeaderRow) //skip header row
-				{
-					foundHeaderRow = true;
-					continue;
-				}
-
 				Tasks.Add(new Task(rowNode, columnLayout));
 			}
 		}
@@ -157,27 +149,14 @@ namespace Tamarin
 			}
 		}
 
-		public void WriteTo(XmlDocument xml, XmlNode workbookNode, string shortDateStyleId, string headerStyleId, string paragraphStyleId)
+		public void WriteTo(XmlDocument xmlDocument, XmlNode workbookNode)
 		{
-			XmlNode worksheetNode = xml.CreateElement("ss", "Worksheet", "urn:schemas-microsoft-com:office:spreadsheet");
-			XmlAttribute titleAttribute = xml.CreateAttribute("ss", "Name", "urn:schemas-microsoft-com:office:spreadsheet");
-			titleAttribute.Value = (isActive ? "Active" : "Inactive");
-			worksheetNode.Attributes.Append(titleAttribute);
-			workbookNode.AppendChild(worksheetNode);
-
-			XmlNode tableNode = xml.CreateElement("Table", workbookNode.NamespaceURI);
-			worksheetNode.AppendChild(tableNode);
-			
-			columnLayout.WriteTaskHeaders(xml, tableNode, isActive, workbookNode.NamespaceURI, headerStyleId);
-
+			XmlNode tableNode = MSExcel2003XmlFormat.AddWorksheetAndTableToWorkbook(xmlDocument, workbookNode, (isActive ? "Active" : "Inactive")); //todo: make constants
+			columnLayout.WriteTaskHeaders(xmlDocument, tableNode, isActive);
 			foreach(Task task in Tasks)
 			{
-				columnLayout.WriteTask(xml, tableNode, task, isActive, workbookNode.NamespaceURI, shortDateStyleId, paragraphStyleId);
+				columnLayout.WriteTask(xmlDocument, tableNode, task, isActive);
 			}
-
-			XmlNode optionsNode = xml.CreateElement("x", "WorksheetOptions", "urn:schemas-microsoft-com:office:excel");
-			worksheetNode.AppendChild(optionsNode);
-			
 		}
 	}
 }

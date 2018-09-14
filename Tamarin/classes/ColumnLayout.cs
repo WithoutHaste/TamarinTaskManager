@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using OfficeOpenXml;
+using WithoutHaste.DataFormats;
 
 namespace Tamarin
 {
@@ -50,30 +51,21 @@ namespace Tamarin
 
 		public ColumnLayout(XmlNode tableNode)
 		{
-			foreach(XmlNode rowNode in tableNode.ChildNodes)
+			List<string> headers = MSExcel2003XmlFormat.GetHeaders(tableNode);
+			char columnChar = 'A';
+			foreach(string header in headers)
 			{
-				if(rowNode.LocalName != "Row") continue;
-
-				char columnChar = 'A';
-				foreach(XmlNode cellNode in rowNode.ChildNodes)
+				switch(header)
 				{
-					if(cellNode.LocalName != "Cell") continue;
-
-					string cellValue = GetCellValue(cellNode);
-					switch(cellValue)
-					{
-						case ID_HEADER: IdColumn = columnChar.ToString(); break;
-						case OLD_DESCRIPTION_HEADER:
-						case DESCRIPTION_HEADER: DescriptionColumn = columnChar.ToString(); break;
-						case STATUS_HEADER: StatusColumn = columnChar.ToString(); break;
-						case CATEGORY_HEADER: CategoryColumn = columnChar.ToString(); break;
-						case CREATE_DATE_HEADER: CreateDateColumn = columnChar.ToString(); break;
-						case DONE_DATE_HEADER: DoneDateColumn = columnChar.ToString(); break;
-					}
-
-					columnChar++;
+					case ID_HEADER: IdColumn = columnChar.ToString(); break;
+					case OLD_DESCRIPTION_HEADER:
+					case DESCRIPTION_HEADER: DescriptionColumn = columnChar.ToString(); break;
+					case STATUS_HEADER: StatusColumn = columnChar.ToString(); break;
+					case CATEGORY_HEADER: CategoryColumn = columnChar.ToString(); break;
+					case CREATE_DATE_HEADER: CreateDateColumn = columnChar.ToString(); break;
+					case DONE_DATE_HEADER: DoneDateColumn = columnChar.ToString(); break;
 				}
-				return;
+				columnChar++;
 			}
 		}
 
@@ -145,113 +137,45 @@ namespace Tamarin
 			}
 		}
 
-		public void WriteTaskHeaders(XmlDocument xml, XmlNode tableNode, bool active, string rootNamespace, string headerStyleId)
+		public void WriteTaskHeaders(XmlDocument xmlDocument, XmlNode tableNode, bool isActive)
 		{
-			XmlNode rowNode = xml.CreateElement("Row", rootNamespace);
-			tableNode.AppendChild(rowNode);
+			List<string> headers = GetHeaders(isActive);
+			MSExcel2003XmlFormat.AddColumnWidths(xmlDocument, tableNode, headers.Select(h => GetHeaderWidth(h)).ToList());
+			MSExcel2003XmlFormat.AddHeaderRowToTable(xmlDocument, tableNode, headers);
+		}
 
+		private int GetHeaderWidth(string header)
+		{
+			if(header == ID_HEADER) return 25;
+			if(header == DESCRIPTION_HEADER) return 300;
+			return 60;
+		}
+
+		private List<string> GetHeaders(bool isActive)
+		{
 			List<string> headers = new List<string> { ID_HEADER, DESCRIPTION_HEADER, STATUS_HEADER, CATEGORY_HEADER, CREATE_DATE_HEADER, DONE_DATE_HEADER };
-			if(active)
+			if(isActive)
 			{
 				headers.Remove(DONE_DATE_HEADER);
 			}
-			foreach(string header in headers)
-			{
-				int width = 60;
-				if(header == DESCRIPTION_HEADER) width = 300;
-				else if(header == ID_HEADER) width = 25;
-
-				XmlNode columnNode = xml.CreateElement("Column", rootNamespace);
-				XmlAttribute columnAttribute = xml.CreateAttribute("ss", "Width", "urn:schemas-microsoft-com:office:spreadsheet");
-				columnAttribute.Value = width.ToString();
-				columnNode.Attributes.Append(columnAttribute);
-				tableNode.AppendChild(columnNode);
-			}
-			foreach(string header in headers)
-			{
-				rowNode.AppendChild(GenerateStringCell(xml, header, rootNamespace, headerStyleId));
-			}
+			return headers;
 		}
 
-		public void WriteTask(XmlDocument xml, XmlNode tableNode, Task task, bool active, string rootNamespace, string shortDateStyleId, string paragraphStyleId)
+		public void WriteTask(XmlDocument xmlDocument, XmlNode tableNode, Task task, bool isActive)
 		{
-			XmlNode rowNode = xml.CreateElement("Row", rootNamespace);
-			tableNode.AppendChild(rowNode);
-
-			rowNode.AppendChild(GenerateNumberCell(xml, task.Id, rootNamespace));
-			rowNode.AppendChild(GenerateStringCell(xml, task.Description, rootNamespace, paragraphStyleId));
-			rowNode.AppendChild(GenerateStringCell(xml, task.Status, rootNamespace));
-			rowNode.AppendChild(GenerateStringCell(xml, task.Category, rootNamespace));
-			rowNode.AppendChild(GenerateDateCell(xml, task.CreateDate, rootNamespace, shortDateStyleId));
-			if(!active && task.DoneDate.HasValue)
+			List<XmlNode> cellNodes = new List<XmlNode>() {
+				MSExcel2003XmlFormat.GenerateNumberCell(xmlDocument, task.Id),
+				MSExcel2003XmlFormat.GenerateParagraphCell(xmlDocument, task.Description),
+				MSExcel2003XmlFormat.GenerateTextCell(xmlDocument, task.Status),
+				MSExcel2003XmlFormat.GenerateTextCell(xmlDocument, task.Category),
+				MSExcel2003XmlFormat.GenerateDateCell(xmlDocument, task.CreateDate)
+			};
+			if(!isActive && task.DoneDate.HasValue)
 			{
-				rowNode.AppendChild(GenerateDateCell(xml, task.DoneDate.Value, rootNamespace, shortDateStyleId));
-			}
-		}
-
-		public static XmlNode GenerateStringCell(XmlDocument xml, string data, string rootNamespace, string styleId = null)
-		{
-			XmlNode cellNode = xml.CreateElement("Cell", rootNamespace);
-			if(styleId != null)
-			{
-				XmlAttribute cellAttribute = xml.CreateAttribute("ss", "StyleID", "urn:schemas-microsoft-com:office:spreadsheet");
-				cellAttribute.Value = styleId;
-				cellNode.Attributes.Append(cellAttribute);
+				cellNodes.Add(MSExcel2003XmlFormat.GenerateDateCell(xmlDocument, task.DoneDate.Value));
 			}
 
-			XmlNode dataNode = xml.CreateElement("Data", rootNamespace);
-			XmlAttribute typeAttribute = xml.CreateAttribute("ss", "Type", "urn:schemas-microsoft-com:office:spreadsheet");
-			typeAttribute.Value = "String";
-			dataNode.Attributes.Append(typeAttribute);
-			dataNode.InnerText = data;
-
-			cellNode.AppendChild(dataNode);
-
-			return cellNode;
-		}
-
-		public static XmlNode GenerateNumberCell(XmlDocument xml, int data, string rootNamespace)
-		{
-			XmlNode cellNode = xml.CreateElement("Cell", rootNamespace);
-
-			XmlNode dataNode = xml.CreateElement("Data", rootNamespace);
-			XmlAttribute typeAttribute = xml.CreateAttribute("ss", "Type", "urn:schemas-microsoft-com:office:spreadsheet");
-			typeAttribute.Value = "Number";
-			dataNode.Attributes.Append(typeAttribute);
-			dataNode.InnerText = data.ToString();
-
-			cellNode.AppendChild(dataNode);
-
-			return cellNode;
-		}
-
-		public static XmlNode GenerateDateCell(XmlDocument xml, DateTime data, string rootNamespace, string shortDateStyleId)
-		{
-			XmlNode cellNode = xml.CreateElement("Cell", rootNamespace);
-			XmlAttribute cellAttribute = xml.CreateAttribute("ss", "StyleID", "urn:schemas-microsoft-com:office:spreadsheet");
-			cellAttribute.Value = shortDateStyleId;
-			cellNode.Attributes.Append(cellAttribute);
-
-			XmlNode dataNode = xml.CreateElement("Data", rootNamespace);
-			XmlAttribute typeAttribute = xml.CreateAttribute("ss", "Type", "urn:schemas-microsoft-com:office:spreadsheet");
-			typeAttribute.Value = "DateTime";
-			dataNode.Attributes.Append(typeAttribute);
-			dataNode.InnerText = data.ToString("yyyy-MM-ddT00:00:00.000");
-
-			cellNode.AppendChild(dataNode);
-
-			return cellNode;
-		}
-
-		public static string GetCellValue(XmlNode cellNode)
-		{
-			if(cellNode.LocalName != "Cell") return null;
-			foreach(XmlNode dataNode in cellNode.ChildNodes)
-			{
-				if(dataNode.LocalName != "Data") continue;
-				return dataNode.InnerText;
-			}
-			return null;
+			MSExcel2003XmlFormat.AddRowToTable(xmlDocument, tableNode, cellNodes);
 		}
 
 		public string GetHeaderByColumnChar(string columnChar)
@@ -263,59 +187,6 @@ namespace Tamarin
 			if(columnChar == CreateDateColumn) return CREATE_DATE_HEADER;
 			if(columnChar == DoneDateColumn) return DONE_DATE_HEADER;
 			return null;
-		}
-
-		public static List<string> GetColumnValues(XmlNode tableNode, string header)
-		{
-			int selectedColumnIndex = GetColumnIndex(tableNode, header);
-			if(selectedColumnIndex == -1)
-				return null;
-
-			List<string> values = new List<string>();
-			bool foundHeaderRow = false;
-			foreach(XmlNode rowNode in tableNode.ChildNodes)
-			{
-				if(rowNode.LocalName != "Row") continue;
-
-				if(!foundHeaderRow)
-				{
-					foundHeaderRow = true;
-					continue;
-				}
-
-				int columnIndex = 0;
-				foreach(XmlNode cellNode in rowNode.ChildNodes)
-				{
-					if(columnIndex < selectedColumnIndex)
-					{
-						columnIndex++;
-						continue;
-					}
-
-					values.Add(GetCellValue(cellNode));
-					break;
-				}
-			}
-			return values;
-		}
-
-		public static int GetColumnIndex(XmlNode tableNode, string header)
-		{
-			int columnIndex = 0;
-			foreach(XmlNode rowNode in tableNode.ChildNodes)
-			{
-				if(rowNode.LocalName != "Row") continue;
-
-				foreach(XmlNode cellNode in rowNode.ChildNodes)
-				{
-					if(GetCellValue(cellNode) == header)
-					{
-						return columnIndex;
-					}
-					columnIndex++;
-				}
-			}
-			return -1;
 		}
 	}
 }
