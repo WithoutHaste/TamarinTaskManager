@@ -10,7 +10,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TaskManagerX
+namespace Tamarin
 {
 	public partial class WindowForm : Form
 	{
@@ -40,11 +40,13 @@ namespace TaskManagerX
 			}
 		}
 
+		//-------------------------------------------------
+
 		public WindowForm()
 		{
 			InitializeComponent();
 			this.MinimumSize = new Size(800, 300);
-			//this.Icon = Properties.Resources.iconResource; //todo: fix this
+			this.Icon = Icon.ExtractAssociatedIcon("icon.ico");
 			this.Activated += new EventHandler(windowForm_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 
@@ -59,6 +61,8 @@ namespace TaskManagerX
 
 			InitProjects();
 		}
+
+		//-------------------------------------------------
 
 		protected override bool ProcessCmdKey(ref Message message, Keys keys)
 		{
@@ -106,7 +110,7 @@ namespace TaskManagerX
 		private void loadButton_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog openDialog = new OpenFileDialog();
-			openDialog.Filter = "Excel|*.xlsx|MS Excel 2003 XML|*.xml";
+			openDialog.Filter = "MS Excel 2003 XML|*.xml|Excel|*.xlsx";
 			if(openDialog.ShowDialog() == DialogResult.OK)
 			{
 				LoadProject(openDialog.FileName);

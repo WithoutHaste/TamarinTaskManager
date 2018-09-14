@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using System.Xml;
 using OfficeOpenXml;
 
-namespace TaskManagerX
+namespace Tamarin
 {
 	public class Project
 	{

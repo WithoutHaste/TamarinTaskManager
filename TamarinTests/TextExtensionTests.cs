@@ -1,6 +1,6 @@
 ﻿using System;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using TaskManagerX;
+using Tamarin;
 
 namespace UnitTests
 {

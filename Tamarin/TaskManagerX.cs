@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TaskManagerX
+namespace Tamarin
 {
 	static class TaskManagerX
 	{

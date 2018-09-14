@@ -8,7 +8,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
-namespace TaskManagerX
+namespace Tamarin
 {
 	public partial class SettingsForm : Form
 	{

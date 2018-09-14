@@ -9,3 +9,4 @@ E:\GitHub\TamarinTaskManager\TamarinTests\bin\Debug\EPPlus.xml
 E:\GitHub\TamarinTaskManager\TamarinTests\obj\Debug\TamarinTests.csprojResolveAssemblyReference.cache
 E:\GitHub\TamarinTaskManager\TamarinTests\obj\Debug\TamarinTests.dll
 E:\GitHub\TamarinTaskManager\TamarinTests\obj\Debug\TamarinTests.pdb
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Debug\resources\iconResource.ico

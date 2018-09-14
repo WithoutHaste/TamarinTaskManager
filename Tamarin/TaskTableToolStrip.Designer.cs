@@ -1,4 +1,4 @@
-﻿namespace TaskManagerX
+﻿namespace Tamarin
 {
 	partial class TaskTableToolStrip
 	{

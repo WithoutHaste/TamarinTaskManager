@@ -56,7 +56,7 @@
   <ItemGroup>
     <ProjectReference Include="..\Tamarin\Tamarin.csproj">
       <Project>{c034fc47-1184-4d74-86cc-074a00e9588c}</Project>
-      <Name>TaskManagerX</Name>
+      <Name>Tamarin</Name>
     </ProjectReference>
   </ItemGroup>
   <Choose>

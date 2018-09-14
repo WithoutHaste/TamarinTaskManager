@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Xml;
 using OfficeOpenXml;
 
-namespace TaskManagerX
+namespace Tamarin
 {
 	public class TaskSheet
 	{

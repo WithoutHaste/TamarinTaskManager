@@ -9,7 +9,7 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 
 
-namespace TaskManagerX
+namespace Tamarin
 {
 	public class TaskTableControl : TableLayoutPanel
 	{
