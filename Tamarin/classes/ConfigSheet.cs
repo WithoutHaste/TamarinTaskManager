@@ -59,6 +59,41 @@ namespace TaskManagerX
 			MaxId = DEFAULT_ID;
 		}
 
+		public ConfigSheet(XmlNode tableNode)
+		{
+			Statuses = new List<Status>();
+			List<string> statusValues = ColumnLayout.GetColumnValues(tableNode, STATUS_NAME);
+			List<string> isActiveValues = ColumnLayout.GetColumnValues(tableNode, ACTIVE_NAME);
+			if(statusValues == null || isActiveValues == null || statusValues.Count == 0 || isActiveValues.Count == 0)
+			{
+				SetDefaultStatuses();
+			}
+			else
+			{
+				for(int i = 0; i < statusValues.Count; i++)
+				{
+					if(i >= isActiveValues.Count) break;
+					Statuses.Add(new Status(statusValues[i], isActiveValues[i]));
+				}
+			}
+
+			Categories = ColumnLayout.GetColumnValues(tableNode, CATEGORY_NAME);
+			if(Categories == null || Categories.Count == 0)
+			{
+				SetDefaultCategories();
+			}
+
+			List<string> idValues = ColumnLayout.GetColumnValues(tableNode, ID_NAME);
+			if(idValues == null || idValues.Count == 0)
+			{
+				MaxId = DEFAULT_ID;
+			}
+			else
+			{
+				MaxId = Int32.Parse(idValues[0]);
+			}
+		}
+
 		public ConfigSheet(ExcelPackage excelPackage)
 		{
 			ExcelWorksheet configSheet = excelPackage.Workbook.Worksheets[SHEET_NAME];

@@ -23,6 +23,27 @@ namespace TaskManagerX
 			Tasks = new List<Task>();
 		}
 
+		public TaskSheet(XmlNode tableNode, bool isActive)
+		{
+			this.isActive = isActive;
+			Tasks = new List<Task>();
+
+			columnLayout = new ColumnLayout(tableNode);
+			bool foundHeaderRow = false;
+			foreach(XmlNode rowNode in tableNode.ChildNodes)
+			{
+				if(rowNode.LocalName != "Row") continue;
+
+				if(!foundHeaderRow) //skip header row
+				{
+					foundHeaderRow = true;
+					continue;
+				}
+
+				Tasks.Add(new Task(rowNode, columnLayout));
+			}
+		}
+
 		public TaskSheet(ExcelPackage excelPackage, string name, bool isActive)
 		{
 			this.isActive = isActive;

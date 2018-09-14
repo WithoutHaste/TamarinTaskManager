@@ -106,7 +106,7 @@ namespace TaskManagerX
 		private void loadButton_Click(object sender, EventArgs e)
 		{
 			OpenFileDialog openDialog = new OpenFileDialog();
-			openDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+			openDialog.Filter = "Excel|*.xlsx|MS Excel 2003 XML|*.xml";
 			if(openDialog.ShowDialog() == DialogResult.OK)
 			{
 				LoadProject(openDialog.FileName);
@@ -245,7 +245,7 @@ namespace TaskManagerX
 		private void SaveAsProject()
 		{
 			SaveFileDialog saveAsDialog = new SaveFileDialog();
-			saveAsDialog.Filter = "Excel files (*.xlsx)|*.xlsx";
+			saveAsDialog.Filter = "MS Excel 2003 XML|*.xml";
 			if (saveAsDialog.ShowDialog() == DialogResult.OK)
 			{
 				SelectedProject.FullPath = saveAsDialog.FileName;

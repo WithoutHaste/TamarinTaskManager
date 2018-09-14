@@ -30,12 +30,12 @@ namespace TaskManagerX
 			}
 		}
 
-		public static string ID_HEADER = "Id";
-		public static string TITLE_HEADER = "Title";
-		public static string STATUS_HEADER = "Status";
-		public static string CATEGORY_HEADER = "Category";
-		public static string CREATE_DATE_HEADER = "Created";
-		public static string DONE_DATE_HEADER = "Done";
+		public const string ID_HEADER = "Id";
+		public const string TITLE_HEADER = "Title";
+		public const string STATUS_HEADER = "Status";
+		public const string CATEGORY_HEADER = "Category";
+		public const string CREATE_DATE_HEADER = "Created";
+		public const string DONE_DATE_HEADER = "Done";
 
 		public ColumnLayout()
 		{
@@ -45,6 +45,34 @@ namespace TaskManagerX
 			CategoryColumn = "D";
 			CreateDateColumn = "E";
 			DoneDateColumn = "F";
+		}
+
+		public ColumnLayout(XmlNode tableNode)
+		{
+			foreach(XmlNode rowNode in tableNode.ChildNodes)
+			{
+				if(rowNode.LocalName != "Row") continue;
+
+				char columnChar = 'A';
+				foreach(XmlNode cellNode in rowNode.ChildNodes)
+				{
+					if(cellNode.LocalName != "Cell") continue;
+
+					string cellValue = GetCellValue(cellNode);
+					switch(cellValue)
+					{
+						case ID_HEADER: IdColumn = columnChar.ToString(); break;
+						case TITLE_HEADER: TitleColumn = columnChar.ToString(); break;
+						case STATUS_HEADER: StatusColumn = columnChar.ToString(); break;
+						case CATEGORY_HEADER: CategoryColumn = columnChar.ToString(); break;
+						case CREATE_DATE_HEADER: CreateDateColumn = columnChar.ToString(); break;
+						case DONE_DATE_HEADER: DoneDateColumn = columnChar.ToString(); break;
+					}
+
+					columnChar++;
+				}
+				return;
+			}
 		}
 
 		public ColumnLayout(ExcelWorksheet sheet)
@@ -211,6 +239,81 @@ namespace TaskManagerX
 			cellNode.AppendChild(dataNode);
 
 			return cellNode;
+		}
+
+		public static string GetCellValue(XmlNode cellNode)
+		{
+			if(cellNode.LocalName != "Cell") return null;
+			foreach(XmlNode dataNode in cellNode.ChildNodes)
+			{
+				if(dataNode.LocalName != "Data") continue;
+				return dataNode.InnerText;
+			}
+			return null;
+		}
+
+		public string GetHeaderByColumnChar(string columnChar)
+		{
+			if(columnChar == IdColumn) return ID_HEADER;
+			if(columnChar == TitleColumn) return TITLE_HEADER;
+			if(columnChar == StatusColumn) return STATUS_HEADER;
+			if(columnChar == CategoryColumn) return CATEGORY_HEADER;
+			if(columnChar == CreateDateColumn) return CREATE_DATE_HEADER;
+			if(columnChar == DoneDateColumn) return DONE_DATE_HEADER;
+			return null;
+		}
+
+		public static List<string> GetColumnValues(XmlNode tableNode, string header)
+		{
+			int selectedColumnIndex = GetColumnIndex(tableNode, header);
+			if(selectedColumnIndex == -1)
+				return null;
+
+			List<string> values = new List<string>();
+			bool foundHeaderRow = false;
+			foreach(XmlNode rowNode in tableNode.ChildNodes)
+			{
+				if(rowNode.LocalName != "Row") continue;
+
+				if(!foundHeaderRow)
+				{
+					foundHeaderRow = true;
+					continue;
+				}
+
+				int columnIndex = 0;
+				foreach(XmlNode cellNode in rowNode.ChildNodes)
+				{
+					if(columnIndex < selectedColumnIndex)
+					{
+						columnIndex++;
+						continue;
+					}
+
+					values.Add(GetCellValue(cellNode));
+					break;
+				}
+			}
+			return values;
+		}
+
+		public static int GetColumnIndex(XmlNode tableNode, string header)
+		{
+			int columnIndex = 0;
+			foreach(XmlNode rowNode in tableNode.ChildNodes)
+			{
+				if(rowNode.LocalName != "Row") continue;
+
+				foreach(XmlNode cellNode in rowNode.ChildNodes)
+				{
+					if(GetCellValue(cellNode) == header)
+					{
+						return columnIndex;
+					}
+					columnIndex++;
+				}
+			}
+			return -1;
 		}
 	}
 }

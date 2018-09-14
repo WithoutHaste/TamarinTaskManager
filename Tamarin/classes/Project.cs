@@ -95,6 +95,7 @@ namespace TaskManagerX
 
 		private static string ACTIVE_SHEET_NAME = "Active";
 		private static string INACTIVE_SHEET_NAME = "Inactive";
+		private static string CONFIG_SHEET_NAME = "Config";
 
 		public Project()
 		{
@@ -114,8 +115,6 @@ namespace TaskManagerX
 				throw new Exception("Filename not set.");
 
 			SaveXML();
-			//SaveXLSX();
-
 			LastSavedDateTime = DateTime.Now;
 		}
 
@@ -125,6 +124,7 @@ namespace TaskManagerX
 			{
 				FullPath = FullPath.Replace(FileExtension, ".xml");
 			}
+			//todo: add this xml stuff to c# notes
 
 			XmlDocument xml = new XmlDocument();
 
@@ -141,7 +141,7 @@ namespace TaskManagerX
 
 			XmlNode workbookNode = xml.GetElementsByTagName("Workbook")[0];
 
-			//passing workbookNode.NamespaceURI (the root's namespace) into child that do not need any namespace so that an empty xmlns="" is not added to that tag
+			//c# notes: passing workbookNode.NamespaceURI (the root's namespace) into child that do not need any namespace so that an empty xmlns="" is not added to that tag
 			XmlNode stylesNode = xml.CreateElement("Styles", workbookNode.NamespaceURI);
 			workbookNode.AppendChild(stylesNode);
 
@@ -225,12 +225,37 @@ namespace TaskManagerX
 
 		private void OpenProjectXML()
 		{
-			//TODO
-			if(FileExtension.ToLower() != ".xlsx")
+			XmlDocument xml = new XmlDocument();
+			xml.Load(FullPath);
+			XmlNodeList workbookNodes = xml.GetElementsByTagName("Workbook"); //c# note: only checks immediate children
+			if(workbookNodes.Count != 1)
+				throw new Exception("Incorrect XML Format: expects exactly one Workbook.");
+
+			XmlNode workbookNode = workbookNodes[0];
+			foreach(XmlNode worksheetNode in workbookNode.ChildNodes)
 			{
-				FullPath = FullPath.Replace(FileExtension, ".xlsx");
+				if(worksheetNode.LocalName != "Worksheet") continue;
+
+				//c# notes: add Cast<T> to LINQ notes - casts each element to type T
+				XmlNode tableNode = worksheetNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.LocalName == "Table");
+				if(tableNode == null) continue;
+
+				if(worksheetNode.Attributes["ss:Name"].Value == ACTIVE_SHEET_NAME)
+				{
+					activeSheet = new TaskSheet(tableNode, isActive: true);
+				}
+				else if(worksheetNode.Attributes["ss:Name"].Value == INACTIVE_SHEET_NAME)
+				{
+					inactiveSheet = new TaskSheet(tableNode, isActive: false);
+				}
+				else if(worksheetNode.Attributes["ss:Name"].Value == CONFIG_SHEET_NAME)
+				{
+					config = new ConfigSheet(tableNode);
+				}
 			}
-			OpenProjectXLSX();
+			if(activeSheet == null) activeSheet = new TaskSheet(isActive: true);
+			if(inactiveSheet == null) inactiveSheet = new TaskSheet(isActive: false);
+			if(config == null) config = new ConfigSheet();
 		}
 
 		private void OpenProjectXLSX()

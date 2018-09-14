@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using OfficeOpenXml;
 
 namespace TaskManagerX
@@ -32,6 +33,29 @@ namespace TaskManagerX
 
 		public Task()
 		{
+		}
+
+		public Task(XmlNode rowNode, ColumnLayout columnLayout)
+		{
+			char columnChar = 'A';
+			foreach(XmlNode cellNode in rowNode.ChildNodes)
+			{
+				if(cellNode.LocalName != "Cell") continue;
+
+				string cellValue = ColumnLayout.GetCellValue(cellNode);
+				string header = columnLayout.GetHeaderByColumnChar(columnChar.ToString());
+				switch(header)
+				{
+					case ColumnLayout.ID_HEADER: Id = Int32.Parse(cellValue); break;
+					case ColumnLayout.TITLE_HEADER: Title = cellValue; break;
+					case ColumnLayout.STATUS_HEADER: Status = cellValue; break;
+					case ColumnLayout.CATEGORY_HEADER: Category = cellValue; break;
+					case ColumnLayout.CREATE_DATE_HEADER: CreateDate = DateTime.Parse(cellValue); break;
+					case ColumnLayout.DONE_DATE_HEADER: DoneDate = DateTime.Parse(cellValue); break;
+				}
+
+				columnChar++;
+			}
 		}
 
 		public Task(ExcelWorksheet sheet, ColumnLayout columnLayout, int row)
