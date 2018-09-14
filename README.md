@@ -24,7 +24,7 @@ Uses [Semantic Versioning 2.0.0](https://semver.org/).
 
 ### Version 2.0.0
 
-[Support XML Format - v2.0.0](releases/tag/v2.0.0)
+[Support XML Format - v2.0.0](https://github.com/WithoutHaste/TamarinTaskManager/releases/tag/v2.0.0)
 
 * Adds support for Microsoft Excel 2003 XML format
   - Backward compatible with previous *.xlsx format
@@ -33,4 +33,4 @@ Uses [Semantic Versioning 2.0.0](https://semver.org/).
 
 ### Version 1.0.0
 
-[Initial Release - v1.0.0](releases/tag/v1.0.0)
+[Initial Release - v1.0.0](https://github.com/WithoutHaste/TamarinTaskManager/releases/tag/v1.0.0)
