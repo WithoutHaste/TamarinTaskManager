@@ -12,6 +12,9 @@ namespace Tamarin
 {
 	public class TaskSheet
 	{
+		private const string ACTIVE_SHEET_NAME = "Active";
+		private const string INACTIVE_SHEET_NAME = "Inactive";
+
 		private ColumnLayout columnLayout;
 		private bool isActive;
 
@@ -19,20 +22,20 @@ namespace Tamarin
 
 		public TaskSheet(bool isActive)
 		{
-			this.isActive = isActive;
-			columnLayout = new ColumnLayout();
-			Tasks = new List<Task>();
+			Init(isActive);
 		}
 
-		public TaskSheet(XmlNode tableNode, bool isActive)
+		public TaskSheet(MSExcel2003XmlFile xmlFile, string worksheetTitle, bool isActive)
 		{
-			this.isActive = isActive;
-			Tasks = new List<Task>();
+			Init(isActive);
 
-			columnLayout = new ColumnLayout(tableNode);
-			foreach(XmlNode rowNode in MSExcel2003XmlFormat.GetRows(tableNode, skipFirstRow: true))
+			int tableIndex = xmlFile.GetTableIndex(worksheetTitle);
+			if(tableIndex == -1) return;
+
+			columnLayout = new ColumnLayout(xmlFile.GetRowValues(tableIndex, 0));
+			for(int rowIndex = 1; rowIndex < xmlFile.GetRowCount(tableIndex); rowIndex++)
 			{
-				Tasks.Add(new Task(rowNode, columnLayout));
+				Tasks.Add(new Task(xmlFile.GetRowValues(tableIndex, rowIndex), columnLayout));
 			}
 		}
 
@@ -48,6 +51,17 @@ namespace Tamarin
 			}
 			Tasks = LoadTasks(sheet);
 		}
+
+		//---------------------------------------------------
+
+		private void Init(bool isActive)
+		{
+			this.isActive = isActive;
+			columnLayout = new ColumnLayout();
+			Tasks = new List<Task>();
+		}
+
+		//-----------------------------------------------------
 
 		public void InsertTask(int row, Task task)
 		{
@@ -149,14 +163,19 @@ namespace Tamarin
 			}
 		}
 
-		public void WriteTo(XmlDocument xmlDocument, XmlNode workbookNode)
+		public void WriteTo(MSExcel2003XmlFile xmlFile)
 		{
-			XmlNode tableNode = MSExcel2003XmlFormat.AddWorksheetAndTableToWorkbook(xmlDocument, workbookNode, (isActive ? "Active" : "Inactive")); //todo: make constants
-			columnLayout.WriteTaskHeaders(xmlDocument, tableNode, isActive);
+			int tableIndex = xmlFile.AddWorksheet(GetSheetName());
+			columnLayout.WriteTaskHeaders(xmlFile, tableIndex, isActive);
 			foreach(Task task in Tasks)
 			{
-				columnLayout.WriteTask(xmlDocument, tableNode, task, isActive);
+				columnLayout.WriteTask(xmlFile, tableIndex, task, isActive);
 			}
+		}
+
+		private string GetSheetName()
+		{
+			return isActive ? ACTIVE_SHEET_NAME : INACTIVE_SHEET_NAME;
 		}
 	}
 }

@@ -36,10 +36,8 @@ namespace Tamarin
 		{
 		}
 
-		public Task(XmlNode rowNode, ColumnLayout columnLayout)
+		public Task(List<string> values, ColumnLayout columnLayout)
 		{
-			List<string> values = MSExcel2003XmlFormat.GetRowValues(rowNode);
-
 			char columnChar = 'A';
 			foreach(string value in values)
 			{

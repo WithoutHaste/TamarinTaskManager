@@ -57,16 +57,21 @@ namespace Tamarin
 
 		public ConfigSheet()
 		{
-			SetDefaultStatuses();
-			SetDefaultCategories();
-			MaxId = DEFAULT_ID;
+			Init();
 		}
 
-		public ConfigSheet(XmlNode tableNode)
+		public ConfigSheet(MSExcel2003XmlFile xmlFile)
 		{
+			int tableIndex = xmlFile.GetTableIndex(SHEET_NAME);
+			if(tableIndex == -1)
+			{
+				Init();
+				return;
+			}
+
 			Statuses = new List<Status>();
-			List<string> statusValues = MSExcel2003XmlFormat.GetColumnValues(tableNode, STATUS_NAME);
-			List<string> isActiveValues = MSExcel2003XmlFormat.GetColumnValues(tableNode, ACTIVE_NAME);
+			List<string> statusValues = xmlFile.GetColumnValues(tableIndex, STATUS_NAME);
+			List<string> isActiveValues = xmlFile.GetColumnValues(tableIndex, ACTIVE_NAME);
 			if(statusValues == null || isActiveValues == null || statusValues.Count == 0 || isActiveValues.Count == 0)
 			{
 				SetDefaultStatuses();
@@ -80,13 +85,13 @@ namespace Tamarin
 				}
 			}
 
-			Categories = MSExcel2003XmlFormat.GetColumnValues(tableNode, CATEGORY_NAME);
+			Categories = xmlFile.GetColumnValues(tableIndex, CATEGORY_NAME);
 			if(Categories == null || Categories.Count == 0)
 			{
 				SetDefaultCategories();
 			}
 
-			List<string> idValues = MSExcel2003XmlFormat.GetColumnValues(tableNode, ID_NAME);
+			List<string> idValues = xmlFile.GetColumnValues(tableIndex, ID_NAME);
 			if(idValues == null || idValues.Count == 0)
 			{
 				MaxId = DEFAULT_ID;
@@ -147,6 +152,15 @@ namespace Tamarin
 			}
 
 			WriteConfigSheet(configSheet);
+		}
+
+		//---------------------------------------------
+
+		private void Init()
+		{
+			SetDefaultStatuses();
+			SetDefaultCategories();
+			MaxId = DEFAULT_ID;
 		}
 
 		//---------------------------------------------
@@ -253,24 +267,23 @@ namespace Tamarin
 			WriteConfigSheet(worksheet);
 		}
 
-		public void WriteTo(XmlDocument xmlDocument, XmlNode workbookNode)
+		public void WriteTo(MSExcel2003XmlFile xmlFile)
 		{
-			XmlNode tableNode = MSExcel2003XmlFormat.AddWorksheetAndTableToWorkbook(xmlDocument, workbookNode, SHEET_NAME);
-
-			MSExcel2003XmlFormat.AddHeaderRowToTable(xmlDocument, tableNode, new List<string>() {
+			int tableIndex = xmlFile.AddWorksheet(SHEET_NAME);
+			xmlFile.AddHeaderRow(tableIndex, new List<string>() {
 				STATUS_NAME, ACTIVE_NAME, "", CATEGORY_NAME, "", ID_NAME
 			});
 
-			List<XmlNode> statusNodes = Statuses.Select(status => MSExcel2003XmlFormat.GenerateTextCell(xmlDocument, status.Name)).ToList();
-			List<XmlNode> activeNodes = Statuses.Select(status => MSExcel2003XmlFormat.GenerateTextCell(xmlDocument, (status.Active ? "Active" : "Inactive"))).ToList(); //todo: make constants, but not connected to table names
-			List<XmlNode> categoryNodes = Categories.Select(category => MSExcel2003XmlFormat.GenerateTextCell(xmlDocument, category)).ToList();
-			MSExcel2003XmlFormat.AddColumnsToTable(xmlDocument, tableNode, new List<List<XmlNode>>() {
+			List<XmlNode> statusNodes = Statuses.Select(status => xmlFile.GenerateTextCell(status.Name)).ToList();
+			List<XmlNode> activeNodes = Statuses.Select(status => xmlFile.GenerateTextCell((status.Active ? "Active" : "Inactive"))).ToList(); //todo: make constants, but not connected to table names
+			List<XmlNode> categoryNodes = Categories.Select(category => xmlFile.GenerateTextCell(category)).ToList();
+			xmlFile.AddColumns(tableIndex, new List<List<XmlNode>>() {
 				statusNodes,
 				activeNodes,
 				new List<XmlNode>(),
 				categoryNodes,
 				new List<XmlNode>(),
-				new List<XmlNode>() { MSExcel2003XmlFormat.GenerateNumberCell(xmlDocument, MaxId) }
+				new List<XmlNode>() { xmlFile.GenerateNumberCell(MaxId) }
 			});
 		}
 	}

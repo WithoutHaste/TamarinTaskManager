@@ -49,9 +49,8 @@ namespace Tamarin
 			DoneDateColumn = "F";
 		}
 
-		public ColumnLayout(XmlNode tableNode)
+		public ColumnLayout(List<string> headers)
 		{
-			List<string> headers = MSExcel2003XmlFormat.GetHeaders(tableNode);
 			char columnChar = 'A';
 			foreach(string header in headers)
 			{
@@ -137,11 +136,11 @@ namespace Tamarin
 			}
 		}
 
-		public void WriteTaskHeaders(XmlDocument xmlDocument, XmlNode tableNode, bool isActive)
+		public void WriteTaskHeaders(MSExcel2003XmlFile xmlFile, int tableIndex, bool isActive)
 		{
 			List<string> headers = GetHeaders(isActive);
-			MSExcel2003XmlFormat.AddColumnWidths(xmlDocument, tableNode, headers.Select(h => GetHeaderWidth(h)).ToList());
-			MSExcel2003XmlFormat.AddHeaderRowToTable(xmlDocument, tableNode, headers);
+			xmlFile.SetColumnWidths(tableIndex, headers.Select(h => GetHeaderWidth(h)).ToList());
+			xmlFile.AddHeaderRow(tableIndex, headers);
 		}
 
 		private int GetHeaderWidth(string header)
@@ -161,21 +160,21 @@ namespace Tamarin
 			return headers;
 		}
 
-		public void WriteTask(XmlDocument xmlDocument, XmlNode tableNode, Task task, bool isActive)
+		public void WriteTask(MSExcel2003XmlFile xmlFile, int tableIndex, Task task, bool isActive)
 		{
 			List<XmlNode> cellNodes = new List<XmlNode>() {
-				MSExcel2003XmlFormat.GenerateNumberCell(xmlDocument, task.Id),
-				MSExcel2003XmlFormat.GenerateParagraphCell(xmlDocument, task.Description),
-				MSExcel2003XmlFormat.GenerateTextCell(xmlDocument, task.Status),
-				MSExcel2003XmlFormat.GenerateTextCell(xmlDocument, task.Category),
-				MSExcel2003XmlFormat.GenerateDateCell(xmlDocument, task.CreateDate)
+				xmlFile.GenerateNumberCell(task.Id),
+				xmlFile.GenerateParagraphCell(task.Description),
+				xmlFile.GenerateTextCell(task.Status),
+				xmlFile.GenerateTextCell(task.Category),
+				xmlFile.GenerateDateCell(task.CreateDate)
 			};
 			if(!isActive && task.DoneDate.HasValue)
 			{
-				cellNodes.Add(MSExcel2003XmlFormat.GenerateDateCell(xmlDocument, task.DoneDate.Value));
+				cellNodes.Add(xmlFile.GenerateDateCell(task.DoneDate.Value));
 			}
 
-			MSExcel2003XmlFormat.AddRowToTable(xmlDocument, tableNode, cellNodes);
+			xmlFile.AddRow(tableIndex, cellNodes);
 		}
 
 		public string GetHeaderByColumnChar(string columnChar)

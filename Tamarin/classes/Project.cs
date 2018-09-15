@@ -96,7 +96,6 @@ namespace Tamarin
 
 		private static string ACTIVE_SHEET_NAME = "Active";
 		private static string INACTIVE_SHEET_NAME = "Inactive";
-		private static string CONFIG_SHEET_NAME = "Config";
 
 		public Project()
 		{
@@ -126,14 +125,13 @@ namespace Tamarin
 				FullPath = FullPath.Replace(FileExtension, ".xml");
 			}
 
-			XmlDocument xmlDocument = new XmlDocument();
-			XmlNode workbookNode = MSExcel2003XmlFormat.GenerateDefaultWorkbook(xmlDocument);
+			MSExcel2003XmlFile xmlFile = new MSExcel2003XmlFile();
 
-			activeSheet.WriteTo(xmlDocument, workbookNode);
-			inactiveSheet.WriteTo(xmlDocument, workbookNode);
-			config.WriteTo(xmlDocument, workbookNode);
+			activeSheet.WriteTo(xmlFile);
+			inactiveSheet.WriteTo(xmlFile);
+			config.WriteTo(xmlFile);
 
-			xmlDocument.Save(FullPath);
+			xmlFile.Save(FullPath);
 		}
 
 		private void SaveXLSX()
@@ -173,37 +171,11 @@ namespace Tamarin
 
 		private void OpenProjectXML()
 		{
-			XmlDocument xml = new XmlDocument();
-			xml.Load(FullPath);
-			XmlNodeList workbookNodes = xml.GetElementsByTagName("Workbook"); //c# note: only checks immediate children
-			if(workbookNodes.Count != 1)
-				throw new Exception("Incorrect XML Format: expects exactly one Workbook.");
+			MSExcel2003XmlFile xmlFile = new MSExcel2003XmlFile(FullPath);
 
-			XmlNode workbookNode = workbookNodes[0];
-			foreach(XmlNode worksheetNode in workbookNode.ChildNodes)
-			{
-				if(worksheetNode.LocalName != "Worksheet") continue;
-
-				//c# notes: add Cast<T> to LINQ notes - casts each element to type T
-				XmlNode tableNode = worksheetNode.ChildNodes.Cast<XmlNode>().FirstOrDefault(node => node.LocalName == "Table");
-				if(tableNode == null) continue;
-
-				if(worksheetNode.Attributes["ss:Name"].Value == ACTIVE_SHEET_NAME)
-				{
-					activeSheet = new TaskSheet(tableNode, isActive: true);
-				}
-				else if(worksheetNode.Attributes["ss:Name"].Value == INACTIVE_SHEET_NAME)
-				{
-					inactiveSheet = new TaskSheet(tableNode, isActive: false);
-				}
-				else if(worksheetNode.Attributes["ss:Name"].Value == CONFIG_SHEET_NAME)
-				{
-					config = new ConfigSheet(tableNode);
-				}
-			}
-			if(activeSheet == null) activeSheet = new TaskSheet(isActive: true);
-			if(inactiveSheet == null) inactiveSheet = new TaskSheet(isActive: false);
-			if(config == null) config = new ConfigSheet();
+			activeSheet = new TaskSheet(xmlFile, ACTIVE_SHEET_NAME, isActive: true);
+			inactiveSheet = new TaskSheet(xmlFile, INACTIVE_SHEET_NAME, isActive: false);
+			config = new ConfigSheet(xmlFile);
 		}
 
 		private void OpenProjectXLSX()
