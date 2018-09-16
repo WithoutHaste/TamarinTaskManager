@@ -70,70 +70,43 @@ namespace Tamarin
 
 		public ColumnLayout(ExcelWorksheet sheet)
 		{
-			//TODO how to handle if some or all of expected headers are missing
-			for(char col = 'A'; col <= 'Z'; col++)
-			{
-				if(sheet.Cells[col + "1"].Value == null)
-					continue;
-				string header = sheet.Cells[col + "1"].Value.ToString();
-				if(header == ID_HEADER && IdColumn == null)
-				{
-					IdColumn = col.ToString();
-					continue;
-				}
-				if((header == DESCRIPTION_HEADER || header == OLD_DESCRIPTION_HEADER) && DescriptionColumn == null)
-				{
-					DescriptionColumn = col.ToString();
-					continue;
-				}
-				if(header == STATUS_HEADER && StatusColumn == null)
-				{
-					StatusColumn = col.ToString();
-					continue;
-				}
-				if(header == CATEGORY_HEADER && CategoryColumn == null)
-				{
-					CategoryColumn = col.ToString();
-					continue;
-				}
-				if(header == CREATE_DATE_HEADER && CreateDateColumn == null)
-				{
-					CreateDateColumn = col.ToString();
-					continue;
-				}
-				if(header == DONE_DATE_HEADER && DoneDateColumn == null)
-				{
-					DoneDateColumn = col.ToString();
-					continue;
-				}
-			}
+			IdColumn = ExcelPackageHelper.GetColumnCharForHeader(sheet, ID_HEADER);
+			DescriptionColumn = ExcelPackageHelper.GetColumnCharForHeader(sheet, DESCRIPTION_HEADER);
+			if(DescriptionColumn == null)
+				DescriptionColumn = ExcelPackageHelper.GetColumnCharForHeader(sheet, OLD_DESCRIPTION_HEADER);
+			StatusColumn = ExcelPackageHelper.GetColumnCharForHeader(sheet, STATUS_HEADER);
+			CategoryColumn = ExcelPackageHelper.GetColumnCharForHeader(sheet, CATEGORY_HEADER);
+			CreateDateColumn = ExcelPackageHelper.GetColumnCharForHeader(sheet, CREATE_DATE_HEADER);
+			DoneDateColumn = ExcelPackageHelper.GetColumnCharForHeader(sheet, DONE_DATE_HEADER);
 		}
 
 		public static void WriteTaskHeaders(ExcelWorksheet worksheet, bool active)
 		{
-			worksheet.Cells["A1"].Value = ID_HEADER;
-			worksheet.Cells["B1"].Value = DESCRIPTION_HEADER;
-			worksheet.Cells["C1"].Value = STATUS_HEADER;
-			worksheet.Cells["D1"].Value = CATEGORY_HEADER;
-			worksheet.Cells["E1"].Value = CREATE_DATE_HEADER;
-			if(!active)
-			{
-				worksheet.Cells["F1"].Value = DONE_DATE_HEADER;
-			}
+			List<object> values = new List<object>() {
+				ID_HEADER,
+				DESCRIPTION_HEADER,
+				STATUS_HEADER,
+				CATEGORY_HEADER,
+				CREATE_DATE_HEADER
+			};
+			if(!active) values.Add(DONE_DATE_HEADER);
+
+			ExcelPackageHelper.AppendRow(worksheet, values);
 			worksheet.Cells["A1:F1"].Style.Font.Bold = true;
 		}
 
-		public void WriteTask(ExcelWorksheet worksheet, Task task, int row, bool active)
+		public void WriteTask(ExcelWorksheet worksheet, Task task, bool active)
 		{
-			worksheet.Cells[IdColumn + row].Value = task.Id;
-			worksheet.Cells[DescriptionColumn + row].Value = task.Description;
-			worksheet.Cells[StatusColumn + row].Value = task.Status;
-			worksheet.Cells[CategoryColumn + row].Value = task.Category;
-			worksheet.Cells[CreateDateColumn + row].Value = task.CreateDateString;
-			if(!active)
-			{
-				worksheet.Cells[DoneDateColumn + row].Value = task.DoneDateString;
-			}
+			List<object> values = new List<object>() {
+				task.Id,
+				task.Description,
+				task.Status,
+				task.Category,
+				task.CreateDateString
+			};
+			if(!active) values.Add(task.DoneDateString);
+
+			ExcelPackageHelper.AppendRow(worksheet, values);
 		}
 
 		public void WriteTaskHeaders(MSExcel2003XmlFile xmlFile, int tableIndex, bool isActive)

@@ -55,23 +55,6 @@ namespace Tamarin
 			}
 		}
 
-		public Task(ExcelWorksheet sheet, ColumnLayout columnLayout, int row)
-		{
-			Id = Int32.Parse(sheet.Cells[columnLayout.IdColumn + row].Value.ToString());
-			Description = ConvertToString(sheet.Cells[columnLayout.DescriptionColumn + row].Value);
-			Status = ConvertToString(sheet.Cells[columnLayout.StatusColumn + row].Value);
-			Category = ConvertToString(sheet.Cells[columnLayout.CategoryColumn + row].Value);
-			CreateDate = DateTime.Parse(sheet.Cells[columnLayout.CreateDateColumn + row].Value.ToString());
-			if(columnLayout.DoneDateColumn != null)
-			{
-				string doneDate = sheet.Cells[columnLayout.DoneDateColumn + row].Value.ToString();
-				if(!String.IsNullOrEmpty(doneDate))
-				{
-					DoneDate = DateTime.Parse(doneDate);
-				}
-			}
-		}
-
 		private string ConvertToString(object cellContents)
 		{
 			if(cellContents == null)

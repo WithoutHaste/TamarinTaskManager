@@ -42,7 +42,7 @@ namespace Tamarin
 		public TaskSheet(ExcelPackage excelPackage, string name, bool isActive)
 		{
 			this.isActive = isActive;
-			ExcelWorksheet sheet = excelPackage.Workbook.Worksheets[name];
+			ExcelWorksheet sheet = ExcelPackageHelper.GetWorksheet(excelPackage, name);
 			columnLayout = (sheet == null) ? new ColumnLayout() : new ColumnLayout(sheet);
 			if(!columnLayout.ValidLayout)
 			{
@@ -126,12 +126,24 @@ namespace Tamarin
 
 		private List<Task> LoadTasks(ExcelWorksheet worksheet)
 		{
+			List<string> ids = ExcelPackageHelper.GetColumnByChar(worksheet, columnLayout.IdColumn, skipFirstRow:true).Cast<string>().ToList();
+			List<string> descriptions = ExcelPackageHelper.GetColumnByChar(worksheet, columnLayout.DescriptionColumn, skipFirstRow: true).Cast<string>().ToList();
+			List<string> statuses = ExcelPackageHelper.GetColumnByChar(worksheet, columnLayout.StatusColumn, skipFirstRow: true).Cast<string>().ToList();
+			List<string> categories = ExcelPackageHelper.GetColumnByChar(worksheet, columnLayout.CategoryColumn, skipFirstRow: true).Cast<string>().ToList();
+			List<string> createDates = ExcelPackageHelper.GetColumnByChar(worksheet, columnLayout.CreateDateColumn, skipFirstRow: true).Cast<string>().ToList();
+			List<string> doneDates = ExcelPackageHelper.GetColumnByChar(worksheet, columnLayout.DoneDateColumn, skipFirstRow: true).Cast<string>().ToList();
+
 			List<Task> tasks = new List<Task>();
-			int row = 2;
-			while(worksheet.Cells["A" + row].Value != null)
+			for(int i = 0; i < descriptions.Count; i++)
 			{
-				tasks.Add(new Task(worksheet, columnLayout, row));
-				row++;
+				tasks.Add(new Task() {
+					Id = (i < ids.Count && !String.IsNullOrEmpty(ids[i])) ? Int32.Parse(ids[i]) : 0,
+					Description = descriptions[i],
+					Status = (i < statuses.Count) ? statuses[i] : "",
+					Category = (i < categories.Count) ? categories[i] : "",
+					CreateDate = (i < createDates.Count && !String.IsNullOrEmpty(createDates[i])) ? DateTime.Parse(createDates[i]) : DateTime.Now,
+					DoneDate = (i < doneDates.Count && !String.IsNullOrEmpty(doneDates[i])) ? DateTime.Parse(doneDates[i]) : (DateTime?)null
+				});
 			}
 			return tasks;
 		}
@@ -149,17 +161,11 @@ namespace Tamarin
 
 		public void WriteTo(ExcelPackage package)
 		{
-			string worksheetName = (isActive ? "Active" : "Inactive");
-			package.Workbook.Worksheets.Add(worksheetName);
-			ExcelWorksheet worksheet = package.Workbook.Worksheets.Last();
+			ExcelWorksheet worksheet = ExcelPackageHelper.AddWorksheet(package, GetSheetName());
 			ColumnLayout.WriteTaskHeaders(worksheet, isActive);
-
-			int row = 2;
-			worksheet.InsertRow(row, Tasks.Count);
 			foreach(Task task in Tasks)
 			{
-				columnLayout.WriteTask(worksheet, task, row, isActive);
-				row++;
+				columnLayout.WriteTask(worksheet, task, isActive);
 			}
 		}
 

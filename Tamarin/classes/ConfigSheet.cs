@@ -46,12 +46,15 @@ namespace Tamarin
 			}
 		}
 
-		private static string SHEET_NAME = "Config";
-		private static string STATUS_NAME = "Status";
-		private static string ACTIVE_NAME = "Active";
-		private static string CATEGORY_NAME = "Category";
-		private static string ID_NAME = "Max Id";
-		private static int DEFAULT_ID = 0;
+		private const string SHEET_NAME = "Config";
+		private const string STATUS_NAME = "Status";
+		private const string ACTIVE_NAME = "Active";
+		private const string CATEGORY_NAME = "Category";
+		private const string ID_NAME = "Max Id";
+		private const int DEFAULT_ID = 0;
+
+		private const string IS_ACTIVE = "Active";
+		private const string IS_INACTIVE = "Inactive";
 
 		//---------------------------------------------
 
@@ -104,22 +107,23 @@ namespace Tamarin
 
 		public ConfigSheet(ExcelPackage excelPackage)
 		{
-			ExcelWorksheet configSheet = excelPackage.Workbook.Worksheets[SHEET_NAME];
+			ExcelWorksheet configSheet = ExcelPackageHelper.GetWorksheet(excelPackage, SHEET_NAME);
 			if(configSheet == null)
 			{
 				AddDefaultConfigSheet(excelPackage);
 				return;
 			}
 
-			//Config sheet should not be touched by users, so can expect the exact correct format
-			if(configSheet.Cells["A1"].Value.ToString() == STATUS_NAME && configSheet.Cells["B1"].Value.ToString() == ACTIVE_NAME)
+			List<object> statuses = ExcelPackageHelper.GetColumnByHeader(configSheet, STATUS_NAME);
+			List<object> actives = ExcelPackageHelper.GetColumnByHeader(configSheet, ACTIVE_NAME);
+			if(statuses.Count > 0)
 			{
 				Statuses = new List<Status>();
-				int row = 2;
-				while(configSheet.GetValue(Row: row, Column: 1) != null)
+				for(int i = 0; i < statuses.Count; i++)
 				{
-					Statuses.Add(new Status(configSheet.GetValue(row, 1).ToString(), configSheet.GetValue(row, 2).ToString()));
-					row++;
+					bool isActive = true;
+					if(actives.Count > i) isActive = (actives[i].ToString() == IS_ACTIVE);
+					Statuses.Add(new Status(statuses[i].ToString(), isActive));
 				}
 			}
 			else
@@ -127,31 +131,23 @@ namespace Tamarin
 				SetDefaultStatuses();
 			}
 
-			if(configSheet.Cells["D1"].Value.ToString() == CATEGORY_NAME)
-			{
-				Categories = new List<string>();
-				int row = 2;
-				while(configSheet.GetValue(Row: row, Column: 4) != null)
-				{
-					Categories.Add(configSheet.GetValue(row, 4).ToString());
-					row++;
-				}
-			}
-			else
+			Categories = ExcelPackageHelper.GetColumnByHeader(configSheet, CATEGORY_NAME).Cast<string>().ToList();
+			if(Categories.Count == 0)
 			{
 				SetDefaultCategories();
 			}
 
-			if(configSheet.Cells["F1"].Value.ToString() == ID_NAME && configSheet.Cells["F2"].Value.ToString() != null)
+			List<object> ids = ExcelPackageHelper.GetColumnByHeader(configSheet, ID_NAME);
+			if(ids.Count > 0)
 			{
-				MaxId = Int32.Parse(configSheet.Cells["F2"].Value.ToString());
+				MaxId = (int)ids[0];
 			}
 			else
 			{
 				MaxId = DEFAULT_ID;
 			}
 
-			WriteConfigSheet(configSheet);
+			WriteConfigSheet(configSheet); //standardize format
 		}
 
 		//---------------------------------------------
@@ -217,53 +213,30 @@ namespace Tamarin
 
 		private void AddDefaultConfigSheet(ExcelPackage excelPackage)
 		{
-			ExcelWorksheet configSheet = excelPackage.Workbook.Worksheets.Add(SHEET_NAME);
+			ExcelWorksheet configSheet = ExcelPackageHelper.AddWorksheet(excelPackage, SHEET_NAME);
 			SetDefaultStatuses();
 			SetDefaultCategories();
 			MaxId = DEFAULT_ID;
 			WriteConfigSheet(configSheet);
 		}
 
-		private void WriteConfigSheet(ExcelWorksheet configSheet)
+		private void WriteConfigSheet(ExcelWorksheet worksheet)
 		{
-			ClearWorksheet(configSheet);
+			ExcelPackageHelper.Clear(worksheet);
+			ExcelPackageHelper.AppendRow(worksheet, new List<object>() {
+				STATUS_NAME, ACTIVE_NAME, "", CATEGORY_NAME, "", ID_NAME
+			});
+			worksheet.Cells["A1:F1"].Style.Font.Bold = true;
 
-			configSheet.Cells["A1"].Value = STATUS_NAME;
-			configSheet.Cells["B1"].Value = ACTIVE_NAME;
-			configSheet.Cells["D1"].Value = CATEGORY_NAME;
-			configSheet.Cells["F1"].Value = ID_NAME;
-			configSheet.Cells["A1:F1"].Style.Font.Bold = true;
-
-			int row = 2;
-			foreach(Status status in Statuses)
-			{
-				configSheet.Cells["A" + row].Value = status.Name;
-				configSheet.Cells["B" + row].Value = (status.Active ? "Active" : "Inactive");
-				row++;
-			}
-
-			row = 2;
-			foreach(string category in Categories)
-			{
-				configSheet.Cells["D" + row].Value = category;
-				row++;
-			}
-
-			configSheet.Cells["F2"].Value = MaxId;
-		}
-
-		private void ClearWorksheet(ExcelWorksheet sheet)
-		{
-			while(sheet.Cells["A1"].Value != null)
-			{
-				sheet.DeleteRow(rowFrom: 1, rows: 100, shiftOtherRowsUp: true);
-			}
+			ExcelPackageHelper.SetColumn(worksheet, "A", Statuses.Select(s => (object)s.Name).ToList(), skipFirstRow: true);
+			ExcelPackageHelper.SetColumn(worksheet, "B", Statuses.Select(s => (object)(s.Active ? IS_ACTIVE : IS_INACTIVE)).ToList(), skipFirstRow: true);
+			ExcelPackageHelper.SetColumn(worksheet, "D", Categories.Select(c => (object)c).ToList(), skipFirstRow: true);
+			ExcelPackageHelper.SetColumn(worksheet, "F", new List<object>() { (object)MaxId }, skipFirstRow: true);
 		}
 
 		public void WriteTo(ExcelPackage package)
 		{
-			package.Workbook.Worksheets.Add(SHEET_NAME);
-			ExcelWorksheet worksheet = package.Workbook.Worksheets.Last();
+			ExcelWorksheet worksheet = ExcelPackageHelper.AddWorksheet(package, SHEET_NAME);
 			WriteConfigSheet(worksheet);
 		}
 
