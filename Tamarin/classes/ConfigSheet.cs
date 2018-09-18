@@ -228,10 +228,10 @@ namespace Tamarin
 			});
 			worksheet.Cells["A1:F1"].Style.Font.Bold = true;
 
-			ExcelPackageHelper.SetColumn(worksheet, "A", Statuses.Select(s => (object)s.Name).ToList(), skipFirstRow: true);
-			ExcelPackageHelper.SetColumn(worksheet, "B", Statuses.Select(s => (object)(s.Active ? IS_ACTIVE : IS_INACTIVE)).ToList(), skipFirstRow: true);
-			ExcelPackageHelper.SetColumn(worksheet, "D", Categories.Select(c => (object)c).ToList(), skipFirstRow: true);
-			ExcelPackageHelper.SetColumn(worksheet, "F", new List<object>() { (object)MaxId }, skipFirstRow: true);
+			ExcelPackageHelper.SetColumnByChar(worksheet, "A", Statuses.Select(s => (object)s.Name).ToList(), skipFirstRow: true);
+			ExcelPackageHelper.SetColumnByChar(worksheet, "B", Statuses.Select(s => (object)(s.Active ? IS_ACTIVE : IS_INACTIVE)).ToList(), skipFirstRow: true);
+			ExcelPackageHelper.SetColumnByChar(worksheet, "D", Categories.Select(c => (object)c).ToList(), skipFirstRow: true);
+			ExcelPackageHelper.SetColumnByChar(worksheet, "F", new List<object>() { (object)MaxId }, skipFirstRow: true);
 		}
 
 		public void WriteTo(ExcelPackage package)
