@@ -42,7 +42,8 @@
         </Cell>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">run new version on both computers for 1 week to verify it is working right
-- loaded on desktop 9/19</Data>
+- loaded on desktop 9/19
+- loaded on laptop 9/19</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
