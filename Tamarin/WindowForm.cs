@@ -11,6 +11,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using WithoutHaste.Libraries;
 
 namespace Tamarin
 {
@@ -47,6 +48,7 @@ namespace Tamarin
 		public WindowForm()
 		{
 			InitializeComponent();
+			this.Text = "Tamarin v" + AssemblyInfo.GetSemanticVersion(Assembly.GetExecutingAssembly());
 			this.MinimumSize = new Size(800, 300);
 			try
 			{

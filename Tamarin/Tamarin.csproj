@@ -72,6 +72,10 @@
     <Reference Include="WithoutHaste.DataFiles">
       <HintPath>..\..\WithoutHaste.DataFiles\DataFiles\bin\Release\WithoutHaste.DataFiles.dll</HintPath>
     </Reference>
+    <Reference Include="WithoutHaste.Libraries, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\WithoutHaste.Libraries\Libraries\bin\Release\WithoutHaste.Libraries.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CategoryForm.cs">

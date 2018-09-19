@@ -1,6 +1,6 @@
 ﻿<?xml version="1.0" encoding="UTF-8"?>
 <?mso-application progid="Excel.Sheet"?>
-<Workbook xmlns:c="urn:schemas-microsoft-com:office:component:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x2="http://schemas.microsoft.com/office/excel/2003/xml" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x="urn:schemas-microsoft-com:office:excel">
+<Workbook xmlns:c="urn:schemas-microsoft-com:office:component:spreadsheet" xmlns:html="http://www.w3.org/TR/REC-html40" xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:ss="urn:schemas-microsoft-com:office:spreadsheet" xmlns:x="urn:schemas-microsoft-com:office:excel" xmlns:x2="http://schemas.microsoft.com/office/excel/2003/xml" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="urn:schemas-microsoft-com:office:spreadsheet">
   <Styles>
     <Style ss:ID="cellShortDate">
       <NumberFormat ss:Format="Short Date" />
@@ -14,6 +14,11 @@
   </Styles>
   <ss:Worksheet ss:Name="Active">
     <Table>
+      <Column ss:Width="25" />
+      <Column ss:Width="300" />
+      <Column ss:Width="60" />
+      <Column ss:Width="60" />
+      <Column ss:Width="60" />
       <Row>
         <Cell ss:StyleID="header">
           <Data ss:Type="String">Id</Data>
@@ -31,17 +36,13 @@
           <Data ss:Type="String">Created</Data>
         </Cell>
       </Row>
-      <Column ss:Width="25" />
-      <Column ss:Width="300" />
-      <Column ss:Width="60" />
-      <Column ss:Width="60" />
-      <Column ss:Width="60" />
       <Row>
         <Cell>
-          <Data ss:Type="Number">60</Data>
+          <Data ss:Type="Number">70</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">update laptop with new version of Tamarin</Data>
+          <Data ss:Type="String">run new version on both computers for 1 week to verify it is working right
+- loaded on desktop 9/19</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -50,15 +51,35 @@
           <Data ss:Type="String">Task</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2018-09-14T00:00:00.000</Data>
+          <Data ss:Type="DateTime">2018-09-18T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
         <Cell>
-          <Data ss:Type="Number">62</Data>
+          <Data ss:Type="Number">71</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">display version number in gui somewhere</Data>
+          <Data ss:Type="String">update version info in ReadMe for 2.1.0
+- refactoring
+- display version number</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Task</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-18T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">69</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">RELEASE minor version change 2.1.0 on GitHub
+update patreon</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -67,7 +88,7 @@
           <Data ss:Type="String">Feature - Minor</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2018-09-14T00:00:00.000</Data>
+          <Data ss:Type="DateTime">2018-09-18T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -103,7 +124,8 @@ or there are no ids on tasks</Data>
           <Data ss:Type="Number">39</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">go through Lia's test results</Data>
+          <Data ss:Type="String">go through Lia's test results
+- they will be defunct after creating the new layout, so just remove the file</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -131,6 +153,24 @@ or there are no ids on tasks</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-09-17T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">72</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">better tab controls
+with better close button</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-19T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -327,6 +367,12 @@ or there are no ids on tasks</Data>
   </ss:Worksheet>
   <ss:Worksheet ss:Name="Inactive">
     <Table>
+      <Column ss:Width="25" />
+      <Column ss:Width="300" />
+      <Column ss:Width="60" />
+      <Column ss:Width="60" />
+      <Column ss:Width="60" />
+      <Column ss:Width="60" />
       <Row>
         <Cell ss:StyleID="header">
           <Data ss:Type="String">Id</Data>
@@ -347,12 +393,26 @@ or there are no ids on tasks</Data>
           <Data ss:Type="String">Done</Data>
         </Cell>
       </Row>
-      <Column ss:Width="25" />
-      <Column ss:Width="300" />
-      <Column ss:Width="60" />
-      <Column ss:Width="60" />
-      <Column ss:Width="60" />
-      <Column ss:Width="60" />
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">62</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">display version number in title bar</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Done</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-14T00:00:00.000</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-19T00:00:00.000</Data>
+        </Cell>
+      </Row>
       <Row>
         <Cell>
           <Data ss:Type="Number">64</Data>
@@ -1280,7 +1340,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">68</Data>
+          <Data ss:Type="Number">72</Data>
         </Cell>
       </Row>
       <Row>
@@ -1297,6 +1357,14 @@ Ctrl-N (Next or New)</Data>
         <Cell>
           <Data ss:Type="String">Feature - Minor</Data>
         </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
       </Row>
       <Row>
         <Cell>
@@ -1312,6 +1380,14 @@ Ctrl-N (Next or New)</Data>
         <Cell>
           <Data ss:Type="String">Bug - Major</Data>
         </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
       </Row>
       <Row>
         <Cell>
@@ -1326,6 +1402,14 @@ Ctrl-N (Next or New)</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Bug - Minor</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
         </Cell>
       </Row>
       <Row>
@@ -1343,6 +1427,14 @@ Ctrl-N (Next or New)</Data>
         <Cell>
           <Data ss:Type="String">Documentation</Data>
         </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
       </Row>
       <Row>
         <Cell>
@@ -1359,7 +1451,16 @@ Ctrl-N (Next or New)</Data>
         <Cell>
           <Data ss:Type="String">Task</Data>
         </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">
+          </Data>
+        </Cell>
       </Row>
     </Table>
+    <x:WorksheetOptions />
   </ss:Worksheet>
 </Workbook>

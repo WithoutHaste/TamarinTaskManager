@@ -16,14 +16,38 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_10C33951C40688A7DCB4F6D8DC6C7101"
+        "MsmKey" = "8:_356728618E3E4F46BD599889291FD14E"
+        "OwnerKey" = "8:_UNDEFINED"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_50919C8C25E685D983A2719996197C43"
         "OwnerKey" = "8:_356728618E3E4F46BD599889291FD14E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_356728618E3E4F46BD599889291FD14E"
-        "OwnerKey" = "8:_UNDEFINED"
+        "MsmKey" = "8:_50919C8C25E685D983A2719996197C43"
+        "OwnerKey" = "8:_CD9D4C78A70E5BA6B4F1427CDDC4A9D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_61F9B4FEAE2860D7A5E2AB521A040C72"
+        "OwnerKey" = "8:_CD9D4C78A70E5BA6B4F1427CDDC4A9D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_61F9B4FEAE2860D7A5E2AB521A040C72"
+        "OwnerKey" = "8:_356728618E3E4F46BD599889291FD14E"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_CD9D4C78A70E5BA6B4F1427CDDC4A9D1"
+        "OwnerKey" = "8:_356728618E3E4F46BD599889291FD14E"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -41,7 +65,19 @@
         "Entry"
         {
         "MsmKey" = "8:_UNDEFINED"
-        "OwnerKey" = "8:_10C33951C40688A7DCB4F6D8DC6C7101"
+        "OwnerKey" = "8:_CD9D4C78A70E5BA6B4F1427CDDC4A9D1"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_61F9B4FEAE2860D7A5E2AB521A040C72"
+        "MsmSig" = "8:_UNDEFINED"
+        }
+        "Entry"
+        {
+        "MsmKey" = "8:_UNDEFINED"
+        "OwnerKey" = "8:_50919C8C25E685D983A2719996197C43"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
@@ -145,20 +181,82 @@
         }
         "File"
         {
-            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_10C33951C40688A7DCB4F6D8DC6C7101"
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_50919C8C25E685D983A2719996197C43"
             {
             "AssemblyRegister" = "3:1"
             "AssemblyIsInGAC" = "11:FALSE"
-            "AssemblyAsmDisplayName" = "8:EPPlus, Version=4.1.0.0, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL"
+            "AssemblyAsmDisplayName" = "8:EPPlus, Version=4.5.2.1, Culture=neutral, PublicKeyToken=ea159fdaa78159a1, processorArchitecture=MSIL"
                 "ScatterAssemblies"
                 {
-                    "_10C33951C40688A7DCB4F6D8DC6C7101"
+                    "_50919C8C25E685D983A2719996197C43"
                     {
                     "Name" = "8:EPPlus.dll"
                     "Attributes" = "3:512"
                     }
                 }
             "SourcePath" = "8:EPPlus.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_25705D710C5547BCADC8D8CF0FCA4B20"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_61F9B4FEAE2860D7A5E2AB521A040C72"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:WithoutHaste.Libraries, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_61F9B4FEAE2860D7A5E2AB521A040C72"
+                    {
+                    "Name" = "8:WithoutHaste.Libraries.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:WithoutHaste.Libraries.dll"
+            "TargetName" = "8:"
+            "Tag" = "8:"
+            "Folder" = "8:_25705D710C5547BCADC8D8CF0FCA4B20"
+            "Condition" = "8:"
+            "Transitive" = "11:FALSE"
+            "Vital" = "11:TRUE"
+            "ReadOnly" = "11:FALSE"
+            "Hidden" = "11:FALSE"
+            "System" = "11:FALSE"
+            "Permanent" = "11:FALSE"
+            "SharedLegacy" = "11:FALSE"
+            "PackageAs" = "3:1"
+            "Register" = "3:1"
+            "Exclude" = "11:FALSE"
+            "IsDependency" = "11:TRUE"
+            "IsolateTo" = "8:"
+            }
+            "{9F6F8455-1EF1-4B85-886A-4223BCC8E7F7}:_CD9D4C78A70E5BA6B4F1427CDDC4A9D1"
+            {
+            "AssemblyRegister" = "3:1"
+            "AssemblyIsInGAC" = "11:FALSE"
+            "AssemblyAsmDisplayName" = "8:WithoutHaste.DataFiles, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL"
+                "ScatterAssemblies"
+                {
+                    "_CD9D4C78A70E5BA6B4F1427CDDC4A9D1"
+                    {
+                    "Name" = "8:WithoutHaste.DataFiles.dll"
+                    "Attributes" = "3:512"
+                    }
+                }
+            "SourcePath" = "8:WithoutHaste.DataFiles.dll"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_25705D710C5547BCADC8D8CF0FCA4B20"
@@ -263,15 +361,15 @@
         {
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:Tamarin"
-        "ProductCode" = "8:{0DF1244D-906A-4C99-946F-86A89F7AFBFE}"
-        "PackageCode" = "8:{4A7312FE-C4DB-45BF-A497-463E8C401702}"
+        "ProductCode" = "8:{B45EDB36-D6A1-480F-9B58-6D1C5473FCB0}"
+        "PackageCode" = "8:{7A7CC336-335D-493A-B78A-02D7EF363ABB}"
         "UpgradeCode" = "8:{5DD4C39B-4850-4686-B40C-9399C72E847C}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
         "RemovePreviousVersions" = "11:TRUE"
         "DetectNewerInstalledVersion" = "11:TRUE"
         "InstallAllUsers" = "11:TRUE"
-        "ProductVersion" = "8:2.0.0"
+        "ProductVersion" = "8:2.1.0"
         "Manufacturer" = "8:WithoutHaste"
         "ARPHELPTELEPHONE" = "8:"
         "ARPHELPLINK" = "8:"
@@ -799,7 +897,7 @@
         {
             "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_356728618E3E4F46BD599889291FD14E"
             {
-            "SourcePath" = "8:..\\obj\\Release\\Tamarin.exe"
+            "SourcePath" = "8:..\\obj\\Debug\\Tamarin.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_25705D710C5547BCADC8D8CF0FCA4B20"
