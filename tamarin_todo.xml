@@ -38,6 +38,24 @@
       </Row>
       <Row>
         <Cell>
+          <Data ss:Type="Number">79</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">in setup project:
+always say "WithoutHaste" instead of "Without Haste, LLC" because those values are used in file paths</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-10-19T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
           <Data ss:Type="Number">75</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
@@ -1433,7 +1451,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">78</Data>
+          <Data ss:Type="Number">79</Data>
         </Cell>
       </Row>
       <Row>
