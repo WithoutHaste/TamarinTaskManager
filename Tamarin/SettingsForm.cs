@@ -16,7 +16,14 @@ namespace Tamarin
 		{
 			InitializeComponent();
 
-			showTaskIdsCheckBox.Checked = Properties.Settings.Default.ShowTaskIds;
+			showTaskIdsCheckBox.Checked = false;
+			try
+			{
+				showTaskIdsCheckBox.Checked = Properties.Settings.Default.ShowTaskIds;
+			}
+			catch
+			{
+			}
 		}
 
 		private void applyButton_Click(object sender, EventArgs e)

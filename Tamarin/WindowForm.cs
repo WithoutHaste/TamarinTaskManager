@@ -62,13 +62,20 @@ namespace Tamarin
 			this.Activated += new EventHandler(windowForm_Activated);
 			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
 
-			if(Properties.Settings.Default.WindowMaximized)
+			try
 			{
-				this.WindowState = FormWindowState.Maximized;
+				if(Properties.Settings.Default.WindowMaximized)
+				{
+					this.WindowState = FormWindowState.Maximized;
+				}
+				else
+				{
+					this.Size = new Size(Properties.Settings.Default.WindowWidth, Properties.Settings.Default.WindowHeight);
+				}
 			}
-			else
+			catch
 			{
-				this.Size = new Size(Properties.Settings.Default.WindowWidth, Properties.Settings.Default.WindowHeight);
+				this.Size = new Size(600, 1000);
 			}
 
 			InitProjects();
@@ -218,7 +225,14 @@ namespace Tamarin
 
 		private bool OpenPreviousFiles()
 		{
-			string setting = Properties.Settings.Default.OpenFilenames;
+			string setting = "";
+			try
+			{
+				setting = Properties.Settings.Default.OpenFilenames;
+			}
+			catch
+			{
+			}
 			if(String.IsNullOrEmpty(setting))
 				return false;
 

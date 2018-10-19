@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using OfficeOpenXml;
-using WithoutHaste.DataFiles;
+using WithoutHaste.DataFiles.Excel;
 
 namespace Tamarin
 {
@@ -171,11 +171,18 @@ namespace Tamarin
 
 		private void OpenProjectXML()
 		{
-			MSExcel2003XmlFile xmlFile = new MSExcel2003XmlFile(FullPath);
-
-			activeSheet = new TaskSheet(xmlFile, ACTIVE_SHEET_NAME, isActive: true);
-			inactiveSheet = new TaskSheet(xmlFile, INACTIVE_SHEET_NAME, isActive: false);
-			config = new ConfigSheet(xmlFile);
+			try
+			{
+				MSExcel2003XmlFile xmlFile = new MSExcel2003XmlFile(FullPath);
+				activeSheet = new TaskSheet(xmlFile, ACTIVE_SHEET_NAME, isActive: true);
+				inactiveSheet = new TaskSheet(xmlFile, INACTIVE_SHEET_NAME, isActive: false);
+				config = new ConfigSheet(xmlFile);
+			}
+			catch
+			{
+				CreateNewProject();
+				return;
+			}
 		}
 
 		private void OpenProjectXLSX()

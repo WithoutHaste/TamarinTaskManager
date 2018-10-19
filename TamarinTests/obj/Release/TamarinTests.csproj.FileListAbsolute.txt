@@ -1,0 +1,16 @@
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\icon.ico
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\TamarinTests.dll
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\TamarinTests.pdb
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\Microsoft.VisualStudio.QualityTools.UnitTestFramework.dll
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\Tamarin.exe
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\EPPlus.dll
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\WithoutHaste.DataFiles.dll
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\WithoutHaste.Libraries.dll
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\Tamarin.pdb
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\EPPlus.xml
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\WithoutHaste.DataFiles.pdb
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\WithoutHaste.DataFiles.xml
+E:\GitHub\TamarinTaskManager\TamarinTests\bin\Release\WithoutHaste.Libraries.pdb
+E:\GitHub\TamarinTaskManager\TamarinTests\obj\Release\TamarinTests.csprojResolveAssemblyReference.cache
+E:\GitHub\TamarinTaskManager\TamarinTests\obj\Release\TamarinTests.dll
+E:\GitHub\TamarinTaskManager\TamarinTests\obj\Release\TamarinTests.pdb

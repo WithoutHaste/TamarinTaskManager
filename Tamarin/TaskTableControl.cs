@@ -136,10 +136,17 @@ namespace Tamarin
 
 		public void ShowHideTaskIds()
 		{
-			if(Properties.Settings.Default.ShowTaskIds)
-				ShowTaskIds();
-			else
+			try
+			{
+				if(Properties.Settings.Default.ShowTaskIds)
+					ShowTaskIds();
+				else
+					HideTaskIds();
+			}
+			catch
+			{
 				HideTaskIds();
+			}
 		}
 
 		private void ShowTaskIds()
