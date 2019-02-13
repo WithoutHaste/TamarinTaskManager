@@ -38,6 +38,59 @@
       </Row>
       <Row>
         <Cell>
+          <Data ss:Type="Number">82</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">getting "file does not exist" error when it tries to open files when program first starts kills the whole program
+- it should give the error message but still open the program
+- had to delete the user config file to get past this</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Bug - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-02-13T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">83</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">its really hard to successfuly click the "close tab" button</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Bug - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-02-13T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">84</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">when loading a file, auto close all completely new tabs (new with zero changes made) without asking</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-02-13T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
           <Data ss:Type="Number">81</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
@@ -1487,7 +1540,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">81</Data>
+          <Data ss:Type="Number">84</Data>
         </Cell>
       </Row>
       <Row>
