@@ -14,7 +14,7 @@ using System.Windows.Forms;
 
 namespace Tamarin
 {
-	public partial class WindowForm : Form
+	public class WindowForm : Form
 	{
 		private System.Windows.Forms.ToolStrip toolStrip;
 		private System.Windows.Forms.ToolStripButton newButton;
@@ -100,10 +100,6 @@ namespace Tamarin
 			base.Dispose(disposing);
 		}
 
-		/// <summary>
-		/// Required method for Designer support - do not modify
-		/// the contents of this method with the code editor.
-		/// </summary>
 		private void InitializeComponent()
 		{
 			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowForm));
