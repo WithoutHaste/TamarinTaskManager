@@ -77,9 +77,6 @@
     <Compile Include="CategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="CategoryForm.Designer.cs">
-      <DependentUpon>CategoryForm.cs</DependentUpon>
-    </Compile>
     <Compile Include="classes\ColumnLayout.cs" />
     <Compile Include="classes\ConfigSheet.cs" />
     <Compile Include="classes\Exceptions.cs" />
@@ -110,9 +107,6 @@
     </Compile>
     <Compile Include="Tamarin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="CategoryForm.resx">
-      <DependentUpon>CategoryForm.cs</DependentUpon>
-    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
