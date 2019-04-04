@@ -11,7 +11,7 @@ using System.Windows.Forms;
 
 namespace Tamarin
 {
-	public partial class StatusForm : Form
+	public class StatusForm : Form
 	{
 		private System.Windows.Forms.RichTextBox activeTextBox;
 		private System.Windows.Forms.Label activeLabel;
