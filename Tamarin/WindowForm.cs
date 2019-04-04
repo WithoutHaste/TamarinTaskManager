@@ -16,6 +16,17 @@ namespace Tamarin
 {
 	public partial class WindowForm : Form
 	{
+		private System.Windows.Forms.ToolStrip toolStrip;
+		private System.Windows.Forms.ToolStripButton newButton;
+		private System.Windows.Forms.ToolStripButton saveButton;
+		private System.Windows.Forms.ToolStripButton loadButton;
+		private System.Windows.Forms.TabPage tabPage1;
+		private System.Windows.Forms.TabControl tabControl;
+		private System.Windows.Forms.ToolStripButton saveAsButton;
+		private System.Windows.Forms.ToolStripButton settingsButton;
+		private System.Windows.Forms.ToolStripButton undoButton;
+		private System.Windows.Forms.ToolStripButton redoButton;
+
 		private List<Project> projects = new List<Project>();
 
 		private int SelectedIndex {
@@ -78,6 +89,154 @@ namespace Tamarin
 			}
 
 			InitProjects();
+		}
+
+		/// <summary>
+		/// Clean up any resources being used.
+		/// </summary>
+		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
+		protected override void Dispose(bool disposing)
+		{
+			base.Dispose(disposing);
+		}
+
+		/// <summary>
+		/// Required method for Designer support - do not modify
+		/// the contents of this method with the code editor.
+		/// </summary>
+		private void InitializeComponent()
+		{
+			System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(WindowForm));
+			this.toolStrip = new System.Windows.Forms.ToolStrip();
+			this.newButton = new System.Windows.Forms.ToolStripButton();
+			this.saveAsButton = new System.Windows.Forms.ToolStripButton();
+			this.saveButton = new System.Windows.Forms.ToolStripButton();
+			this.loadButton = new System.Windows.Forms.ToolStripButton();
+			this.settingsButton = new System.Windows.Forms.ToolStripButton();
+			this.undoButton = new System.Windows.Forms.ToolStripButton();
+			this.redoButton = new System.Windows.Forms.ToolStripButton();
+			this.tabPage1 = new System.Windows.Forms.TabPage();
+			this.tabControl = new System.Windows.Forms.TabControl();
+			this.toolStrip.SuspendLayout();
+			this.tabControl.SuspendLayout();
+			this.SuspendLayout();
+			// 
+			// toolStrip
+			// 
+			this.toolStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+			this.newButton,
+			this.saveAsButton,
+			this.saveButton,
+			this.loadButton,
+			this.settingsButton,
+			this.undoButton,
+			this.redoButton});
+			this.toolStrip.Location = new System.Drawing.Point(0, 0);
+			this.toolStrip.Name = "toolStrip";
+			this.toolStrip.Size = new System.Drawing.Size(402, 25);
+			this.toolStrip.TabIndex = 0;
+			this.toolStrip.Text = "toolStrip1";
+			// 
+			// newButton
+			// 
+			this.newButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.newButton.Name = "newButton";
+			this.newButton.Size = new System.Drawing.Size(35, 22);
+			this.newButton.Text = "New";
+			this.newButton.ToolTipText = "New Project";
+			this.newButton.Click += new System.EventHandler(this.newButton_Click);
+			// 
+			// saveAsButton
+			// 
+			this.saveAsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.saveAsButton.Name = "saveAsButton";
+			this.saveAsButton.Size = new System.Drawing.Size(51, 22);
+			this.saveAsButton.Text = "Save As";
+			this.saveAsButton.ToolTipText = "Save Project As";
+			this.saveAsButton.Click += new System.EventHandler(this.saveAsButton_Click);
+			// 
+			// saveButton
+			// 
+			this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.saveButton.Name = "saveButton";
+			this.saveButton.Size = new System.Drawing.Size(35, 22);
+			this.saveButton.Text = "Save";
+			this.saveButton.ToolTipText = "Save Project";
+			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+			// 
+			// loadButton
+			// 
+			this.loadButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.loadButton.Name = "loadButton";
+			this.loadButton.Size = new System.Drawing.Size(37, 22);
+			this.loadButton.Text = "Load";
+			this.loadButton.ToolTipText = "Load Project";
+			this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+			// 
+			// settingsButton
+			// 
+			this.settingsButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.settingsButton.Name = "settingsButton";
+			this.settingsButton.Size = new System.Drawing.Size(53, 22);
+			this.settingsButton.Text = "Settings";
+			this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+			// 
+			// undoButton
+			// 
+			this.undoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.undoButton.Name = "undoButton";
+			this.undoButton.Size = new System.Drawing.Size(40, 22);
+			this.undoButton.Text = "Undo";
+			this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
+			// 
+			// redoButton
+			// 
+			this.redoButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Text;
+			this.redoButton.Name = "redoButton";
+			this.redoButton.Size = new System.Drawing.Size(38, 22);
+			this.redoButton.Text = "Redo";
+			this.redoButton.Click += new System.EventHandler(this.redoButton_Click);
+			// 
+			// tabPage1
+			// 
+			this.tabPage1.Location = new System.Drawing.Point(4, 22);
+			this.tabPage1.Name = "tabPage1";
+			this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+			this.tabPage1.Size = new System.Drawing.Size(394, 207);
+			this.tabPage1.TabIndex = 0;
+			this.tabPage1.Text = "tabPage1";
+			this.tabPage1.UseVisualStyleBackColor = true;
+			// 
+			// tabControl
+			// 
+			this.tabControl.Anchor = ((System.Windows.Forms.AnchorStyles)((((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Bottom)
+			| System.Windows.Forms.AnchorStyles.Left)
+			| System.Windows.Forms.AnchorStyles.Right)));
+			this.tabControl.Controls.Add(this.tabPage1);
+			this.tabControl.DrawMode = System.Windows.Forms.TabDrawMode.OwnerDrawFixed;
+			this.tabControl.Location = new System.Drawing.Point(0, 28);
+			this.tabControl.Name = "tabControl";
+			this.tabControl.SelectedIndex = 0;
+			this.tabControl.Size = new System.Drawing.Size(402, 233);
+			this.tabControl.TabIndex = 1;
+			this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
+			this.tabControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseUp);
+			// 
+			// WindowForm
+			// 
+			this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+			this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+			this.ClientSize = new System.Drawing.Size(402, 261);
+			this.Controls.Add(this.tabControl);
+			this.Controls.Add(this.toolStrip);
+			this.Name = "WindowForm";
+			this.Text = "Tamarin";
+			this.toolStrip.ResumeLayout(false);
+			this.toolStrip.PerformLayout();
+			this.tabControl.ResumeLayout(false);
+			this.ResumeLayout(false);
+			this.PerformLayout();
+
 		}
 
 		//-------------------------------------------------

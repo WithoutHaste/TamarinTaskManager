@@ -117,10 +117,7 @@
     <Compile Include="WindowForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="WindowForm.Designer.cs">
-      <DependentUpon>WindowForm.cs</DependentUpon>
-    </Compile>
-    <Compile Include="TaskManagerX.cs" />
+    <Compile Include="Tamarin.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CategoryForm.resx">
       <DependentUpon>CategoryForm.cs</DependentUpon>
@@ -143,10 +140,6 @@
     </EmbeddedResource>
     <EmbeddedResource Include="TaskTableToolStrip.resx">
       <DependentUpon>TaskTableToolStrip.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="WindowForm.resx">
-      <DependentUpon>WindowForm.cs</DependentUpon>
-      <SubType>Designer</SubType>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">

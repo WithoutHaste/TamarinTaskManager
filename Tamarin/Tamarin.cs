@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace Tamarin
 {
-	static class TaskManagerX
+	static class Tamarin
 	{
 		[STAThread]
 		static void Main()
