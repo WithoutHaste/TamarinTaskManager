@@ -69,12 +69,8 @@
     <Reference Include="System.Net.Http" />
     <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
-    <Reference Include="WithoutHaste.DataFiles">
-      <HintPath>..\..\WithoutHaste.DataFiles\DataFiles\bin\Release\WithoutHaste.DataFiles.dll</HintPath>
-    </Reference>
-    <Reference Include="WithoutHaste.Libraries, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\WithoutHaste.Libraries\Libraries\bin\Release\WithoutHaste.Libraries.dll</HintPath>
+    <Reference Include="WithoutHaste.DataFiles.Excel">
+      <HintPath>..\..\WithoutHaste.DataFiles\DataFiles.Excel\bin\Release\WithoutHaste.DataFiles.Excel.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +92,7 @@
     <Compile Include="classes\Task.cs" />
     <Compile Include="classes\TaskSheet.cs" />
     <Compile Include="classes\TextExtension.cs" />
+    <Compile Include="classes\Utilities.cs" />
     <Compile Include="SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>

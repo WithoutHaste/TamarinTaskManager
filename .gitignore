@@ -1,4 +1,9 @@
-saves/
-Tamarin/.vs/
-Tamarin/bin/
-Tamarin/obj/
+saves/*
+
+Tamarin/.vs/*
+Tamarin/bin/*
+Tamarin/obj/*
+
+TamarinTests/.vs/*
+TamarinTests/bin/*
+TamarinTests/obj/*
