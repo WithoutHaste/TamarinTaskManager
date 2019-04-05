@@ -807,7 +807,7 @@ namespace Tamarin
 			Button button = new Button();
 			button.Font = regularFont;
 			button.Location = new System.Drawing.Point(3, 3);
-			button.Size = new System.Drawing.Size(19, 23);
+			button.AutoSize = true;
 			button.TabStop = false;
 			button.Text = text;
 			button.UseVisualStyleBackColor = true;
