@@ -43,6 +43,8 @@ namespace Tamarin
 
 		private TaskTableControl SelectedTaskTableControl {
 			get {
+				if(SelectedIndex == -1)
+					return null;
 				TabPage tabPage = this.tabControl.Controls[SelectedIndex] as TabPage;
 				foreach(Control control in tabPage.Controls)
 				{
@@ -311,7 +313,7 @@ namespace Tamarin
 
 		private void windowForm_Activated(object sender, EventArgs e)
 		{
-			SelectedTaskTableControl.CheckForOutsideEdits();
+			SelectedTaskTableControl?.CheckForOutsideEdits();
 		}
 
 		private void windowForm_Closing(object sender, FormClosingEventArgs e)
