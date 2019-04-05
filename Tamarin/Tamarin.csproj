@@ -90,6 +90,9 @@
     <Compile Include="classes\TaskSheet.cs" />
     <Compile Include="classes\TextExtension.cs" />
     <Compile Include="classes\Utilities.cs" />
+    <Compile Include="controls\CoTableLayoutPanel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="controls\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>

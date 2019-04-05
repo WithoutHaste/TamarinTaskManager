@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace Tamarin
 {
-	public class TaskTableControl : TableLayoutPanel
+	public class TaskTableControl : CoTableLayoutPanel
 	{
 		public TaskTableToolStrip ToolStrip { get; set; }
 
@@ -108,7 +108,8 @@ namespace Tamarin
 			if(!forced && showActive == active)
 				return;
 
-			this.SuspendLayout(); //avoid screen flickers
+			Console.WriteLine("Suspend TaskSheet Layout");
+			this.SuspendLayout(); //goal is to reduce/avoid screen flickers
 
 			showActive = active;
 
@@ -128,8 +129,15 @@ namespace Tamarin
 			ShowHideCategories();
 			SetTabIndexes();
 
+			Console.WriteLine("Resume TaskSheet Layout");
 			this.ResumeLayout();
+		}
 
+		protected override void OnLayout(LayoutEventArgs levent)
+		{
+			base.OnLayout(levent); //let normal layout run
+
+			//update text box height after column width has been set
 			UpdateTextBoxSizes();
 		}
 
@@ -765,6 +773,7 @@ namespace Tamarin
 
 		private void UpdateTextBoxSizes()
 		{
+			this.SuspendLayout();
 			for(int row = 1; row <= this.RowCount; row++)
 			{
 				Control control = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: row);
@@ -772,6 +781,7 @@ namespace Tamarin
 					continue;
 				SetTextBoxHeightByText(control as RichTextBox);
 			}
+			this.ResumeLayout();
 		}
 
 		private void SetTextBoxHeightByText(RichTextBox textBox)
