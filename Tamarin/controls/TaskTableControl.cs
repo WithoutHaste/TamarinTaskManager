@@ -800,6 +800,7 @@ namespace Tamarin
 			comboBox.Font = regularFont;
 			comboBox.FormattingEnabled = true;
 			comboBox.Name = name;
+			comboBox.DropDownStyle = ComboBoxStyle.DropDownList; // so that it doesn't get a blue highlight
 			foreach(string option in options) //when using datasource, could not set the selected item
 			{
 				comboBox.Items.Add(option);
