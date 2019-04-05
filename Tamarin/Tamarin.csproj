@@ -74,7 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CategoryForm.cs">
+    <Compile Include="controls\CategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="classes\ColumnLayout.cs" />
@@ -90,16 +90,16 @@
     <Compile Include="classes\TaskSheet.cs" />
     <Compile Include="classes\TextExtension.cs" />
     <Compile Include="classes\Utilities.cs" />
-    <Compile Include="SettingsForm.cs">
+    <Compile Include="controls\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="StatusForm.cs">
+    <Compile Include="controls\StatusForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="TaskTableControl.cs">
+    <Compile Include="controls\TaskTableControl.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TaskTableToolStrip.cs">
+    <Compile Include="controls\TaskTableToolStrip.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="WindowForm.cs">
