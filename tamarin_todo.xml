@@ -45,7 +45,9 @@
 ? or can I get TableLayoutPanel working better ?
 maybe
 only initialize textbox height when column width stabilizes to a positive value?
-and only turn on textbox events after starting size is initiliazed?</Data>
+and only turn on textbox events after starting size is initiliazed?
+but the "New" sheet works fine
+maybe if I load a "New" sheet and THEN add the rows to it?</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>

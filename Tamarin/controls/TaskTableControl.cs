@@ -19,10 +19,6 @@ namespace Tamarin
 
 		private bool showActive = true;
 
-		private static Font titleFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-		private static Font regularFont = new System.Drawing.Font("Microsoft Sans Serif", 9.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-		private static int? textBoxLineHeight;
-
 		private static int PLUS_COLUMN_INDEX = 0;
 		private static int ROW_COLUMN_INDEX = 1;
 		private static int ID_COLUMN_INDEX = 2;
@@ -284,14 +280,11 @@ namespace Tamarin
 			
 			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
 			
-			RichTextBox titleBox = NewRichTextBox("TitleTextBox", task.Description);
+			TitleTextBox titleBox = new TitleTextBox("TitleTextBox", task.Description);
 			titleBox.GotFocus += new EventHandler(titleTextBox_GotFocus);
 			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
-			titleBox.SizeChanged += new EventHandler(titleTextBox_SizeChanged);
 			titleBox.KeyDown += new KeyEventHandler(titleTextBox_KeyDown);
 			titleBox.KeyUp += new KeyEventHandler(titleTextBox_KeyUp);
-			titleBox.Margin = new Padding(0);
-			titleBox.BorderStyle = BorderStyle.None; //on RichTextBox, FixedSingle displays as Fixed3D
 			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 			
@@ -334,7 +327,7 @@ namespace Tamarin
 
 			ComboBox statusComboBox = NewComboBox("StatusComboBox", options.ToArray(), selectedOption);
 			statusComboBox.SelectedIndexChanged += new EventHandler(statusComboBox_SelectedIndexChanged);
-			statusComboBox.MouseWheel += new MouseEventHandler(passMouseWheelToParent);
+			statusComboBox.MouseWheel += new MouseEventHandler(Utilities.PassMouseWheelToParent);
 			return statusComboBox;
 		}
 
@@ -346,7 +339,7 @@ namespace Tamarin
 
 			ComboBox categoryComboBox = NewComboBox("CategoryComboBox", options.ToArray(), selectedOption);
 			categoryComboBox.SelectedIndexChanged += new EventHandler(categoryComboBox_SelectedIndexChanged);
-			categoryComboBox.MouseWheel += new MouseEventHandler(passMouseWheelToParent);
+			categoryComboBox.MouseWheel += new MouseEventHandler(Utilities.PassMouseWheelToParent);
 			return categoryComboBox;
 		}
 
@@ -398,7 +391,6 @@ namespace Tamarin
 
 		private void MoveRow(int fromRow, int toRow)
 		{
-			Console.WriteLine("MoveRow {0} to {1}", fromRow, toRow);
 			if(fromRow == toRow)
 				return;
 			Task task = project.MoveRow(fromRow, toRow, showActive);
@@ -408,10 +400,10 @@ namespace Tamarin
 			InsertTaskRowAt(toRow, task);
 			FocusOnTitle(fromRow);
 			Control control = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: toRow);
-			if(control is RichTextBox)
+/*			if(control is TitleTextBox)
 			{
-				SetTextBoxHeightByText(control as RichTextBox);
-			}
+				(control as TitleTextBox).SetTextBoxHeightByText();
+			}*/
 		}
 
 		private void FocusOnTitle(int row, int caret = -1, int selectionLength = 0)
@@ -520,14 +512,6 @@ namespace Tamarin
 			}
 		}
 
-		public void ManualMoveTask(bool activeSheet, int fromRowNumber, int toRowNumber)
-		{
-			history.Off();
-			ToolStrip.SelectActiveInactive(activeSheet);
-			MoveRow(fromRowNumber, toRowNumber);
-			history.On();
-		}
-
 		private void titleTextBox_GotFocus(object sender, EventArgs e)
 		{
 			int row = this.GetRow(sender as Control);
@@ -547,19 +531,12 @@ namespace Tamarin
 			int row = this.GetRow(textBox);
 			string previousText = project.GetTitle(row, showActive);
 			project.UpdateTitle(row, textBox.Text, active: showActive);
-			SetTextBoxHeightByText(textBox);
 			history.Add(new TextAction(showActive, row, previousText, textBox.Text));
-		}
-
-		private void titleTextBox_SizeChanged(object sender, EventArgs e)
-		{
-			RichTextBox textBox = (sender as RichTextBox);
-			SetTextBoxHeightByText(textBox);
 		}
 
 		private void titleTextBox_KeyDown(object sender, KeyEventArgs e)
 		{
-			RichTextBox textBox = (sender as RichTextBox);
+			TitleTextBox textBox = (sender as TitleTextBox);
 			if(e.KeyCode == Keys.Down)
 			{
 				if(e.Control)
@@ -572,9 +549,7 @@ namespace Tamarin
 				else
 				{
 					//if cursor is on last line, move to next textbox
-					int cursorIndex = textBox.SelectionStart;
-					int lineCount = CountLines(textBox);
-					if(textBox.GetFirstCharIndexFromLine(lineCount - 1) <= cursorIndex)
+					if(textBox.CursorOnLastLine())
 					{
 						int row = this.GetRow(sender as Control);
 						SelectTitleTextBox(row, row + 1);
@@ -594,9 +569,7 @@ namespace Tamarin
 				else
 				{
 					//if cursor is on first line, move to previous textbox
-					int cursorIndex = textBox.SelectionStart;
-					int lineCount = CountLines(textBox);
-					if(lineCount == 1 || textBox.GetFirstCharIndexFromLine(1) > cursorIndex)
+					if(textBox.CursorOnFirstLine())
 					{
 						int row = this.GetRow(sender as Control);
 						SelectTitleTextBox(row, row - 1);
@@ -612,6 +585,14 @@ namespace Tamarin
 			{
 				addTask_Click(sender, e);
 			}
+		}
+
+		public void ManualMoveTask(bool activeSheet, int fromRowNumber, int toRowNumber)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			MoveRow(fromRowNumber, toRowNumber);
+			history.On();
 		}
 
 		public void ManualTextChange(bool activeSheet, int row, string text, int caret, int selectionLength)
@@ -703,7 +684,7 @@ namespace Tamarin
 		{
 			Label label = new Label();
 			label.AutoSize = true;
-			label.Font = titleFont;
+			label.Font = Settings.TITLE_FONT;
 			label.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			label.Size = new System.Drawing.Size(21, 24);
 			label.Text = text;
@@ -714,7 +695,7 @@ namespace Tamarin
 		{
 			Label label = new Label();
 			label.AutoSize = true;
-			label.Font = regularFont;
+			label.Font = Settings.REGULAR_FONT;
 			label.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
 			label.Size = new System.Drawing.Size(21, 24);
 			label.Name = name;
@@ -726,48 +707,11 @@ namespace Tamarin
 		{
 			TextBox textBox = new TextBox();
 			textBox.Dock = System.Windows.Forms.DockStyle.Top;
-			textBox.Font = regularFont;
+			textBox.Font = Settings.REGULAR_FONT;
 			textBox.Name = name;
 			textBox.Text = text;
 			textBox.Size = new System.Drawing.Size(119, 22);
 			return textBox;
-		}
-
-		private RichTextBox NewRichTextBox(string name, string text = null)
-		{
-			RichTextBox textBox = new RichTextBox();
-			if(textBoxLineHeight == null)
-			{
-				using(Graphics g = textBox.CreateGraphics())
-				{
-					textBoxLineHeight = TextRenderer.MeasureText(g, "TEST", regularFont).Height;
-				}
-			}
-
-			textBox.Dock = System.Windows.Forms.DockStyle.Top;
-			textBox.Font = regularFont;
-			textBox.Name = name;
-			textBox.Width = 119;
-			textBox.Text = text;
-			textBox.MouseWheel += new MouseEventHandler(passMouseWheelToParent);
-			return textBox;
-		}
-
-		private void passMouseWheelToParent(object sender, MouseEventArgs e)
-		{
-			Control parent = (sender as Control).Parent;
-			System.Reflection.MethodInfo onMouseWheel = parent.GetType().GetMethod("OnMouseWheel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
-			onMouseWheel.Invoke(parent, new object[] { e });
-		}
-
-		private void SetTextBoxHeightByText(RichTextBox textBox)
-		{
-			if(textBox.Width < 10)
-				return; //wait until textBox is a likely real size before arranging it, otherwise the table layout gets artificially tall
-			int newHeight = 10 + (textBoxLineHeight.Value * CountLines(textBox));
-			if(newHeight == textBox.Size.Height)
-				return; //do not go into a resizing loop
-			textBox.Size = new System.Drawing.Size(textBox.Width, newHeight);
 		}
 
 		protected override void OnLayout(LayoutEventArgs e)
@@ -788,7 +732,7 @@ namespace Tamarin
 		private ComboBox NewComboBox(string name, string[] options, string selectedValue = null)
 		{
 			ComboBox comboBox = new ComboBox();
-			comboBox.Font = regularFont;
+			comboBox.Font = Settings.REGULAR_FONT;
 			comboBox.FormattingEnabled = true;
 			comboBox.Name = name;
 			comboBox.DropDownStyle = ComboBoxStyle.DropDownList; // so that it doesn't get a blue highlight
@@ -807,7 +751,7 @@ namespace Tamarin
 		private Button NewButton(string text, EventHandler onClickHandler)
 		{
 			Button button = new Button();
-			button.Font = regularFont;
+			button.Font = Settings.REGULAR_FONT;
 			button.Location = new System.Drawing.Point(3, 3);
 			button.AutoSize = true;
 			button.TabStop = false;
@@ -816,16 +760,6 @@ namespace Tamarin
 			button.Margin = new Padding(0);
 			button.Click += onClickHandler;
 			return button;
-		}
-
-		private int CountLines(RichTextBox textBox)
-		{
-			int lineCount = 1;
-			while(textBox.GetFirstCharIndexFromLine(lineCount) > -1)
-			{
-				lineCount++;
-			}
-			return lineCount;
 		}
 
 		private void SetTabIndexes()

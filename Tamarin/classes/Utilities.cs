@@ -3,11 +3,19 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using System.Windows.Forms;
 
 namespace Tamarin
 {
 	public static class Utilities
 	{
+		public static void PassMouseWheelToParent(object sender, MouseEventArgs e)
+		{
+			Control parent = (sender as Control).Parent;
+			System.Reflection.MethodInfo onMouseWheel = parent.GetType().GetMethod("OnMouseWheel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
+			onMouseWheel.Invoke(parent, new object[] { e });
+		}
+
 		public static string GetSemanticVersion(Assembly assembly)
 		{
 			Version version = GetVersion(assembly);

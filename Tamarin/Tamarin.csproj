@@ -74,6 +74,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\Settings.cs" />
     <Compile Include="controls\CategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -104,6 +105,9 @@
     </Compile>
     <Compile Include="controls\TaskTableToolStrip.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="controls\TitleTextBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="WindowForm.cs">
       <SubType>Form</SubType>
