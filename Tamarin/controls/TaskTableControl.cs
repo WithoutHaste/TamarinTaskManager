@@ -133,14 +133,6 @@ namespace Tamarin
 			this.ResumeLayout();
 		}
 
-		protected override void OnLayout(LayoutEventArgs levent)
-		{
-			base.OnLayout(levent); //let normal layout run
-
-			//update text box height after column width has been set
-			UpdateTextBoxSizes();
-		}
-
 		public void ShowHideTaskIds()
 		{
 			try
@@ -769,19 +761,6 @@ namespace Tamarin
 			Control parent = (sender as Control).Parent;
 			System.Reflection.MethodInfo onMouseWheel = parent.GetType().GetMethod("OnMouseWheel", System.Reflection.BindingFlags.NonPublic | System.Reflection.BindingFlags.Instance);
 			onMouseWheel.Invoke(parent, new object[] { e });
-		}
-
-		private void UpdateTextBoxSizes()
-		{
-			this.SuspendLayout();
-			for(int row = 1; row <= this.RowCount; row++)
-			{
-				Control control = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: row);
-				if(!(control is RichTextBox))
-					continue;
-				SetTextBoxHeightByText(control as RichTextBox);
-			}
-			this.ResumeLayout();
 		}
 
 		private void SetTextBoxHeightByText(RichTextBox textBox)
