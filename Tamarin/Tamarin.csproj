@@ -75,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\Settings.cs" />
+    <Compile Include="controls\CategoryComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="controls\CategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -97,14 +100,23 @@
     <Compile Include="controls\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
+    <Compile Include="controls\StatusComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="controls\StatusForm.cs">
       <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="controls\TamarinComboBox.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="controls\TaskTableControl.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="controls\TaskTableToolStrip.cs">
       <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="controls\TitleLabel.cs">
+      <SubType>Component</SubType>
     </Compile>
     <Compile Include="controls\TitleTextBox.cs">
       <SubType>Component</SubType>

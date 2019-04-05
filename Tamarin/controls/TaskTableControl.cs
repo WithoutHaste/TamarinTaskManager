@@ -172,13 +172,13 @@ namespace Tamarin
 		public void InsertTitleRow()
 		{
 			this.Controls.Add(NewButton("+", addTask_Click), PLUS_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(NewTitleLabel("Row"), ROW_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(NewTitleLabel("Id"), ID_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(NewTitleLabel("Description"), TITLE_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(NewTitleLabel("Status"), STATUS_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(NewTitleLabel("Category"), CATEGORY_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(NewTitleLabel("Created"), CREATED_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(NewTitleLabel("Finished"), DONE_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(new TitleLabel("Row"), ROW_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(new TitleLabel("Id"), ID_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(new TitleLabel("Description"), TITLE_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(new TitleLabel("Status"), STATUS_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(new TitleLabel("Category"), CATEGORY_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(new TitleLabel("Created"), CREATED_COLUMN_INDEX, HEADER_ROW_INDEX);
+			this.Controls.Add(new TitleLabel("Finished"), DONE_COLUMN_INDEX, HEADER_ROW_INDEX);
 
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
 			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
@@ -219,11 +219,9 @@ namespace Tamarin
 			for(int row = 1; row <= this.RowCount; row++)
 			{
 				Control control = this.GetControlFromPosition(STATUS_COLUMN_INDEX, row);
-				if(!(control is ComboBox))
+				if(!(control is StatusComboBox))
 					continue;
-				ComboBox newComboBox = GenerateStatusComboBox((control as ComboBox).Text);
-				this.Controls.Remove(control);
-				this.Controls.Add(newComboBox, STATUS_COLUMN_INDEX, row);
+				(control as StatusComboBox).UpdateOptions(project.Statuses.ToList());
 			}
 		}
 
@@ -253,11 +251,9 @@ namespace Tamarin
 			for(int row = 1; row <= this.RowCount; row++)
 			{
 				Control control = this.GetControlFromPosition(CATEGORY_COLUMN_INDEX, row);
-				if(!(control is ComboBox))
+				if(!(control is CategoryComboBox))
 					continue;
-				ComboBox newComboBox = GenerateCategoryComboBox((control as ComboBox).Text);
-				this.Controls.Remove(control);
-				this.Controls.Add(newComboBox, CATEGORY_COLUMN_INDEX, row);
+				(control as CategoryComboBox).UpdateOptions(project.Categories.ToList());
 			}
 		}
 
@@ -288,14 +284,12 @@ namespace Tamarin
 			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
 			
-			ComboBox statusComboBox = GenerateStatusComboBox(task.Status);
-			statusComboBox.Margin = new Padding(0);
-			statusComboBox.TabStop = false;
+			StatusComboBox statusComboBox = new StatusComboBox(project.Statuses.ToList(), task.Status);
+			statusComboBox.SelectedIndexChanged += new EventHandler(statusComboBox_SelectedIndexChanged);
 			this.Controls.Add(statusComboBox, STATUS_COLUMN_INDEX, rowIndex);
 
-			ComboBox categoryComboBox = GenerateCategoryComboBox(task.Category);
-			categoryComboBox.Margin = new Padding(0);
-			categoryComboBox.TabStop = false;
+			CategoryComboBox categoryComboBox = new CategoryComboBox(project.Categories.ToList(), task.Category);
+			categoryComboBox.SelectedIndexChanged += new EventHandler(categoryComboBox_SelectedIndexChanged);
 			this.Controls.Add(categoryComboBox, CATEGORY_COLUMN_INDEX, rowIndex);
 
 			Label createLabel = NewDataLabel("CreateDate", task.CreateDateString);
@@ -317,30 +311,6 @@ namespace Tamarin
 			SetTabIndexes();
 
 			RequestResumeLayout();
-		}
-
-		private ComboBox GenerateStatusComboBox(string selectedOption)
-		{
-			List<string> options = project.Statuses.ToList();
-			if(!options.Contains(selectedOption))
-				options.Add(selectedOption);
-
-			ComboBox statusComboBox = NewComboBox("StatusComboBox", options.ToArray(), selectedOption);
-			statusComboBox.SelectedIndexChanged += new EventHandler(statusComboBox_SelectedIndexChanged);
-			statusComboBox.MouseWheel += new MouseEventHandler(Utilities.PassMouseWheelToParent);
-			return statusComboBox;
-		}
-
-		private ComboBox GenerateCategoryComboBox(string selectedOption)
-		{
-			List<string> options = project.Categories.ToList();
-			if(!options.Contains(selectedOption))
-				options.Add(selectedOption);
-
-			ComboBox categoryComboBox = NewComboBox("CategoryComboBox", options.ToArray(), selectedOption);
-			categoryComboBox.SelectedIndexChanged += new EventHandler(categoryComboBox_SelectedIndexChanged);
-			categoryComboBox.MouseWheel += new MouseEventHandler(Utilities.PassMouseWheelToParent);
-			return categoryComboBox;
 		}
 
 		private void InsertRowAt(int rowIndex)
@@ -680,17 +650,6 @@ namespace Tamarin
 			RequestResumeLayout();
 		}
 
-		private Label NewTitleLabel(string text)
-		{
-			Label label = new Label();
-			label.AutoSize = true;
-			label.Font = Settings.TITLE_FONT;
-			label.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-			label.Size = new System.Drawing.Size(21, 24);
-			label.Text = text;
-			return label;
-		}
-
 		private Label NewDataLabel(string name, string text)
 		{
 			Label label = new Label();
@@ -727,25 +686,6 @@ namespace Tamarin
 			{
 				int width = widths[TITLE_COLUMN_INDEX];
 			}
-		}
-
-		private ComboBox NewComboBox(string name, string[] options, string selectedValue = null)
-		{
-			ComboBox comboBox = new ComboBox();
-			comboBox.Font = Settings.REGULAR_FONT;
-			comboBox.FormattingEnabled = true;
-			comboBox.Name = name;
-			comboBox.DropDownStyle = ComboBoxStyle.DropDownList; // so that it doesn't get a blue highlight
-			foreach(string option in options) //when using datasource, could not set the selected item
-			{
-				comboBox.Items.Add(option);
-			}
-			if(!String.IsNullOrEmpty(selectedValue))
-			{
-				comboBox.SelectedIndex = comboBox.FindStringExact(selectedValue);
-			}
-			comboBox.Size = new System.Drawing.Size(94, 24);
-			return comboBox;
 		}
 
 		private Button NewButton(string text, EventHandler onClickHandler)
