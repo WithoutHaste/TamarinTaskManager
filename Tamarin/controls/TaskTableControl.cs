@@ -52,7 +52,6 @@ namespace Tamarin
 
 			this.Location = new Point(0, 0);
 			this.Padding = new Padding(left: 0, top: 0, right: SystemInformation.VerticalScrollBarWidth, bottom: 0); //leave room for vertical scrollbar
-			this.Anchor = AnchorStyles.Left | AnchorStyles.Top | AnchorStyles.Right;
 			this.Dock = DockStyle.Fill;
 			this.BackColor = Color.White;
 			this.AutoScroll = true;
@@ -108,8 +107,7 @@ namespace Tamarin
 			if(!forced && showActive == active)
 				return;
 
-			Console.WriteLine("Suspend TaskSheet Layout");
-			this.SuspendLayout(); //goal is to reduce/avoid screen flickers
+			RequestSuspendLayout();
 
 			showActive = active;
 
@@ -129,8 +127,7 @@ namespace Tamarin
 			ShowHideCategories();
 			SetTabIndexes();
 
-			Console.WriteLine("Resume TaskSheet Layout");
-			this.ResumeLayout();
+			RequestResumeLayout();
 		}
 
 		public void ShowHideTaskIds()
@@ -270,7 +267,7 @@ namespace Tamarin
 
 		private void InsertTaskRowAt(int rowIndex, Task task)
 		{
-			this.SuspendLayout(); //avoid screen flickers
+			RequestSuspendLayout();
 
 			InsertRowAt(rowIndex);
 
@@ -326,7 +323,7 @@ namespace Tamarin
 
 			SetTabIndexes();
 
-			this.ResumeLayout();
+			RequestResumeLayout();
 		}
 
 		private ComboBox GenerateStatusComboBox(string selectedOption)
@@ -373,7 +370,7 @@ namespace Tamarin
 
 		private void RemoveRow(int rowIndex)
 		{
-			this.SuspendLayout(); //avoid screen flickers
+			RequestSuspendLayout();
 
 			for(int col = 0; col < this.ColumnCount; col++)
 			{
@@ -396,7 +393,7 @@ namespace Tamarin
 			this.RowCount--;
 			SetTabIndexes();
 
-			this.ResumeLayout();
+			RequestResumeLayout();
 		}
 
 		private void MoveRow(int fromRow, int toRow)
@@ -684,7 +681,7 @@ namespace Tamarin
 
 		public void ManualChangeTaskStatus(bool currentActiveSheet, int currentRow, bool finalActiveSheet, int finalRow, string status)
 		{
-			this.SuspendLayout(); //avoid screen flickers
+			RequestSuspendLayout();
 			history.Off();
 			ToolStrip.SelectActiveInactive(currentActiveSheet);
 			ComboBox comboBox = this.GetControlFromPosition(STATUS_COLUMN_INDEX, currentRow) as ComboBox;
@@ -699,7 +696,7 @@ namespace Tamarin
 			}
 
 			history.On();
-			this.ResumeLayout();
+			RequestResumeLayout();
 		}
 
 		private Label NewTitleLabel(string text)
@@ -771,6 +768,21 @@ namespace Tamarin
 			if(newHeight == textBox.Size.Height)
 				return; //do not go into a resizing loop
 			textBox.Size = new System.Drawing.Size(textBox.Width, newHeight);
+		}
+
+		protected override void OnLayout(LayoutEventArgs e)
+		{
+			base.OnLayout(e);
+
+			int[] widths = this.GetColumnWidths();
+			if(widths.Length >= TITLE_COLUMN_INDEX)
+			{
+				Console.WriteLine("Textbox column width: {0}", widths[TITLE_COLUMN_INDEX]);
+			}
+			if(widths.Length >= TITLE_COLUMN_INDEX && widths[TITLE_COLUMN_INDEX] > 0)
+			{
+				int width = widths[TITLE_COLUMN_INDEX];
+			}
 		}
 
 		private ComboBox NewComboBox(string name, string[] options, string selectedValue = null)

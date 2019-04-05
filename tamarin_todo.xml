@@ -41,7 +41,11 @@
           <Data ss:Type="Number">54</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">create a custom layout manager that works better and faster</Data>
+          <Data ss:Type="String">create a custom layout manager that works better and faster
+? or can I get TableLayoutPanel working better ?
+maybe
+only initialize textbox height when column width stabilizes to a positive value?
+and only turn on textbox events after starting size is initiliazed?</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -51,6 +55,24 @@
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-09-13T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">86</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">are the competing SuspendLayout and ResumeLayout calls undoing each other?
+making sure they line up actually breaks the layout - the tablelayoutpanel does not seem to resize to fit the container</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-04T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -1571,7 +1593,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">85</Data>
+          <Data ss:Type="Number">86</Data>
         </Cell>
       </Row>
       <Row>

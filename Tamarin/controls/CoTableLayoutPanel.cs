@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -43,17 +44,23 @@ namespace Tamarin
 
 		private int SuspendLayoutCount = 0;
 
-		protected void RequestSuspendLayout()
+		protected void RequestSuspendLayout([CallerMemberName] string name="")
 		{
 			this.SuspendLayout();
 			SuspendLayoutCount++;
+			Console.WriteLine("Suspend layout: {0}: count {1}", name, SuspendLayoutCount);
 		}
 
-		protected void RequestResumeLayout()
+		protected void RequestResumeLayout([CallerMemberName] string name="")
 		{
 			SuspendLayoutCount--;
-			if(SuspendLayoutCount <= 0)
+			//Console.WriteLine("Maybe Resume layout: {0}: count {1}", name, SuspendLayoutCount);
+			//if(SuspendLayoutCount <= 0)
+			//{
+				Console.WriteLine("Resume layout: {0}: count {1}", name, SuspendLayoutCount);
+				//Console.WriteLine("Panel width: {0}", this.Width);
 				this.ResumeLayout();
+			//}
 		}
 
 		#endregion
