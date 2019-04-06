@@ -47,7 +47,10 @@ maybe
 only initialize textbox height when column width stabilizes to a positive value?
 and only turn on textbox events after starting size is initiliazed?
 but the "New" sheet works fine
-maybe if I load a "New" sheet and THEN add the rows to it?</Data>
+maybe if I load a "New" sheet and THEN add the rows to it?
+
+working in "Layout" branch
+making a dedicated custom layout</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>

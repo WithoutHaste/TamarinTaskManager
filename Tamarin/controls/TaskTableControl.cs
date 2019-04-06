@@ -10,32 +10,18 @@ using System.Windows.Forms;
 
 namespace Tamarin
 {
-	public class TaskTableControl : CoTableLayoutPanel
+	public class TaskTableControl : Panel
 	{
+		public event ShowColumnEventHandler ShowColumn;
+		public event ListEventHandler StatusesChanged;
+		public event ListEventHandler CategoriesChanged;
+
 		public TaskTableToolStrip ToolStrip { get; set; }
 
 		private Project project;
 		private History history;
 
 		private bool showActive = true;
-
-		private static int PLUS_COLUMN_INDEX = 0;
-		private static int ROW_COLUMN_INDEX = 1;
-		private static int ID_COLUMN_INDEX = 2;
-		private static int TITLE_COLUMN_INDEX = 3;
-		private static int STATUS_COLUMN_INDEX = 4;
-		private static int CATEGORY_COLUMN_INDEX = 5;
-		private static int CREATED_COLUMN_INDEX = 6;
-		private static int DONE_COLUMN_INDEX = 7;
-		private static int DELETE_COLUMN_INDEX = 8;
-		private static int HEADER_ROW_INDEX = 0;
-
-		private static float COLUMN_HIDDEN_WIDTH = 0F;
-		private static float ID_COLUMN_HIDDEN_WIDTH = 5F;
-		private static float ID_COLUMN_WIDTH = 45F;
-		private static float CATEGORY_COLUMN_WIDTH = 100F;
-
-		private bool WaitingOnLayoutToAddRows = false;
 
 		private bool DisplayCategories {
 			get {
@@ -105,39 +91,22 @@ namespace Tamarin
 			if(!forced && showActive == active)
 				return;
 
-			RequestSuspendLayout();
-
 			showActive = active;
 
 			this.Controls.Clear();
-			this.ColumnStyles.Clear();
 
 			InsertTitleRow();
+
+			int row = 1;
+			foreach(Task task in project.GetTasks(active: showActive))
+			{
+				InsertTaskRowAt(row, task);
+				row++;
+			}
+
 			ShowHideTaskIds();
 			ShowHideCategories();
-
-			WaitingOnLayoutToAddRows = true;
-			RequestResumeLayout();
-		}
-
-		protected override void OnLayout(LayoutEventArgs e)
-		{
-			base.OnLayout(e);
-
-			if(WaitingOnLayoutToAddRows)
-			{
-				WaitingOnLayoutToAddRows = false;
-
-				RequestSuspendLayout();
-				int row = 1;
-				foreach(Task task in project.GetTasks(active: showActive))
-				{
-					InsertTaskRowAt(row, task);
-					row++;
-				}
-				SetTabIndexes();
-				RequestResumeLayout();
-			}
+			SetTabIndexes();
 		}
 
 		public void ShowHideTaskIds()
@@ -157,12 +126,12 @@ namespace Tamarin
 
 		private void ShowTaskIds()
 		{
-			this.ColumnStyles[ID_COLUMN_INDEX].Width = ID_COLUMN_WIDTH;
+			Column_Show(true, TamarinRowControl.ID_COLUMN_INDEX);
 		}
 
 		private void HideTaskIds()
 		{
-			this.ColumnStyles[ID_COLUMN_INDEX].Width = ID_COLUMN_HIDDEN_WIDTH;
+			Column_Show(false, TamarinRowControl.ID_COLUMN_INDEX);
 		}
 
 		public void ShowHideCategories()
@@ -175,37 +144,25 @@ namespace Tamarin
 
 		private void ShowCategories()
 		{
-			this.ColumnStyles[CATEGORY_COLUMN_INDEX].Width = CATEGORY_COLUMN_WIDTH;
+			Column_Show(true, TamarinRowControl.CATEGORY_COLUMN_INDEX);
 		}
 
 		private void HideCategories()
 		{
-			this.ColumnStyles[CATEGORY_COLUMN_INDEX].Width = COLUMN_HIDDEN_WIDTH;
+			Column_Show(false, TamarinRowControl.CATEGORY_COLUMN_INDEX);
+		}
+
+		private void Column_Show(bool show, int columnIndex)
+		{
+			if(ShowColumn == null) return;
+			ShowColumn.Invoke(this, new ShowColumnEventArgs(show, columnIndex));
 		}
 
 		public void InsertTitleRow()
 		{
-			this.Controls.Add(NewButton("+", addTask_Click), PLUS_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(new TitleLabel("Row"), ROW_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(new TitleLabel("Id"), ID_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(new TitleLabel("Description"), TITLE_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(new TitleLabel("Status"), STATUS_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(new TitleLabel("Category"), CATEGORY_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(new TitleLabel("Created"), CREATED_COLUMN_INDEX, HEADER_ROW_INDEX);
-			this.Controls.Add(new TitleLabel("Finished"), DONE_COLUMN_INDEX, HEADER_ROW_INDEX);
-
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 45F));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, ID_COLUMN_WIDTH));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 100F));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, (DisplayCategories ? COLUMN_HIDDEN_WIDTH : CATEGORY_COLUMN_WIDTH)));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 80F));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, (showActive ? COLUMN_HIDDEN_WIDTH : 80F)));
-			this.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Absolute, 25F));
-
-			this.ColumnCount = DELETE_COLUMN_INDEX + 1;
-			this.RowCount = HEADER_ROW_INDEX + 1;
+			HeaderRowControl row = new HeaderRowControl();
+			row.Location = new Point(0, 0);
+			this.Controls.Add(row);
 		}
 
 		public void EditStatuses()
@@ -230,13 +187,8 @@ namespace Tamarin
 
 		private void UpdateStatusComboBoxOptions()
 		{
-			for(int row = 1; row <= this.RowCount; row++)
-			{
-				Control control = this.GetControlFromPosition(STATUS_COLUMN_INDEX, row);
-				if(!(control is StatusComboBox))
-					continue;
-				(control as StatusComboBox).UpdateOptions(project.Statuses.ToList());
-			}
+			if(StatusesChanged == null) return;
+			StatusesChanged.Invoke(this, new ListEventArgs(project.Statuses));
 		}
 
 		public void EditCategories()
@@ -262,115 +214,70 @@ namespace Tamarin
 
 		private void UpdateCategoryComboBoxOptions()
 		{
-			for(int row = 1; row <= this.RowCount; row++)
-			{
-				Control control = this.GetControlFromPosition(CATEGORY_COLUMN_INDEX, row);
-				if(!(control is CategoryComboBox))
-					continue;
-				(control as CategoryComboBox).UpdateOptions(project.Categories.ToList());
-			}
+			if(CategoriesChanged == null) return;
+			CategoriesChanged.Invoke(this, new ListEventArgs(project.Categories));
 		}
 
 		private void InsertTaskRowAt(int rowIndex, Task task)
 		{
-			RequestSuspendLayout();
+			TaskRowControl row = new TaskRowControl(rowIndex, task, project.Statuses.ToList(), project.Categories.ToList());
 
-			InsertRowAt(rowIndex);
+			int maxY = 0;
+			foreach(Control c in this.Controls)
+			{
+				maxY = Math.Max(maxY, c.Bottom);
+			}
+			row.Location = new Point(0, maxY);
 
-			Button addButton = NewButton("+", addTask_Click);
-			this.Controls.Add(addButton, PLUS_COLUMN_INDEX, rowIndex);
-			
-			TextBox rowNumberBox = NewTextBox("RowNumberTextBox", rowIndex.ToString());
-			rowNumberBox.LostFocus += new EventHandler(rowNumberTextBox_LostFocus);
-			rowNumberBox.Margin = new Padding(0);
-			rowNumberBox.TabStop = false;
-			rowNumberBox.KeyDown += new KeyEventHandler(rowNumberTextBox_KeyDown);
-			rowNumberBox.KeyUp += new KeyEventHandler(rowNumberTextBox_KeyUp);
-			this.Controls.Add(rowNumberBox, ROW_COLUMN_INDEX, rowIndex);
-			
-			this.Controls.Add(NewDataLabel("Id", task.Id.ToString()), ID_COLUMN_INDEX, rowIndex);
-			
-			TitleTextBox titleBox = new TitleTextBox("TitleTextBox", task.Description);
-			titleBox.GotFocus += new EventHandler(titleTextBox_GotFocus);
-			titleBox.TextChanged += new EventHandler(titleTextBox_TextChanged);
-			titleBox.KeyDown += new KeyEventHandler(titleTextBox_KeyDown);
-			titleBox.KeyUp += new KeyEventHandler(titleTextBox_KeyUp);
-			titleBox.TabIndex = 1;
-			this.Controls.Add(titleBox, TITLE_COLUMN_INDEX, rowIndex);
-			
-			StatusComboBox statusComboBox = new StatusComboBox(project.Statuses.ToList(), task.Status);
-			statusComboBox.SelectedIndexChanged += new EventHandler(statusComboBox_SelectedIndexChanged);
-			this.Controls.Add(statusComboBox, STATUS_COLUMN_INDEX, rowIndex);
+			this.Controls.Add(row);
+		}
 
-			CategoryComboBox categoryComboBox = new CategoryComboBox(project.Categories.ToList(), task.Category);
-			categoryComboBox.SelectedIndexChanged += new EventHandler(categoryComboBox_SelectedIndexChanged);
-			this.Controls.Add(categoryComboBox, CATEGORY_COLUMN_INDEX, rowIndex);
-
-			Label createLabel = NewDataLabel("CreateDate", task.CreateDateString);
-			createLabel.Margin = new Padding(0);
-			createLabel.TextAlign = ContentAlignment.TopRight;
-			createLabel.Dock = DockStyle.Right;
-			this.Controls.Add(createLabel, CREATED_COLUMN_INDEX, rowIndex);
-
-			Label doneLabel = NewDataLabel("DoneDate", task.DoneDateString);
-			doneLabel.Margin = new Padding(0);
-			doneLabel.TextAlign = ContentAlignment.TopRight;
-			doneLabel.Dock = DockStyle.Right;
-			this.Controls.Add(doneLabel, DONE_COLUMN_INDEX, rowIndex);
-
-			this.Controls.Add(NewButton("X", deleteTask_Click), DELETE_COLUMN_INDEX, rowIndex);
-			
-			this.RowCount++;
-
-			SetTabIndexes();
-
-			RequestResumeLayout();
+		private void AdjustRowIndexesAndPositions()
+		{
+			int index = 0;
+			int maxY = 0;
+			foreach(TamarinRowControl c in this.Controls)
+			{
+				c.SetRowIndex(index);
+				c.Location = new Point(0, maxY);
+				index++;
+				maxY = c.Bottom;
+			}
 		}
 
 		private void InsertRowAt(int rowIndex)
 		{
-			foreach(Control control in this.Controls)
-			{
-				int controlRow = this.GetRow(control);
-				if(controlRow < rowIndex)
-					continue;
-
-				this.SetRow(control, controlRow + 1);
-
-				if(control.Name == "RowNumberTextBox")
-				{
-					(control as TextBox).Text = (Int32.Parse((control as TextBox).Text) + 1).ToString();
-				}
-			}
-			SetTabIndexes();
+			TaskRowControl row = new TaskRowControl(rowIndex, new Task(), project.Statuses.ToList(), project.Categories.ToList());
+			this.Controls.Add(row);
+			this.Controls.SetChildIndex(row, rowIndex);
+			AdjustRowIndexesAndPositions();
 		}
 
 		private void RemoveRow(int rowIndex)
 		{
-			RequestSuspendLayout();
-
-			for(int col = 0; col < this.ColumnCount; col++)
+			int i = 0;
+			foreach(Control c in this.Controls)
 			{
-				Control control = this.GetControlFromPosition(col, rowIndex);
-				this.Controls.Remove(control);
-			}
-			foreach(Control control in this.Controls)
-			{
-				int controlRow = this.GetRow(control);
-				if(controlRow < rowIndex)
-					continue;
-
-				this.SetRow(control, controlRow - 1);
-
-				if(control.Name == "RowNumberTextBox")
+				if(i == rowIndex)
 				{
-					(control as TextBox).Text = (Int32.Parse((control as TextBox).Text) - 1).ToString();
+					this.Controls.Remove(c);
+					AdjustRowIndexesAndPositions();
+					return;
 				}
+				i++;
 			}
-			this.RowCount--;
-			SetTabIndexes();
+		}
 
-			RequestResumeLayout();
+		private TamarinRowControl GetRowByIndex(int index)
+		{
+			int i = 0;
+			foreach(TamarinRowControl row in this.Controls)
+			{
+				if(i == index)
+					return row;
+				i++;
+			}
+			return null;
 		}
 
 		private void MoveRow(int fromRow, int toRow)
@@ -378,16 +285,11 @@ namespace Tamarin
 			if(fromRow == toRow)
 				return;
 			Task task = project.MoveRow(fromRow, toRow, showActive);
-			RemoveRow(fromRow);
-			//going down, push toRow up - already done by removing task
-			//going up, push toRow down
-			InsertTaskRowAt(toRow, task);
-			FocusOnTitle(fromRow);
-			Control control = this.GetControlFromPosition(column: TITLE_COLUMN_INDEX, row: toRow);
-/*			if(control is TitleTextBox)
-			{
-				(control as TitleTextBox).SetTextBoxHeightByText();
-			}*/
+			TamarinRowControl row = GetRowByIndex(fromRow);
+			this.Controls.SetChildIndex(row, toRow);
+			if(row is TaskRowControl)
+				(row as TaskRowControl).FocusOnTitle();
+			AdjustRowIndexesAndPositions();
 		}
 
 		private void FocusOnTitle(int row, int caret = -1, int selectionLength = 0)
@@ -662,43 +564,6 @@ namespace Tamarin
 
 			history.On();
 			RequestResumeLayout();
-		}
-
-		private Label NewDataLabel(string name, string text)
-		{
-			Label label = new Label();
-			label.AutoSize = true;
-			label.Font = Settings.REGULAR_FONT;
-			label.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-			label.Size = new System.Drawing.Size(21, 24);
-			label.Name = name;
-			label.Text = text;
-			return label;
-		}
-
-		private TextBox NewTextBox(string name, string text = null)
-		{
-			TextBox textBox = new TextBox();
-			textBox.Dock = System.Windows.Forms.DockStyle.Top;
-			textBox.Font = Settings.REGULAR_FONT;
-			textBox.Name = name;
-			textBox.Text = text;
-			textBox.Size = new System.Drawing.Size(119, 22);
-			return textBox;
-		}
-
-		private Button NewButton(string text, EventHandler onClickHandler)
-		{
-			Button button = new Button();
-			button.Font = Settings.REGULAR_FONT;
-			button.Location = new System.Drawing.Point(3, 3);
-			button.AutoSize = true;
-			button.TabStop = false;
-			button.Text = text;
-			button.UseVisualStyleBackColor = true;
-			button.Margin = new Padding(0);
-			button.Click += onClickHandler;
-			return button;
 		}
 
 		private void SetTabIndexes()
