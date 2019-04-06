@@ -78,7 +78,7 @@
     <Compile Include="controls\CategoryComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="controls\CategoryForm.cs">
+    <Compile Include="dialogs\CategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="classes\ColumnLayout.cs" />
@@ -97,13 +97,13 @@
     <Compile Include="controls\CoTableLayoutPanel.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="controls\SettingsForm.cs">
+    <Compile Include="dialogs\SettingsForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="controls\StatusComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="controls\StatusForm.cs">
+    <Compile Include="dialogs\StatusForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="controls\TamarinComboBox.cs">

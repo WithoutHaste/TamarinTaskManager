@@ -35,6 +35,8 @@ namespace Tamarin
 		private static float ID_COLUMN_WIDTH = 45F;
 		private static float CATEGORY_COLUMN_WIDTH = 100F;
 
+		private bool WaitingOnLayoutToAddRows = false;
+
 		private bool DisplayCategories {
 			get {
 				return (project.Categories.Length > 1);
@@ -111,19 +113,31 @@ namespace Tamarin
 			this.ColumnStyles.Clear();
 
 			InsertTitleRow();
-
-			int row = 1;
-			foreach(Task task in project.GetTasks(active: active))
-			{
-				InsertTaskRowAt(row, task);
-				row++;
-			}
-
 			ShowHideTaskIds();
 			ShowHideCategories();
-			SetTabIndexes();
 
+			WaitingOnLayoutToAddRows = true;
 			RequestResumeLayout();
+		}
+
+		protected override void OnLayout(LayoutEventArgs e)
+		{
+			base.OnLayout(e);
+
+			if(WaitingOnLayoutToAddRows)
+			{
+				WaitingOnLayoutToAddRows = false;
+
+				RequestSuspendLayout();
+				int row = 1;
+				foreach(Task task in project.GetTasks(active: showActive))
+				{
+					InsertTaskRowAt(row, task);
+					row++;
+				}
+				SetTabIndexes();
+				RequestResumeLayout();
+			}
 		}
 
 		public void ShowHideTaskIds()
@@ -671,21 +685,6 @@ namespace Tamarin
 			textBox.Text = text;
 			textBox.Size = new System.Drawing.Size(119, 22);
 			return textBox;
-		}
-
-		protected override void OnLayout(LayoutEventArgs e)
-		{
-			base.OnLayout(e);
-
-			int[] widths = this.GetColumnWidths();
-			if(widths.Length >= TITLE_COLUMN_INDEX)
-			{
-				Console.WriteLine("Textbox column width: {0}", widths[TITLE_COLUMN_INDEX]);
-			}
-			if(widths.Length >= TITLE_COLUMN_INDEX && widths[TITLE_COLUMN_INDEX] > 0)
-			{
-				int width = widths[TITLE_COLUMN_INDEX];
-			}
 		}
 
 		private Button NewButton(string text, EventHandler onClickHandler)
