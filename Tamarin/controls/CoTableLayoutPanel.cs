@@ -54,13 +54,13 @@ namespace Tamarin
 		protected void RequestResumeLayout([CallerMemberName] string name="")
 		{
 			SuspendLayoutCount--;
-			Console.WriteLine("Maybe Resume layout: {0}: count {1}", name, SuspendLayoutCount);
-			if(SuspendLayoutCount <= 0)
-			{
+			//Console.WriteLine("Maybe Resume layout: {0}: count {1}", name, SuspendLayoutCount);
+			//if(SuspendLayoutCount <= 0)
+			//{
 				Console.WriteLine("Resume layout: {0}: count {1}", name, SuspendLayoutCount);
-				Console.WriteLine("Panel width: {0}", this.Width);
+				//Console.WriteLine("Panel width: {0}", this.Width);
 				this.ResumeLayout();
-			}
+			//}
 		}
 
 		#endregion
