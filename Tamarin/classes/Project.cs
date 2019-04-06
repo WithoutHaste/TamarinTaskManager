@@ -238,6 +238,11 @@ namespace Tamarin
 			GetSheet(active).RemoveTask(ProjectIndex(row));
 		}
 
+		public void RemoveAllInactiveTasks()
+		{
+			GetSheet(active: false).RemoveAllTasks();
+		}
+
 		public Task MoveRow(int fromRow, int toRow, bool active)
 		{
 			LastEditedDateTime = DateTime.Now;

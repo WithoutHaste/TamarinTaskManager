@@ -124,6 +124,11 @@ namespace Tamarin
 			Tasks.RemoveAt(row);
 		}
 
+		public void RemoveAllTasks()
+		{
+			Tasks.Clear();
+		}
+
 		private List<Task> LoadTasks(ExcelWorksheet worksheet)
 		{
 			List<string> ids = ExcelPackageHelper.GetColumnByChar(worksheet, columnLayout.IdColumn, skipFirstRow:true).Cast<string>().ToList();

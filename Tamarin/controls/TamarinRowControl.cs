@@ -16,6 +16,7 @@ namespace Tamarin
 
 		/// <summary>Table-controlled row index. First data row is row 1.</summary>
 		protected int rowIndex;
+		public int RowIndex { get { return rowIndex; } }
 
 		public static readonly int PLUS_COLUMN_INDEX = 0;
 		public static readonly int ROW_COLUMN_INDEX = 1;
