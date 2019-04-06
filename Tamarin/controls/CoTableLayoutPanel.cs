@@ -18,6 +18,7 @@ namespace Tamarin
 		protected override void OnCreateControl()
 		{
 			base.OnCreateControl();
+			this.DoubleBuffered = true;
 			this.SetStyle(ControlStyles.OptimizedDoubleBuffer | ControlStyles.CacheText, true);
 		}
 
