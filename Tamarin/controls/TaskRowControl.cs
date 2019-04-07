@@ -95,6 +95,7 @@ namespace Tamarin
 		public override void SetRowIndex(int rowIndex)
 		{
 			base.SetRowIndex(rowIndex);
+			rowNumberBox.Text = rowIndex.ToString();
 			SetTabIndexes();
 		}
 

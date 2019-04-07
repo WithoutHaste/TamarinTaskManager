@@ -44,7 +44,7 @@
           <Data ss:Type="String">new file</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -60,7 +60,8 @@
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">add row from header row
 undo
-redo</Data>
+redo
+- id comes in different on redo</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
