@@ -88,18 +88,22 @@ namespace Tamarin
 
 			finished.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(finished, delete);
+			PlaceCenterVerticalOn(add, finished);
 			finished.Anchor = AnchorStyles.Right;
 
 			created.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(created, finished);
+			PlaceCenterVerticalOn(add, created);
 			created.Anchor = AnchorStyles.Right;
 
 			category.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(category, created);
+			PlaceCenterVerticalOn(add, category);
 			category.Anchor = AnchorStyles.Right;
 
 			status.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(status, category);
+			PlaceCenterVerticalOn(add, status);
 			status.Anchor = AnchorStyles.Right;
 
 			int remainingWidth = this.Width - add.Width - index.Width - id.Width - delete.Width - finished.Width - created.Width - category.Width - status.Width;

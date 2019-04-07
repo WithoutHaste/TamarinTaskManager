@@ -189,7 +189,7 @@ namespace Tamarin
 			HeaderRowControl row = new HeaderRowControl();
 			row.AddRowBelow += new EventHandler(OnAddRowBelow);
 			row.Location = new Point(0, 0);
-			row.Width = this.Width;
+			row.Width = this.ClientRectangle.Width;
 			row.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 			this.Controls.Add(row);
 		}
@@ -262,7 +262,7 @@ namespace Tamarin
 			row.RowDeleted += new EventHandler(OnRowDeleted);
 
 			row.Location = new Point(0, GetControlsMaxY());
-			row.Width = this.Width;
+			row.Width = this.ClientRectangle.Width;
 			row.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 			this.Controls.Add(row);
 			this.Controls.SetChildIndex(row, rowIndex);
