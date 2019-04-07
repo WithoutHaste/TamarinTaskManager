@@ -8,17 +8,15 @@ using System.Windows.Forms;
 
 namespace Tamarin
 {
-	/// <summary>
-	/// A header.
-	/// </summary>
-	public class TitleLabel : Label
+	public class DataLabel : Label
 	{
-		public TitleLabel(string text)
+		public DataLabel(string name, string text)
 		{
-			this.Font = Settings.TITLE_FONT;
+			this.Font = Settings.REGULAR_FONT;
 			this.Padding = new Padding(0);
 			this.TextAlign = ContentAlignment.MiddleLeft;
 			this.Text = text;
+			this.Name = name;
 		}
 	}
 }

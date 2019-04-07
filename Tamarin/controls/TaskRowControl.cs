@@ -48,22 +48,19 @@ namespace Tamarin
 
 		protected void InitControls(Task task, List<string> statusOptions, List<string> categoryOptions)
 		{
-			Button addButton = NewButton("+", Add_Click);
-			addButton.Location = new Point(0, 0);
-			addButton.AutoSize = true;
-			this.Controls.Add(addButton);
+			this.Controls.Add(NewButton("+", Add_Click));
 
 			rowNumberBox = NewTextBox("RowNumberTextBox", rowIndex.ToString());
+			rowNumberBox.TextAlign = HorizontalAlignment.Center;
 			rowNumberBox.GotFocus += new EventHandler(Row_GotFocus);
 			rowNumberBox.LostFocus += new EventHandler(RowIndex_LostFocus);
-			rowNumberBox.Margin = new Padding(0);
-			rowNumberBox.TabStop = false;
 			rowNumberBox.KeyDown += new KeyEventHandler(RowIndex_KeyDown);
 			rowNumberBox.KeyUp += new KeyEventHandler(RowIndex_KeyUp);
+			rowNumberBox.TabStop = false;
 			this.Controls.Add(rowNumberBox);
 
-			Label idLabel = NewDataLabel("Id", task.Id.ToString());
-			idLabel.AutoSize = true;
+			Label idLabel = new DataLabel("Id", task.Id.ToString());
+			idLabel.TextAlign = ContentAlignment.TopCenter;
 			this.Controls.Add(idLabel);
 
 			titleBox = new TitleTextBox("TitleTextBox", task.Description);
@@ -81,20 +78,17 @@ namespace Tamarin
 			categoryComboBox.SelectedIndexChanged += new EventHandler(Row_CategoryChanged);
 			this.Controls.Add(categoryComboBox);
 
-			Label createLabel = NewDataLabel("CreateDate", task.CreateDateString);
-			createLabel.Margin = new Padding(0);
+			Label createLabel = new DataLabel("CreateDate", task.CreateDateString);
 			createLabel.TextAlign = ContentAlignment.TopRight;
 			this.Controls.Add(createLabel);
 
-			Label doneLabel = NewDataLabel("DoneDate", task.DoneDateString);
-			doneLabel.Margin = new Padding(0);
+			Label doneLabel = new DataLabel("DoneDate", task.DoneDateString);
 			doneLabel.TextAlign = ContentAlignment.TopRight;
 			this.Controls.Add(doneLabel);
 
-			Button deleteButton = NewButton("X", Row_Deleted);
-			this.Controls.Add(deleteButton);
+			this.Controls.Add(NewButton("X", Row_Deleted));
 
-			ArrangeControlsLeftToRight();
+			SetupColumns(this.Controls);
 			SetTabIndexes();
 		}
 
@@ -286,26 +280,12 @@ namespace Tamarin
 			categoryComboBox.UpdateOptions(e.Values.ToList());
 		}
 
-		private Label NewDataLabel(string name, string text)
-		{
-			Label label = new Label();
-			label.AutoSize = true;
-			label.Font = Settings.REGULAR_FONT;
-			label.Padding = new System.Windows.Forms.Padding(0, 8, 0, 0);
-			label.Size = new System.Drawing.Size(21, 24);
-			label.Name = name;
-			label.Text = text;
-			return label;
-		}
-
 		private TextBox NewTextBox(string name, string text = null)
 		{
 			TextBox textBox = new TextBox();
-			textBox.Dock = System.Windows.Forms.DockStyle.Top;
 			textBox.Font = Settings.REGULAR_FONT;
 			textBox.Name = name;
 			textBox.Text = text;
-			textBox.Size = new System.Drawing.Size(119, 22);
 			return textBox;
 		}
 

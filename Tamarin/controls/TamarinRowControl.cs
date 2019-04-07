@@ -32,6 +32,8 @@ namespace Tamarin
 		public TamarinRowControl(int rowIndex)
 		{
 			this.rowIndex = rowIndex;
+			this.Width = 300; //default width to start layout with - big enough for all controls to have room
+			this.Height = (int)(Settings.TITLE_CHAR_HEIGHT * 2);
 		}
 
 		public virtual void SetRowIndex(int rowIndex)
@@ -67,43 +69,42 @@ namespace Tamarin
 			Control finished = controls[DONE_COLUMN_INDEX];
 			Control delete = controls[DELETE_COLUMN_INDEX];
 
-			int padding = 4;
-
-			add.Location = new Point(0, padding);
-			add.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, Settings.TITLE_CHAR_HEIGHT);
+			add.Location = new Point(0, 0);
+			add.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, this.Height);
 			add.Anchor = AnchorStyles.Left;
 
-			index.Size = new Size(Settings.TITLE_CHAR_WIDTH * 4, Settings.TITLE_CHAR_HEIGHT);
+			index.Size = new Size(Settings.TITLE_CHAR_WIDTH * 4, this.Height);
 			PlaceRightOf(add, index);
+			PlaceCenterVerticalOn(add, index);
 			index.Anchor = AnchorStyles.Left;
 
-			id.Size = new Size(Settings.TITLE_CHAR_WIDTH * 3, Settings.TITLE_CHAR_HEIGHT);
+			id.Size = new Size(Settings.TITLE_CHAR_WIDTH * 4, this.Height);
 			PlaceRightOf(index, id);
 			id.Anchor = AnchorStyles.Left;
 
-			delete.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, Settings.TITLE_CHAR_HEIGHT);
-			delete.Location = new Point(this.Width - delete.Width, padding);
+			delete.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, this.Height);
+			delete.Location = new Point(this.Width - delete.Width, 0);
 			delete.Anchor = AnchorStyles.Right;
 
-			finished.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, Settings.TITLE_CHAR_HEIGHT);
+			finished.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(finished, delete);
 			finished.Anchor = AnchorStyles.Right;
 
-			created.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, Settings.TITLE_CHAR_HEIGHT);
+			created.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(created, finished);
 			created.Anchor = AnchorStyles.Right;
 
-			category.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, Settings.TITLE_CHAR_HEIGHT);
+			category.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(category, created);
 			category.Anchor = AnchorStyles.Right;
 
-			status.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, Settings.TITLE_CHAR_HEIGHT);
+			status.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(status, category);
 			status.Anchor = AnchorStyles.Right;
 
 			int remainingWidth = this.Width - add.Width - index.Width - id.Width - delete.Width - finished.Width - created.Width - category.Width - status.Width;
 
-			title.Size = new Size(remainingWidth, Settings.TITLE_CHAR_HEIGHT);
+			title.Size = new Size(remainingWidth, this.Height);
 			PlaceRightOf(id, title);
 			title.Anchor = AnchorStyles.Left | AnchorStyles.Right;
 		}
@@ -131,11 +132,16 @@ namespace Tamarin
 			left.Location = new Point(right.Left - left.Width, right.Top);
 		}
 
+		protected void PlaceCenterVerticalOn(Control reference, Control control)
+		{
+			int heightDifference = reference.Height - control.Height;
+			control.Location = new Point(control.Left, reference.Top + (heightDifference / 2));
+		}
+
 		protected Button NewButton(string text, EventHandler onClickHandler)
 		{
 			Button button = new Button();
 			button.Font = Settings.REGULAR_FONT;
-			button.AutoSize = true;
 			button.TabStop = false;
 			button.Text = text;
 			button.UseVisualStyleBackColor = true;

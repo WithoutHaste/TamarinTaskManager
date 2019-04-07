@@ -78,6 +78,9 @@
     <Compile Include="controls\CategoryComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="controls\DataLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="controls\HeaderRowControl.cs">
       <SubType>Component</SubType>
     </Compile>
