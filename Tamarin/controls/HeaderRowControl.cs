@@ -11,16 +11,13 @@ namespace Tamarin
 	{
 		public HeaderRowControl() : base(0)
 		{
+			this.Height = (int)(Settings.TITLE_CHAR_HEIGHT * 2);
 			InitControls();
 		}
 
 		private void InitControls()
 		{
-			Button addButton = NewButton("+", Add_Click);
-			addButton.Location = new Point(0, 0);
-			addButton.AutoSize = true;
-			this.Controls.Add(addButton);
-
+			this.Controls.Add(NewButton("+", Add_Click));
 			this.Controls.Add(new TitleLabel("Row"));
 			this.Controls.Add(new TitleLabel("Id"));
 			this.Controls.Add(new TitleLabel("Description"));
@@ -28,8 +25,8 @@ namespace Tamarin
 			this.Controls.Add(new TitleLabel("Category"));
 			this.Controls.Add(new TitleLabel("Created"));
 			this.Controls.Add(new TitleLabel("Finished"));
-
-			ArrangeControlsLeftToRight();
+			this.Controls.Add(new TitleLabel("  "));
+			SetupColumns(this.Controls);
 		}
 	}
 }

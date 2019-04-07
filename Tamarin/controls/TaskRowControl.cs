@@ -63,6 +63,7 @@ namespace Tamarin
 			this.Controls.Add(rowNumberBox);
 
 			Label idLabel = NewDataLabel("Id", task.Id.ToString());
+			idLabel.AutoSize = true;
 			this.Controls.Add(idLabel);
 
 			titleBox = new TitleTextBox("TitleTextBox", task.Description);
@@ -70,7 +71,6 @@ namespace Tamarin
 			titleBox.TextChanged += new EventHandler(Row_TitleChanged);
 			titleBox.KeyDown += new KeyEventHandler(Title_KeyDown);
 			titleBox.KeyUp += new KeyEventHandler(Title_KeyUp);
-			titleBox.TabIndex = 1;
 			this.Controls.Add(titleBox);
 
 			statusComboBox = new StatusComboBox(statusOptions, task.Status);

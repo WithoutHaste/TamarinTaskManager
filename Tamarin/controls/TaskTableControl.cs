@@ -22,6 +22,7 @@ namespace Tamarin
 		private History history;
 
 		private bool showActive = true;
+		private int[] columnWidths;
 
 		private bool DisplayCategories {
 			get {
@@ -40,6 +41,7 @@ namespace Tamarin
 			this.BackColor = Color.White;
 			this.AutoScroll = true;
 			this.VisibleChanged += new EventHandler(taskTableControl_VisibleChanged);
+			this.SizeChanged += new EventHandler(taskTableControl_SizeChanged);
 
 			ShowTaskSheet(active: showActive, forced: true);
 		}
@@ -49,6 +51,31 @@ namespace Tamarin
 			if(!(sender as Control).Visible)
 				return;
 			CheckForOutsideEdits();
+		}
+
+		private void taskTableControl_SizeChanged(object sender, EventArgs e)
+		{
+			RecalculateColumnWidths();
+		}
+
+		private void RecalculateColumnWidths()
+		{
+/*			if(this.Width <= 10)
+				return;
+			if(columnWidths == null)
+			{
+				columnWidths = new int[TamarinRowControl.DELETE_COLUMN_INDEX + 1];
+			}
+			int half = this.Width / 2;
+			columnWidths[TamarinRowControl.PLUS_COLUMN_INDEX] = Math.Min(20, (int)(half * 0.1));
+			columnWidths[TamarinRowControl.ROW_COLUMN_INDEX] = 20;
+			columnWidths[TamarinRowControl.ID_COLUMN_INDEX] = 20;
+			columnWidths[TamarinRowControl.TITLE_COLUMN_INDEX] = 20;
+			columnWidths[TamarinRowControl.STATUS_COLUMN_INDEX] = 40;
+			columnWidths[TamarinRowControl.CATEGORY_COLUMN_INDEX] = 40;
+			columnWidths[TamarinRowControl.CREATED_COLUMN_INDEX] = 40;
+			columnWidths[TamarinRowControl.DONE_COLUMN_INDEX] = 40;
+			columnWidths[TamarinRowControl.DELETE_COLUMN_INDEX] = 40;*/
 		}
 
 		public void CheckForOutsideEdits()
@@ -161,6 +188,8 @@ namespace Tamarin
 		{
 			HeaderRowControl row = new HeaderRowControl();
 			row.Location = new Point(0, 0);
+			row.Width = this.Width;
+			row.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 			this.Controls.Add(row);
 		}
 
@@ -232,6 +261,8 @@ namespace Tamarin
 			row.RowDeleted += new EventHandler(OnRowDeleted);
 
 			row.Location = new Point(0, 0);
+			row.Width = this.Width;
+			row.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 			this.Controls.Add(row);
 			this.Controls.SetChildIndex(row, rowIndex);
 			AdjustRowIndexesAndPositions();

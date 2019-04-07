@@ -78,6 +78,15 @@
     <Compile Include="controls\CategoryComboBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="controls\HeaderRowControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="controls\TamarinRowControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="controls\TaskRowControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="dialogs\CategoryForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -121,6 +130,11 @@
     <Compile Include="controls\TitleTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="events\GoToRowEventHandler.cs" />
+    <Compile Include="events\IntEventHandler.cs" />
+    <Compile Include="events\ListEventHandler.cs" />
+    <Compile Include="events\ShowColumnEventHandler.cs" />
+    <Compile Include="events\StringEventHandler.cs" />
     <Compile Include="WindowForm.cs">
       <SubType>Form</SubType>
     </Compile>
