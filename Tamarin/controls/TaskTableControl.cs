@@ -22,7 +22,6 @@ namespace Tamarin
 		private History history;
 
 		private bool showActive = true;
-		private int[] columnWidths;
 
 		private bool DisplayCategories {
 			get {
@@ -46,6 +45,8 @@ namespace Tamarin
 			ShowTaskSheet(active: showActive, forced: true);
 		}
 
+		#region Event Handlers
+
 		private void taskTableControl_VisibleChanged(object sender, EventArgs e)
 		{
 			if(!(sender as Control).Visible)
@@ -56,6 +57,252 @@ namespace Tamarin
 		private void taskTableControl_SizeChanged(object sender, EventArgs e)
 		{
 			RecalculateColumnWidths();
+		}
+
+		private void OnAddRowBelow(object sender, EventArgs e)
+		{
+			TamarinRowControl row = (sender as TamarinRowControl);
+			int nextRowIndex = row.RowIndex + 1;
+			Task newTask = InsertTaskRowAt(nextRowIndex, project.InsertNewTask(nextRowIndex, active: showActive));
+			history.Add(new AddAction(showActive, nextRowIndex, newTask.Id));
+			if(row is TaskRowControl)
+				(row as TaskRowControl).FocusOnTitle();
+		}
+
+		private void OnRowDeleted(object sender, EventArgs e)
+		{
+			TaskRowControl row = (sender as TaskRowControl);
+			Task task = project.GetTask(row.RowIndex, active: showActive);
+			project.RemoveTask(row.RowIndex, active: showActive);
+			RemoveRow(row.RowIndex);
+			history.Add(new DeleteAction(showActive, row.RowIndex, task.Id, task));
+		}
+
+		private void OnMoveRow(object sender, IntEventArgs e)
+		{
+			TaskRowControl row = (sender as TaskRowControl);
+			MoveRow(row.RowIndex, e.Value);
+			history.Add(new MoveAction(showActive, row.RowIndex, e.Value));
+		}
+
+		private void OnRowGotFocus(object sender, EventArgs e)
+		{
+			this.ScrollControlIntoView(sender as Control);
+		}
+
+		private void OnRowTitleChanged(object sender, StringEventArgs e)
+		{
+			TaskRowControl row = (sender as TaskRowControl);
+			string previousText = project.GetTitle(row.RowIndex, showActive);
+			project.UpdateTitle(row.RowIndex, e.Value, active: showActive);
+			history.Add(new TextAction(showActive, row.RowIndex, previousText, e.Value));
+		}
+
+		private void OnGoToRow(object sender, GoToRowEventArgs e)
+		{
+			TamarinRowControl row = GetRowByIndex(e.RowIndex);
+			if(row == null || !(row is TaskRowControl))
+				return;
+			(row as TaskRowControl).FocusOnTitle(e.LastLine);
+		}
+
+		private void OnRowStatusChanged(object sender, StringEventArgs e)
+		{
+			TaskRowControl row = (sender as TaskRowControl);
+			string previousStatus = project.GetStatus(row.RowIndex, active: showActive);
+			if(previousStatus == e.Value)
+				return;
+
+			ChangeStatusAction historyAction = new ChangeStatusAction(showActive, row.RowIndex, previousStatus);
+			StatusChangeResult result = project.UpdateStatus(row.RowIndex, e.Value, active: showActive);
+
+			if(result.ActiveInactiveChanged)
+			{
+				historyAction.SetNew(!showActive, 1, e.Value);
+				RemoveRow(row.RowIndex);
+			}
+			else
+			{
+				historyAction.SetNew(showActive, row.RowIndex, e.Value);
+			}
+			history.Add(historyAction);
+			row.FocusOnTitle();
+		}
+
+		private void OnRowCategoryChanged(object sender, StringEventArgs e)
+		{
+			TaskRowControl row = (sender as TaskRowControl);
+			string previousCategory = project.GetCategory(row.RowIndex, active: showActive);
+			if(previousCategory == e.Value)
+				return;
+
+			project.UpdateCategory(row.RowIndex, e.Value, active: showActive);
+			history.Add(new ChangeCategoryAction(showActive, row.RowIndex, previousCategory, e.Value));
+			row.FocusOnTitle();
+		}
+
+		private void comboBox_MouseWheel(object sender, MouseEventArgs e)
+		{
+			(e as HandledMouseEventArgs).Handled = true;
+		}
+
+		#endregion
+
+		#region History
+
+		public void Undo()
+		{
+			if(!history.CanUndo)
+				return;
+			HistoryAction action = history.Undo();
+			action.Undo(this);
+		}
+
+		public void Redo()
+		{
+			if(!history.CanRedo)
+				return;
+			HistoryAction action = history.Redo();
+			action.Redo(this);
+		}
+
+		public void ManualAddTask(bool activeSheet, int row, Task task = null)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			if(task == null)
+				task = project.InsertNewTask(row, active: showActive);
+			else
+				project.InsertTask(row, active: showActive, task: task);
+			InsertTaskRowAt(row, task);
+			history.On();
+		}
+
+		public void ManualDeleteTask(bool activeSheet, int row, int id)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			project.RemoveTask(row, active: showActive);
+			project.UnUseId(id);
+			RemoveRow(row);
+			history.On();
+		}
+
+		public void ManualMoveTask(bool activeSheet, int fromRowNumber, int toRowNumber)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			MoveRow(fromRowNumber, toRowNumber);
+			history.On();
+		}
+
+		public void ManualTextChange(bool activeSheet, int rowIndex, string text, int caret, int selectionLength)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			TamarinRowControl row = GetRowByIndex(rowIndex);
+			if(row == null || !(row is TaskRowControl))
+				return;
+			(row as TaskRowControl).SetTitle(text);
+			(row as TaskRowControl).FocusOnTitle(caret, selectionLength);
+			history.On();
+		}
+
+		public void ManualChangeTaskCategory(bool activeSheet, int rowIndex, string category)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(activeSheet);
+			TamarinRowControl row = GetRowByIndex(rowIndex);
+			if(row == null || !(row is TaskRowControl))
+				return;
+			(row as TaskRowControl).SetCategory(category);
+			history.On();
+		}
+
+		public void ManualChangeTaskStatus(bool currentActiveSheet, int currentRowIndex, bool finalActiveSheet, int finalRowIndex, string status)
+		{
+			history.Off();
+			ToolStrip.SelectActiveInactive(currentActiveSheet);
+			TamarinRowControl row = GetRowByIndex(currentRowIndex);
+			if(row == null || !(row is TaskRowControl))
+				return;
+			(row as TaskRowControl).SetStatus(status);
+
+			if(currentActiveSheet != finalActiveSheet || currentRowIndex != finalRowIndex)
+			{
+				ToolStrip.SelectActiveInactive(finalActiveSheet);
+				MoveRow(1, finalRowIndex);
+			}
+			history.On();
+		}
+
+		#endregion
+
+		public void InsertTitleRow()
+		{
+			HeaderRowControl row = new HeaderRowControl();
+			row.AddRowBelow += new EventHandler(OnAddRowBelow);
+			row.Location = new Point(0, 0);
+			row.Width = this.ClientRectangle.Width;
+			row.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+			this.Controls.Add(row);
+		}
+
+		private Task InsertTaskRowAt(int rowIndex, Task task = null)
+		{
+			if(task == null)
+				task = new Task();
+
+			TaskRowControl row = new TaskRowControl(rowIndex, task, project.Statuses.ToList(), project.Categories.ToList());
+			row.AddRowBelow += new EventHandler(OnAddRowBelow);
+			row.RowIndexChanged += new IntEventHandler(OnMoveRow);
+			row.RowTitleChanged += new StringEventHandler(OnRowTitleChanged);
+			row.GoToRow += new GoToRowEventHandler(OnGoToRow);
+			row.RowStatusChanged += new StringEventHandler(OnRowStatusChanged);
+			row.RowCategoryChanged += new StringEventHandler(OnRowCategoryChanged);
+			row.RowDeleted += new EventHandler(OnRowDeleted);
+
+			row.Location = new Point(0, GetControlsMaxY());
+			row.Width = this.ClientRectangle.Width;
+			row.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+			this.Controls.Add(row);
+			this.Controls.SetChildIndex(row, rowIndex);
+			AdjustRowIndexesAndPositions();
+
+			return task;
+		}
+
+		private void RemoveRow(int rowIndex)
+		{
+			TamarinRowControl row = GetRowByIndex(rowIndex);
+			if(!(row is TaskRowControl))
+				return;
+			this.Controls.Remove(row);
+			AdjustRowIndexesAndPositions();
+		}
+
+		private TamarinRowControl GetRowByIndex(int index)
+		{
+			int i = 0;
+			foreach(TamarinRowControl row in this.Controls)
+			{
+				if(i == index)
+					return row;
+				i++;
+			}
+			return null;
+		}
+
+		private void MoveRow(int fromRow, int toRow)
+		{
+			if(fromRow == toRow)
+				return;
+			Task task = project.MoveRow(fromRow, toRow, showActive);
+			TamarinRowControl row = GetRowByIndex(fromRow);
+			this.Controls.SetChildIndex(row, toRow);
+			if(row is TaskRowControl)
+				(row as TaskRowControl).FocusOnTitle();
+			AdjustRowIndexesAndPositions();
 		}
 
 		private void RecalculateColumnWidths()
@@ -95,22 +342,6 @@ namespace Tamarin
 			history.Clear();
 			project.ReloadProject();
 			ShowTaskSheet(showActive, forced:true);
-		}
-
-		public void Undo()
-		{
-			if(!history.CanUndo)
-				return;
-			HistoryAction action = history.Undo();
-			action.Undo(this);
-		}
-
-		public void Redo()
-		{
-			if(!history.CanRedo)
-				return;
-			HistoryAction action = history.Redo();
-			action.Redo(this);
 		}
 
 		public void ShowTaskSheet(bool active, bool forced = false)
@@ -184,16 +415,6 @@ namespace Tamarin
 			ShowColumn.Invoke(this, new ShowColumnEventArgs(show, columnIndex));
 		}
 
-		public void InsertTitleRow()
-		{
-			HeaderRowControl row = new HeaderRowControl();
-			row.AddRowBelow += new EventHandler(OnAddRowBelow);
-			row.Location = new Point(0, 0);
-			row.Width = this.ClientRectangle.Width;
-			row.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-			this.Controls.Add(row);
-		}
-
 		public void EditStatuses()
 		{
 			using(StatusForm statusForm = new StatusForm(project.ActiveStatuses, project.InactiveStatuses))
@@ -247,30 +468,6 @@ namespace Tamarin
 			CategoriesChanged.Invoke(this, new ListEventArgs(project.Categories));
 		}
 
-		private Task InsertTaskRowAt(int rowIndex, Task task = null)
-		{
-			if(task == null)
-				task = new Task();
-
-			TaskRowControl row = new TaskRowControl(rowIndex, task, project.Statuses.ToList(), project.Categories.ToList());
-			row.AddRowBelow += new EventHandler(OnAddRowBelow);
-			row.RowIndexChanged += new IntEventHandler(OnMoveRow);
-			row.RowTitleChanged += new StringEventHandler(OnRowTitleChanged);
-			row.GoToRow += new GoToRowEventHandler(OnGoToRow);
-			row.RowStatusChanged += new StringEventHandler(OnRowStatusChanged);
-			row.RowCategoryChanged += new StringEventHandler(OnRowCategoryChanged);
-			row.RowDeleted += new EventHandler(OnRowDeleted);
-
-			row.Location = new Point(0, GetControlsMaxY());
-			row.Width = this.ClientRectangle.Width;
-			row.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-			this.Controls.Add(row);
-			this.Controls.SetChildIndex(row, rowIndex);
-			AdjustRowIndexesAndPositions();
-
-			return task;
-		}
-
 		private int GetControlsMaxY()
 		{
 			int maxY = 0;
@@ -294,202 +491,12 @@ namespace Tamarin
 			}
 		}
 
-		private void RemoveRow(int rowIndex)
-		{
-			TamarinRowControl row = GetRowByIndex(rowIndex);
-			if(!(row is TaskRowControl))
-				return;
-			this.Controls.Remove(row);
-			AdjustRowIndexesAndPositions();
-		}
-
-		private TamarinRowControl GetRowByIndex(int index)
-		{
-			int i = 0;
-			foreach(TamarinRowControl row in this.Controls)
-			{
-				if(i == index)
-					return row;
-				i++;
-			}
-			return null;
-		}
-
-		private void MoveRow(int fromRow, int toRow)
-		{
-			if(fromRow == toRow)
-				return;
-			Task task = project.MoveRow(fromRow, toRow, showActive);
-			TamarinRowControl row = GetRowByIndex(fromRow);
-			this.Controls.SetChildIndex(row, toRow);
-			if(row is TaskRowControl)
-				(row as TaskRowControl).FocusOnTitle();
-			AdjustRowIndexesAndPositions();
-		}
-
 		private void FocusOnTitle(int rowIndex, int caret = -1, int selectionLength = 0)
 		{
 			TamarinRowControl row = GetRowByIndex(rowIndex);
 			if(!(row is TaskRowControl))
 				return;
 			(row as TaskRowControl).FocusOnTitle(caret, selectionLength);
-		}
-
-		private void OnAddRowBelow(object sender, EventArgs e)
-		{
-			TamarinRowControl row = (sender as TamarinRowControl);
-			int nextRowIndex = row.RowIndex + 1;
-			Task newTask = InsertTaskRowAt(nextRowIndex, project.InsertNewTask(nextRowIndex, active: showActive));
-			history.Add(new AddAction(showActive, nextRowIndex, newTask.Id));
-			if(row is TaskRowControl)
-				(row as TaskRowControl).FocusOnTitle();
-		}
-
-		public void ManualAddTask(bool activeSheet, int row, Task task = null)
-		{
-			history.Off();
-			ToolStrip.SelectActiveInactive(activeSheet);
-			if(task == null)
-				task = project.InsertNewTask(row, active: showActive);
-			else
-				project.InsertTask(row, active: showActive, task: task);
-			InsertTaskRowAt(row, task);
-			history.On();
-		}
-
-		private void OnRowDeleted(object sender, EventArgs e)
-		{
-			TaskRowControl row = (sender as TaskRowControl);
-			Task task = project.GetTask(row.RowIndex, active: showActive);
-			project.RemoveTask(row.RowIndex, active: showActive);
-			RemoveRow(row.RowIndex);
-			history.Add(new DeleteAction(showActive, row.RowIndex, task.Id, task));
-		}
-
-		public void ManualDeleteTask(bool activeSheet, int row, int id)
-		{
-			history.Off();
-			ToolStrip.SelectActiveInactive(activeSheet);
-			project.RemoveTask(row, active: showActive);
-			project.UnUseId(id);
-			RemoveRow(row);
-			history.On();
-		}
-
-		private void OnMoveRow(object sender, IntEventArgs e)
-		{
-			TaskRowControl row = (sender as TaskRowControl);
-			MoveRow(row.RowIndex, e.Value);
-			history.Add(new MoveAction(showActive, row.RowIndex, e.Value));
-		}
-
-		private void OnRowGotFocus(object sender, EventArgs e)
-		{
-			this.ScrollControlIntoView(sender as Control);
-		}
-
-		private void OnRowTitleChanged(object sender, StringEventArgs e)
-		{
-			TaskRowControl row = (sender as TaskRowControl);
-			string previousText = project.GetTitle(row.RowIndex, showActive);
-			project.UpdateTitle(row.RowIndex, e.Value, active: showActive);
-			history.Add(new TextAction(showActive, row.RowIndex, previousText, e.Value));
-		}
-
-		private void OnGoToRow(object sender, GoToRowEventArgs e)
-		{
-			TamarinRowControl row = GetRowByIndex(e.RowIndex);
-			if(row == null || !(row is TaskRowControl))
-				return;
-			(row as TaskRowControl).FocusOnTitle(e.LastLine);
-		}
-
-		public void ManualMoveTask(bool activeSheet, int fromRowNumber, int toRowNumber)
-		{
-			history.Off();
-			ToolStrip.SelectActiveInactive(activeSheet);
-			MoveRow(fromRowNumber, toRowNumber);
-			history.On();
-		}
-
-		public void ManualTextChange(bool activeSheet, int rowIndex, string text, int caret, int selectionLength)
-		{
-			history.Off();
-			ToolStrip.SelectActiveInactive(activeSheet);
-			TamarinRowControl row = GetRowByIndex(rowIndex);
-			if(row == null || !(row is TaskRowControl))
-				return;
-			(row as TaskRowControl).SetTitle(text);
-			(row as TaskRowControl).FocusOnTitle(caret, selectionLength);
-			history.On();
-		}
-
-		private void OnRowStatusChanged(object sender, StringEventArgs e)
-		{
-			TaskRowControl row = (sender as TaskRowControl);
-			string previousStatus = project.GetStatus(row.RowIndex, active: showActive);
-			if(previousStatus == e.Value)
-				return;
-
-			ChangeStatusAction historyAction = new ChangeStatusAction(showActive, row.RowIndex, previousStatus);
-			StatusChangeResult result = project.UpdateStatus(row.RowIndex, e.Value, active: showActive);
-
-			if(result.ActiveInactiveChanged)
-			{
-				historyAction.SetNew(!showActive, 1, e.Value);
-				RemoveRow(row.RowIndex);
-			}
-			else
-			{
-				historyAction.SetNew(showActive, row.RowIndex, e.Value);
-			}
-			history.Add(historyAction);
-			row.FocusOnTitle();
-		}
-
-		private void OnRowCategoryChanged(object sender, StringEventArgs e)
-		{
-			TaskRowControl row = (sender as TaskRowControl);
-			string previousCategory = project.GetCategory(row.RowIndex, active: showActive);
-			if(previousCategory == e.Value)
-				return;
-
-			project.UpdateCategory(row.RowIndex, e.Value, active: showActive);
-			history.Add(new ChangeCategoryAction(showActive, row.RowIndex, previousCategory, e.Value));
-			row.FocusOnTitle();
-		}
-
-		private void comboBox_MouseWheel(object sender, MouseEventArgs e)
-		{
-			(e as HandledMouseEventArgs).Handled = true;
-		}
-
-		public void ManualChangeTaskCategory(bool activeSheet, int rowIndex, string category)
-		{
-			history.Off();
-			ToolStrip.SelectActiveInactive(activeSheet);
-			TamarinRowControl row = GetRowByIndex(rowIndex);
-			if(row == null || !(row is TaskRowControl))
-				return;
-			(row as TaskRowControl).SetCategory(category);
-			history.On();
-		}
-
-		public void ManualChangeTaskStatus(bool currentActiveSheet, int currentRowIndex, bool finalActiveSheet, int finalRowIndex, string status)
-		{
-			history.Off();
-			ToolStrip.SelectActiveInactive(currentActiveSheet);
-			TamarinRowControl row = GetRowByIndex(currentRowIndex);
-			if(row == null || !(row is TaskRowControl))
-				return;
-			(row as TaskRowControl).SetStatus(status);
-
-			if(currentActiveSheet != finalActiveSheet || currentRowIndex != finalRowIndex)
-			{
-				ToolStrip.SelectActiveInactive(finalActiveSheet);
-				MoveRow(1, finalRowIndex);
-			}
-			history.On();
 		}
 
 		public void ClearAllInactive()
