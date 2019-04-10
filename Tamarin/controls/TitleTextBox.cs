@@ -27,6 +27,8 @@ namespace Tamarin
 			this.MouseWheel += new MouseEventHandler(Utilities.PassMouseWheelToParent);
 			this.SizeChanged += new EventHandler(OnSizeChanged);
 			this.TextChanged += new EventHandler(OnTextChanged);
+
+			CalcRenderedLineHeight();
 		}
 
 		public bool CursorOnFirstLine()
@@ -72,5 +74,18 @@ namespace Tamarin
 		{
 			this.SetHeightByText();
 		}
+
+		#region Determine Rendered Line Height
+
+		private void CalcRenderedLineHeight()
+		{
+			using(Graphics graphics = Graphics.FromHwnd(IntPtr.Zero)) //using this.CreateGraphics() here somehow interrupts the sizing of the control, causing a layout error
+			{
+				SizeF size = graphics.MeasureString("TEST", this.Font);
+				LINE_HEIGHT = (int)Math.Ceiling(size.Height);
+			}
+		}
+
+		#endregion
 	}
 }
