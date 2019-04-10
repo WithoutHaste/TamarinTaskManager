@@ -21,7 +21,10 @@ namespace Tamarin
 		private Project project;
 		private History history;
 
+		/// <summary>True when displayed Active tasks, False when displaying Inactive tasks.</summary>
 		private bool showActive = true;
+		/// <summary>Set to true the first time the panel is displayed.</summary>
+		private bool shown = false;
 
 		private bool DisplayCategories {
 			get {
@@ -550,6 +553,16 @@ namespace Tamarin
 				multipleAction.AddAction(new DeleteAction(showActive, rowIndex, task.Id, task));
 			}
 			history.Add(multipleAction);
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			if(!shown) //because Panel does not have OnShow event
+			{
+				FocusOnTitleByIndex(1); //focus on first data row when panel is first displayed
+				shown = true;
+			}
 		}
 	}
 }

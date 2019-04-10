@@ -486,7 +486,8 @@ or there are no ids on tasks</Data>
           <Data ss:Type="String">write in several lines of text
 press "End" key to go to the end of the first line
 press "Up Arrow"
-it gives the error sound because the TitleBox.SelectionStart thinks it's at the very beginning of line 2. Both caret positions report the same index. How to tell them apart?</Data>
+it gives the error sound because the TitleBox.SelectionStart thinks it's at the very beginning of line 2. Both caret positions report the same index. How to tell them apart?
+Similarly, Ctrl-Down-Arrow from a text with a longer line will jump down to the beginning of line 2 in the next TitleBox instead of the end of line 1.</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>

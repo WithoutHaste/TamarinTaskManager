@@ -382,7 +382,7 @@ confirm keeps caret consistent</Data>
           <Data ss:Type="String">arrow key up + control from first row (no effect)</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -399,7 +399,7 @@ confirm keeps caret consistent</Data>
           <Data ss:Type="String">arrow key up + control from middle line of text from not-first-row (move to last line in previous row)</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -416,7 +416,7 @@ confirm keeps caret consistent</Data>
           <Data ss:Type="String">arrow key down from last line of last row (no effect)</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -433,7 +433,7 @@ confirm keeps caret consistent</Data>
           <Data ss:Type="String">arrow key down from middle line of text (move within text)</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -450,7 +450,7 @@ confirm keeps caret consistent</Data>
           <Data ss:Type="String">arrow key down from last line of not-last-row (move to first line in next row)</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -467,7 +467,7 @@ confirm keeps caret consistent</Data>
           <Data ss:Type="String">arrow key down + control from last row (no effect)</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -484,7 +484,7 @@ confirm keeps caret consistent</Data>
           <Data ss:Type="String">arrow key down + control from middle line of text from not-last-row (move to first line of next row)</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -498,10 +498,44 @@ confirm keeps caret consistent</Data>
           <Data ss:Type="Number">50</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">TitleBox accepts tabs and returns</Data>
+          <Data ss:Type="String">TitleBox accepts Returns</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-10T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">51</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">TitleBox tab moves you to the next TitleBox</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Passed</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-10T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">52</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">on Load file, focus starts in first row</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -1007,7 +1041,7 @@ do show Finished column on InActive sheet</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">50</Data>
+          <Data ss:Type="Number">52</Data>
         </Cell>
       </Row>
       <Row>
