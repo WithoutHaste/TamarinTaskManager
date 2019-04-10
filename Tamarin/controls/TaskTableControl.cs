@@ -247,7 +247,7 @@ namespace Tamarin
 			CategoriesChanged.Invoke(this, new ListEventArgs(project.Categories));
 		}
 
-		private void InsertTaskRowAt(int rowIndex, Task task = null)
+		private Task InsertTaskRowAt(int rowIndex, Task task = null)
 		{
 			if(task == null)
 				task = new Task();
@@ -267,6 +267,8 @@ namespace Tamarin
 			this.Controls.Add(row);
 			this.Controls.SetChildIndex(row, rowIndex);
 			AdjustRowIndexesAndPositions();
+
+			return task;
 		}
 
 		private int GetControlsMaxY()
@@ -337,8 +339,8 @@ namespace Tamarin
 		{
 			TamarinRowControl row = (sender as TamarinRowControl);
 			int nextRowIndex = row.RowIndex + 1;
-			InsertTaskRowAt(nextRowIndex, project.InsertNewTask(nextRowIndex, active: showActive));
-			history.Add(new AddAction(showActive, nextRowIndex));
+			Task newTask = InsertTaskRowAt(nextRowIndex, project.InsertNewTask(nextRowIndex, active: showActive));
+			history.Add(new AddAction(showActive, nextRowIndex, newTask.Id));
 			if(row is TaskRowControl)
 				(row as TaskRowControl).FocusOnTitle();
 		}
@@ -361,14 +363,15 @@ namespace Tamarin
 			Task task = project.GetTask(row.RowIndex, active: showActive);
 			project.RemoveTask(row.RowIndex, active: showActive);
 			RemoveRow(row.RowIndex);
-			history.Add(new DeleteAction(showActive, row.RowIndex, task));
+			history.Add(new DeleteAction(showActive, row.RowIndex, task.Id, task));
 		}
 
-		public void ManualDeleteTask(bool activeSheet, int row)
+		public void ManualDeleteTask(bool activeSheet, int row, int id)
 		{
 			history.Off();
 			ToolStrip.SelectActiveInactive(activeSheet);
 			project.RemoveTask(row, active: showActive);
+			project.UnUseId(id);
 			RemoveRow(row);
 			history.On();
 		}
@@ -503,7 +506,7 @@ namespace Tamarin
 				Task task = project.GetTask(rowIndex, active: showActive);
 				project.RemoveTask(rowIndex, active: showActive);
 				RemoveRow(rowIndex);
-				multipleAction.AddAction(new DeleteAction(showActive, rowIndex, task));
+				multipleAction.AddAction(new DeleteAction(showActive, rowIndex, task.Id, task));
 			}
 			history.Add(multipleAction);
 		}

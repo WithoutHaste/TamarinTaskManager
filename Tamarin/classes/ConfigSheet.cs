@@ -13,6 +13,9 @@ namespace Tamarin
 	{
 		public List<Status> Statuses { get; set; }
 		public List<string> Categories { get; set; }
+		/// <summary>
+		/// Current value of MaxId equals the highest id used so far.
+		/// </summary>
 		public int MaxId { get; set; }
 
 		public string[] ActiveStatuses {
@@ -209,6 +212,20 @@ namespace Tamarin
 				"Task",
 				"Bug"
 			};
+		}
+
+		/// <summary>
+		/// If <paramref name='id'/> is the last-used id, decrement "next id" so it can be used again.
+		/// </summary>
+		/// <returns>Returns True if id is rolled back.</returns>
+		public bool UnUseId(int id)
+		{
+			if(MaxId == id)
+			{
+				MaxId--;
+				return true;
+			}
+			return false;
 		}
 
 		private void AddDefaultConfigSheet(ExcelPackage excelPackage)

@@ -76,16 +76,18 @@ namespace Tamarin
 	{
 		public bool ActiveSheet;
 		public int RowNumber;
+		public int IdNumber;
 
-		public AddAction(bool activeSheet, int rowNumber)
+		public AddAction(bool activeSheet, int rowNumber, int idNumber)
 		{
 			ActiveSheet = activeSheet;
 			RowNumber = rowNumber;
+			IdNumber = idNumber;
 		}
 
 		public override void Undo(TaskTableControl control)
 		{
-			control.ManualDeleteTask(ActiveSheet, RowNumber);
+			control.ManualDeleteTask(ActiveSheet, RowNumber, IdNumber);
 		}
 
 		public override void Redo(TaskTableControl control)
@@ -98,12 +100,14 @@ namespace Tamarin
 	{
 		public bool ActiveSheet;
 		public int RowNumber;
+		public int IdNumber;
 		public Task Task;
 
-		public DeleteAction(bool activeSheet, int rowNumber, Task task)
+		public DeleteAction(bool activeSheet, int rowNumber, int idNumber, Task task)
 		{
 			ActiveSheet = activeSheet;
 			RowNumber = rowNumber;
+			IdNumber = idNumber;
 			Task = task;
 		}
 
@@ -114,7 +118,7 @@ namespace Tamarin
 
 		public override void Redo(TaskTableControl control)
 		{
-			control.ManualDeleteTask(ActiveSheet, RowNumber);
+			control.ManualDeleteTask(ActiveSheet, RowNumber, IdNumber);
 		}
 	}
 

@@ -317,5 +317,14 @@ namespace Tamarin
 		{
 			return tableIndex - 1;
 		}
+
+		/// <summary>
+		/// If <paramref name='id'/> is the last-used id, decrement "max id" so it can be used again.
+		/// </summary>
+		/// <returns>Returns True if id is rolled back.</returns>
+		public bool UnUseId(int id)
+		{
+			return config.UnUseId(id);
+		}
 	}
 }
