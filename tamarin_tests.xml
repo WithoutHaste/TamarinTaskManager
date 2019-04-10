@@ -81,10 +81,12 @@ confirm id comes in same as before on redo</Data>
           <Data ss:Type="String">add row from first row
 undo
 redo
-confirm TitleBox on new row gets focus</Data>
+confirm TitleBox on new row gets focus
+confirm TitleBox on new row gets focus on redo
+confirm previous-row TitleBox gets focus on undo (or next-row if there is no previous-row)</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>

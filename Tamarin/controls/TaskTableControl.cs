@@ -65,8 +65,7 @@ namespace Tamarin
 			int nextRowIndex = row.RowIndex + 1;
 			Task newTask = InsertTaskRowAt(nextRowIndex, project.InsertNewTask(nextRowIndex, active: showActive));
 			history.Add(new AddAction(showActive, nextRowIndex, newTask.Id));
-			if(row is TaskRowControl)
-				(row as TaskRowControl).FocusOnTitle();
+			FocusOnTitleByIndex(nextRowIndex);
 		}
 
 		private void OnRowDeleted(object sender, EventArgs e)
@@ -76,6 +75,7 @@ namespace Tamarin
 			project.RemoveTask(row.RowIndex, active: showActive);
 			RemoveRow(row.RowIndex);
 			history.Add(new DeleteAction(showActive, row.RowIndex, task.Id, task));
+			FocusOnPreviousTitleByIndex(row.RowIndex);
 		}
 
 		private void OnMoveRow(object sender, IntEventArgs e)
@@ -166,26 +166,28 @@ namespace Tamarin
 			action.Redo(this);
 		}
 
-		public void ManualAddTask(bool activeSheet, int row, Task task = null)
+		public void ManualAddTask(bool activeSheet, int rowIndex, Task task = null)
 		{
 			history.Off();
 			ToolStrip.SelectActiveInactive(activeSheet);
 			if(task == null)
-				task = project.InsertNewTask(row, active: showActive);
+				task = project.InsertNewTask(rowIndex, active: showActive);
 			else
-				project.InsertTask(row, active: showActive, task: task);
-			InsertTaskRowAt(row, task);
+				project.InsertTask(rowIndex, active: showActive, task: task);
+			InsertTaskRowAt(rowIndex, task);
 			history.On();
+			FocusOnTitleByIndex(rowIndex);
 		}
 
-		public void ManualDeleteTask(bool activeSheet, int row, int id)
+		public void ManualDeleteTask(bool activeSheet, int rowIndex, int id)
 		{
 			history.Off();
 			ToolStrip.SelectActiveInactive(activeSheet);
-			project.RemoveTask(row, active: showActive);
+			project.RemoveTask(rowIndex, active: showActive);
 			project.UnUseId(id);
-			RemoveRow(row);
+			RemoveRow(rowIndex);
 			history.On();
+			FocusOnPreviousTitleByIndex(rowIndex);
 		}
 
 		public void ManualMoveTask(bool activeSheet, int fromRowNumber, int toRowNumber)
@@ -291,6 +293,33 @@ namespace Tamarin
 				i++;
 			}
 			return null;
+		}
+
+		/// <summary>
+		/// Give focus to TitleBox in selected row.
+		/// </summary>
+		/// <remarks>
+		/// Does not throw exceptions.
+		/// </remarks>
+		private void FocusOnTitleByIndex(int index)
+		{
+			TamarinRowControl row = GetRowByIndex(index);
+			if(row != null && row is TaskRowControl)
+				(row as TaskRowControl).FocusOnTitle();
+		}
+
+		/// <summary>
+		/// Used when a row is removed.
+		/// If there is a previous row, focus on it.
+		/// If there is not, focus on the next (now current) row instead.
+		/// </summary>
+		/// <param name='index'>Index of the deleted row.</param>
+		private void FocusOnPreviousTitleByIndex(int index)
+		{
+			if(index > 1)
+				FocusOnTitleByIndex(index - 1);
+			else
+				FocusOnTitleByIndex(index);
 		}
 
 		private void MoveRow(int fromRow, int toRow)
@@ -489,14 +518,6 @@ namespace Tamarin
 				index++;
 				maxY = c.Bottom;
 			}
-		}
-
-		private void FocusOnTitle(int rowIndex, int caret = -1, int selectionLength = 0)
-		{
-			TamarinRowControl row = GetRowByIndex(rowIndex);
-			if(!(row is TaskRowControl))
-				return;
-			(row as TaskRowControl).FocusOnTitle(caret, selectionLength);
 		}
 
 		public void ClearAllInactive()
