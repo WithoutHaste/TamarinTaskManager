@@ -552,10 +552,11 @@ confirm keeps caret consistent</Data>
           <Data ss:Type="String">paste text over full text in row
 undo
 redo
-confirm TitleBox resizes</Data>
+confirm TitleBox resizes to smaller
+confirm TitleBox resizes to larger</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -572,10 +573,11 @@ confirm TitleBox resizes</Data>
           <Data ss:Type="String">paste text over partial text in row
 undo
 redo
-confirm TitleBox resizes</Data>
+confirm TitleBox resizes to smaller
+confirm TitleBox resizes to larger</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -594,7 +596,7 @@ undo
 redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -684,7 +686,25 @@ redo</Data>
           <Data ss:Type="Number">26</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">add status option</Data>
+          <Data ss:Type="String">add status option
+! did not update options !</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Failed</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">53</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">remove un-used status option</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -693,7 +713,7 @@ redo</Data>
           <Data ss:Type="String">Test</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
+          <Data ss:Type="DateTime">2019-04-10T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -745,6 +765,23 @@ redo</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">54</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">remove un-used category option</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-10T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -1043,7 +1080,7 @@ do show Finished column on InActive sheet</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">52</Data>
+          <Data ss:Type="Number">54</Data>
         </Cell>
       </Row>
       <Row>
