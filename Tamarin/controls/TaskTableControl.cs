@@ -68,6 +68,18 @@ namespace Tamarin
 			FocusOnTitleByIndex(nextRowIndex);
 		}
 
+		private void OnRowLocationChanged(object sender, EventArgs e)
+		{
+			//adjust all row positions from top to bottom
+			int y = 0;
+			foreach(Control c in this.Controls)
+			{
+				if(c.Top != y)
+					c.Top = y;
+				y = c.Bottom;
+			}
+		}
+
 		private void OnRowDeleted(object sender, EventArgs e)
 		{
 			TaskRowControl row = (sender as TaskRowControl);
@@ -257,6 +269,7 @@ namespace Tamarin
 
 			TaskRowControl row = new TaskRowControl(rowIndex, task, project.Statuses.ToList(), project.Categories.ToList());
 			row.AddRowBelow += new EventHandler(OnAddRowBelow);
+			row.RowLocationChanged += new EventHandler(OnRowLocationChanged);
 			row.RowIndexChanged += new IntEventHandler(OnMoveRow);
 			row.RowTitleChanged += new StringEventHandler(OnRowTitleChanged);
 			row.GoToRow += new GoToRowEventHandler(OnGoToRow);

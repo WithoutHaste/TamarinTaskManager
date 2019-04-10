@@ -71,59 +71,49 @@ namespace Tamarin
 
 			add.Location = new Point(0, 0);
 			add.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, this.Height);
-			add.Anchor = AnchorStyles.Left;
+			add.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 
 			index.Size = new Size(Settings.TITLE_CHAR_WIDTH * 4, this.Height);
 			PlaceRightOf(add, index);
 			PlaceCenterVerticalOn(add, index);
-			index.Anchor = AnchorStyles.Left;
+			index.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 
-			id.Size = new Size(Settings.TITLE_CHAR_WIDTH * 4, this.Height);
+			id.Size = new Size(Settings.TITLE_CHAR_WIDTH * 3, this.Height);
 			PlaceRightOf(index, id);
-			id.Anchor = AnchorStyles.Left;
+			id.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 
 			delete.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, this.Height);
 			delete.Location = new Point(this.Width - delete.Width, 0);
-			delete.Anchor = AnchorStyles.Right;
+			delete.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
 			finished.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(finished, delete);
 			PlaceCenterVerticalOn(add, finished);
-			finished.Anchor = AnchorStyles.Right;
+			finished.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
 			created.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
 			PlaceLeftOf(created, finished);
 			PlaceCenterVerticalOn(add, created);
-			created.Anchor = AnchorStyles.Right;
+			created.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
-			category.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
+			category.Size = new Size(Settings.TITLE_CHAR_WIDTH * 8, this.Height);
 			PlaceLeftOf(category, created);
 			PlaceCenterVerticalOn(add, category);
-			category.Anchor = AnchorStyles.Right;
+			category.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
-			status.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
+			status.Size = new Size(Settings.TITLE_CHAR_WIDTH * 8, this.Height);
 			PlaceLeftOf(status, category);
 			PlaceCenterVerticalOn(add, status);
-			status.Anchor = AnchorStyles.Right;
+			status.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
 			int remainingWidth = this.Width - add.Width - index.Width - id.Width - delete.Width - finished.Width - created.Width - category.Width - status.Width;
 
 			title.Size = new Size(remainingWidth, this.Height);
 			PlaceRightOf(id, title);
-			title.Anchor = AnchorStyles.Left | AnchorStyles.Right;
-		}
+			title.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 
-		protected void ArrangeControlsLeftToRight()
-		{
-			Control previousControl = null;
-			foreach(Control control in this.Controls)
-			{
-				if(previousControl != null)
-				{
-					PlaceRightOf(previousControl, control);
-				}
-				previousControl = control;
-			}
+			var x = title.Font;
+			var y = id.Font;
 		}
 
 		protected void PlaceRightOf(Control left, Control right)

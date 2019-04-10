@@ -9,7 +9,7 @@ using System.Windows.Forms;
 namespace Tamarin
 {
 	/// <summary>
-	/// A header.
+	/// A row or column header.
 	/// </summary>
 	public class TitleLabel : Label
 	{
@@ -18,6 +18,7 @@ namespace Tamarin
 			this.Font = Settings.TITLE_FONT;
 			this.Padding = new Padding(0);
 			this.TextAlign = ContentAlignment.MiddleLeft;
+			this.AutoSize = false;
 			this.Text = text;
 		}
 	}

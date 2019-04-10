@@ -75,6 +75,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="classes\Settings.cs" />
+    <Compile Include="controls\AutoLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="controls\CategoryComboBox.cs">
       <SubType>Component</SubType>
     </Compile>

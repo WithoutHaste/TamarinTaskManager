@@ -18,7 +18,7 @@ namespace Tamarin
 	{
 		/// <summary>
 		/// Triggered when size or location of this row changed.
-		/// Should only be passed to next row in the table.
+		/// Should only be acted on by next row in the table.
 		/// </summary>
 		public event EventHandler RowLocationChanged;
 		/// <summary>Some control in row got focus.</summary>
@@ -41,14 +41,17 @@ namespace Tamarin
 		private StatusComboBox statusComboBox;
 		private CategoryComboBox categoryComboBox;
 
+		private readonly int minHeight;
+
 		public TaskRowControl(int rowIndex, Task task, List<string> statusOptions, List<string> categoryOptions) : base(rowIndex)
 		{
 			InitControls(task, statusOptions, categoryOptions);
+			minHeight = this.Height;
 		}
 
 		protected void InitControls(Task task, List<string> statusOptions, List<string> categoryOptions)
 		{
-			this.Controls.Add(NewButton("+", Add_Click));
+			this.Controls.Add(NewButton(Settings.SYMBOL_ADD, Add_Click));
 
 			rowNumberBox = NewTextBox("RowNumberTextBox", rowIndex.ToString());
 			rowNumberBox.TextAlign = HorizontalAlignment.Center;
@@ -68,6 +71,7 @@ namespace Tamarin
 			titleBox.TextChanged += new EventHandler(Row_TitleChanged);
 			titleBox.KeyDown += new KeyEventHandler(Title_KeyDown);
 			titleBox.KeyUp += new KeyEventHandler(Title_KeyUp);
+			titleBox.SizeChanged += new EventHandler(Title_SizeChanged);
 			this.Controls.Add(titleBox);
 
 			statusComboBox = new StatusComboBox(statusOptions, task.Status);
@@ -86,7 +90,7 @@ namespace Tamarin
 			doneLabel.TextAlign = ContentAlignment.TopRight;
 			this.Controls.Add(doneLabel);
 
-			this.Controls.Add(NewButton("X", Row_Deleted));
+			this.Controls.Add(NewButton(Settings.SYMBOL_MULTIPLY, Row_Deleted));
 
 			SetupColumns(this.Controls);
 			SetTabIndexes();
@@ -125,7 +129,7 @@ namespace Tamarin
 			categoryComboBox.SelectedIndex = categoryComboBox.Items.IndexOf(category);
 		}
 
-		#region Event Handlers
+		#region Inner Event Handlers
 
 		public void Row_GotFocus(object sender, EventArgs e)
 		{
@@ -168,31 +172,6 @@ namespace Tamarin
 			}
 		}
 
-		private bool IsDownArrow(KeyEventArgs e)
-		{
-			return (e.KeyCode == Keys.Down);
-		}
-		private bool IsUpArrow(KeyEventArgs e)
-		{
-			return (e.KeyCode == Keys.Up);
-		}
-		private bool IsControlKey(KeyEventArgs e)
-		{
-			return e.Control;
-		}
-		private bool IsControlDownArrow(KeyEventArgs e)
-		{
-			return (IsDownArrow(e) && IsControlKey(e));
-		}
-		private bool IsControlUpArrow(KeyEventArgs e)
-		{
-			return (IsUpArrow(e) && IsControlKey(e));
-		}
-		private void GoTo(int rowIndex, bool lastLine)
-		{
-			if(GoToRow == null) return;
-			GoToRow.Invoke(this, new GoToRowEventArgs(rowIndex, lastLine));
-		}
 		public void Title_KeyDown(object sender, KeyEventArgs e)
 		{
 			if(IsControlDownArrow(e) ||
@@ -221,6 +200,17 @@ namespace Tamarin
 			}
 		}
 
+		private void Title_SizeChanged(object sender, EventArgs e)
+		{
+			TitleTextBox box = (sender as TitleTextBox);
+			int newHeight = Math.Max(minHeight, box.Height);
+			if(this.Height != newHeight) //don't go into resizing loop
+			{
+				this.Height = newHeight;
+			}
+			InvokeRowLocationChanged();
+		}
+
 		public void Row_TitleChanged(object sender, EventArgs e)
 		{
 			if(RowTitleChanged == null) return;
@@ -245,6 +235,66 @@ namespace Tamarin
 			RowDeleted.Invoke(this, new EventArgs());
 		}
 
+		private bool IsDownArrow(KeyEventArgs e)
+		{
+			return (e.KeyCode == Keys.Down);
+		}
+
+		private bool IsUpArrow(KeyEventArgs e)
+		{
+			return (e.KeyCode == Keys.Up);
+		}
+
+		private bool IsControlKey(KeyEventArgs e)
+		{
+			return e.Control;
+		}
+
+		private bool IsControlDownArrow(KeyEventArgs e)
+		{
+			return (IsDownArrow(e) && IsControlKey(e));
+		}
+
+		private bool IsControlUpArrow(KeyEventArgs e)
+		{
+			return (IsUpArrow(e) && IsControlKey(e));
+		}
+
+		#endregion
+
+		#region Outside Event Handlers
+
+		protected void OnPreviousRowLocationChanged(object sender, EventArgs e)
+		{
+			//TODO
+		}
+
+		public void OnStatusesChanged(object sender, ListEventArgs e)
+		{
+			statusComboBox.UpdateOptions(e.Values.ToList());
+		}
+
+		public void OnCategoriesChanged(object sender, ListEventArgs e)
+		{
+			categoryComboBox.UpdateOptions(e.Values.ToList());
+		}
+
+		#endregion
+
+		#region Trigger Events
+
+		private void GoTo(int rowIndex, bool lastLine)
+		{
+			if(GoToRow == null) return;
+			GoToRow.Invoke(this, new GoToRowEventArgs(rowIndex, lastLine));
+		}
+
+		private void InvokeRowLocationChanged()
+		{
+			if(RowLocationChanged == null) return;
+			RowLocationChanged.Invoke(this, EventArgs.Empty);
+		}
+
 		#endregion
 
 		public void FocusOnTitle(bool lastLine)
@@ -264,21 +314,6 @@ namespace Tamarin
 				selectionLength = 0;
 			}
 			titleBox.Select(caret, selectionLength);
-		}
-
-		protected void OnPreviousRowLocationChanged(object sender, EventArgs e)
-		{
-			//TODO
-		}
-
-		public void OnStatusesChanged(object sender, ListEventArgs e)
-		{
-			statusComboBox.UpdateOptions(e.Values.ToList());
-		}
-
-		public void OnCategoriesChanged(object sender, ListEventArgs e)
-		{
-			categoryComboBox.UpdateOptions(e.Values.ToList());
 		}
 
 		private TextBox NewTextBox(string name, string text = null)

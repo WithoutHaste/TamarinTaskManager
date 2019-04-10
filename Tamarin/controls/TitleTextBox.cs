@@ -25,8 +25,8 @@ namespace Tamarin
 			this.BorderStyle = BorderStyle.None; //on RichTextBox, FixedSingle displays as Fixed3D
 
 			this.MouseWheel += new MouseEventHandler(Utilities.PassMouseWheelToParent);
-			//this.SizeChanged += new EventHandler(OnSizeChanged);
-			//this.TextChanged += new EventHandler(OnTextChanged);
+			this.SizeChanged += new EventHandler(OnSizeChanged);
+			this.TextChanged += new EventHandler(OnTextChanged);
 		}
 
 		public bool CursorOnFirstLine()
@@ -47,7 +47,7 @@ namespace Tamarin
 		{
 			if(this.Width < 10)
 				return; //wait until textBox is a likely real size before arranging it, otherwise the table layout gets artificially tall
-			int newHeight = 10 + (LINE_HEIGHT * this.CountLines());
+			int newHeight = (LINE_HEIGHT * this.CountLines());
 			if(newHeight == this.Size.Height)
 				return; //do not go into a resizing loop
 			this.Size = new Size(this.Width, newHeight);

@@ -9,10 +9,14 @@ namespace Tamarin
 {
 	public static class Settings
 	{
+		public static readonly string SYMBOL_MULTIPLY = "\u00D7";
+		public static readonly string SYMBOL_ADD = "+";
+
 		//for some reason, Bold font is coming out smaller than Regular font of same size - fonts "Microsoft Sans Serif" and "Cambria"
 
-		public static readonly Font TITLE_FONT = new System.Drawing.Font("Cambria", 12F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-		public static readonly Font REGULAR_FONT = new System.Drawing.Font("Cambria", 10F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		public static readonly Font TITLE_FONT = new System.Drawing.Font("Cambria", 13F, System.Drawing.FontStyle.Bold); //, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		public static readonly Font REGULAR_FONT = new System.Drawing.Font("Cambria", 14F, System.Drawing.FontStyle.Regular); //, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+		public static readonly Font REGULAR_LABEL_FONT = new System.Drawing.Font("Cambria", 10F, System.Drawing.FontStyle.Regular); //, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
 
 		private static int? titleCharWidth = null;
 		private static int? titleCharHeight = null;
