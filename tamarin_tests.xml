@@ -195,10 +195,12 @@ redo</Data>
           <Data ss:Type="Number">41</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">add text until textbox extends to 3 lines</Data>
+          <Data ss:Type="String">add text until textbox extends to 3 lines
+confirm current row expands to fit TitleBox
+confirm lower rows are pushed down</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -212,10 +214,12 @@ redo</Data>
           <Data ss:Type="Number">42</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">remove text until textbox shrinks to 1 line</Data>
+          <Data ss:Type="String">remove text until textbox shrinks to 1 line
+confirm current row shrinks to smaller height
+confirm lower rows are moved up</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -229,10 +233,12 @@ redo</Data>
           <Data ss:Type="Number">48</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">when window size changes, all TitleBoxes adjust their height based on current text</Data>
+          <Data ss:Type="String">when window size changes, all TitleBoxes adjust their height based on current text
+! title row columns did not expand with window !
+! lost my title row after multiple full-screen-to-small-screen !</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Failed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
