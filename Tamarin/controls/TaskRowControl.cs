@@ -175,18 +175,18 @@ namespace Tamarin
 		public void Title_KeyDown(object sender, KeyEventArgs e)
 		{
 			if(IsControlDownArrow(e) ||
-				(IsDownArrow(e) && titleBox.CursorOnLastLine()))
+				(IsDownArrow(e) && titleBox.IsCaretOnLastLine()))
 			{
 				//go to next row
-				GoTo(rowIndex + 1, lastLine: false);
+				GoTo(rowIndex + 1, titleBox.CaretX, lastLine: false);
 				e.Handled = true;
 				return;
 			}
 			if(IsControlUpArrow(e) ||
-				(IsUpArrow(e) && titleBox.CursorOnFirstLine()))
+				(IsUpArrow(e) && titleBox.IsCaretOnFirstLine()))
 			{
 				//go to previous row
-				GoTo(rowIndex - 1, lastLine: true);
+				GoTo(rowIndex - 1, titleBox.CaretX, lastLine: true);
 				e.Handled = true;
 				return;
 			}
@@ -283,10 +283,10 @@ namespace Tamarin
 
 		#region Trigger Events
 
-		private void GoTo(int rowIndex, bool lastLine)
+		private void GoTo(int rowIndex, int caretX, bool lastLine)
 		{
 			if(GoToRow == null) return;
-			GoToRow.Invoke(this, new GoToRowEventArgs(rowIndex, lastLine));
+			GoToRow.Invoke(this, new GoToRowEventArgs(rowIndex, caretX, lastLine));
 		}
 
 		private void InvokeRowLocationChanged()
@@ -297,12 +297,18 @@ namespace Tamarin
 
 		#endregion
 
-		public void FocusOnTitle(bool lastLine)
+		public void FocusOnTitle(int caretX, bool lastLine)
 		{
-			if(!lastLine)
-				FocusOnTitle(0, 0); //beginning of first line
-			else
-				FocusOnTitle(titleBox.Text.Length, 0); //beginning of last line
+			if(!lastLine) //go to position in first line
+			{
+				int caretCharIndex = titleBox.ConvertXToCaretOnFirstLine(caretX);
+				FocusOnTitle(caretCharIndex, 0);
+			}
+			else //go to position in last line
+			{
+				int caretCharIndex = titleBox.ConvertXToCaretOnLastLine(caretX);
+				FocusOnTitle(caretCharIndex, 0);
+			}
 		}
 
 		public void FocusOnTitle(int caret = -1, int selectionLength = 0)

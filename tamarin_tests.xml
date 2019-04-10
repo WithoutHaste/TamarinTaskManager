@@ -233,12 +233,10 @@ confirm lower rows are moved up</Data>
           <Data ss:Type="Number">48</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">when window size changes, all TitleBoxes adjust their height based on current text
-! title row columns did not expand with window !
-! lost my title row after multiple full-screen-to-small-screen !</Data>
+          <Data ss:Type="String">when window size changes, all TitleBoxes adjust their height based on current text</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Failed</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -255,7 +253,7 @@ confirm lower rows are moved up</Data>
           <Data ss:Type="String">cannot resize window to smaller than min size</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -274,7 +272,7 @@ undo
 redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -293,7 +291,7 @@ undo
 redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -312,7 +310,7 @@ undo
 redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -326,10 +324,11 @@ redo</Data>
           <Data ss:Type="Number">9</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">arrow key up from first line of first row (no effect)</Data>
+          <Data ss:Type="String">arrow key up from first line of first row 
+confirm no effect</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -343,10 +342,11 @@ redo</Data>
           <Data ss:Type="Number">10</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">arrow key up from middle line of text (move within text)</Data>
+          <Data ss:Type="String">arrow key up from middle line of text 
+confirm move within text</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -360,10 +360,12 @@ redo</Data>
           <Data ss:Type="Number">11</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">arrow key up from first line of not-first-row (move to last line in previous row)</Data>
+          <Data ss:Type="String">arrow key up from first line of not-first-row 
+confirm move to last line in previous row
+confirm keeps caret consistent</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -489,6 +491,23 @@ redo</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">50</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">TitleBox accepts tabs and returns</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-10T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -988,7 +1007,7 @@ do show Finished column on InActive sheet</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">49</Data>
+          <Data ss:Type="Number">50</Data>
         </Cell>
       </Row>
       <Row>

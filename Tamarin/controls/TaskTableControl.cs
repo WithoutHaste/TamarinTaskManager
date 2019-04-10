@@ -115,7 +115,7 @@ namespace Tamarin
 			TamarinRowControl row = GetRowByIndex(e.RowIndex);
 			if(row == null || !(row is TaskRowControl))
 				return;
-			(row as TaskRowControl).FocusOnTitle(e.LastLine);
+			(row as TaskRowControl).FocusOnTitle(e.CaretX, e.LastLine);
 		}
 
 		private void OnRowStatusChanged(object sender, StringEventArgs e)
