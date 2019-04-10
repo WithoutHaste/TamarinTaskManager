@@ -105,7 +105,7 @@ undo
 redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -120,10 +120,11 @@ redo</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">add row from last row
-undo redo</Data>
+undo
+redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -142,7 +143,7 @@ undo
 redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -161,7 +162,7 @@ undo
 redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -180,7 +181,7 @@ undo
 redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -778,6 +779,41 @@ redo</Data>
           <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
         </Cell>
       </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">43</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">do not show Finished column in Active sheet
+do show Finished column on InActive sheet</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-10T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">44</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">do not show Id column on either sheet if it is set to "hide"</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-10T00:00:00.000</Data>
+        </Cell>
+      </Row>
     </Table>
     <x:WorksheetOptions />
   </ss:Worksheet>
@@ -855,7 +891,7 @@ redo</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">42</Data>
+          <Data ss:Type="Number">44</Data>
         </Cell>
       </Row>
       <Row>
