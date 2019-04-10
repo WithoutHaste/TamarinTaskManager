@@ -551,7 +551,8 @@ confirm keeps caret consistent</Data>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">paste text over full text in row
 undo
-redo</Data>
+redo
+confirm TitleBox resizes</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -570,7 +571,8 @@ redo</Data>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">paste text over partial text in row
 undo
-redo</Data>
+redo
+confirm TitleBox resizes</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
