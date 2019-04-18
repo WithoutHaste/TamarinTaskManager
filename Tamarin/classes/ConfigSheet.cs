@@ -87,11 +87,12 @@ namespace Tamarin
 				for(int i = 0; i < statusValues.Count; i++)
 				{
 					if(i >= isActiveValues.Count) break;
+					if(String.IsNullOrEmpty(statusValues[i])) continue;
 					Statuses.Add(new Status(statusValues[i], isActiveValues[i]));
 				}
 			}
 
-			Categories = xmlFile.GetColumnValues(tableIndex, CATEGORY_NAME);
+			Categories = xmlFile.GetColumnValues(tableIndex, CATEGORY_NAME).Where(x => !String.IsNullOrEmpty(x)).ToList();
 			if(Categories == null || Categories.Count == 0)
 			{
 				SetDefaultCategories();
