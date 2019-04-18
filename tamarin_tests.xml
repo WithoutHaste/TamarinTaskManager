@@ -1025,7 +1025,7 @@ redo</Data>
           <Data ss:Type="Number">43</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">do not show Finished column in Active sheet
+          <Data ss:Type="String">do not show Finished column on Active sheet
 do show Finished column on InActive sheet</Data>
         </Cell>
         <Cell>
@@ -1053,6 +1053,23 @@ do show Finished column on InActive sheet</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2019-04-10T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">57</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">close application normally</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-17T00:00:00.000</Data>
         </Cell>
       </Row>
     </Table>
@@ -1132,7 +1149,7 @@ do show Finished column on InActive sheet</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">56</Data>
+          <Data ss:Type="Number">57</Data>
         </Cell>
       </Row>
       <Row>
