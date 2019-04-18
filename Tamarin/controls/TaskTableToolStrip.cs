@@ -12,12 +12,12 @@ namespace Tamarin
 {
 	public class TaskTableToolStrip : UserControl
 	{
-		private System.Windows.Forms.ToolStrip toolStrip1;
-		private System.Windows.Forms.RadioButton activeRadioButton;
-		private System.Windows.Forms.RadioButton inactiveRadioButton;
-		private System.Windows.Forms.Button editStatusesButton;
-		private System.Windows.Forms.Button editCategoriesButton;
-		private System.Windows.Forms.Button clearInactiveButton;
+		private ToolStrip toolStrip1;
+		private RadioButton activeRadioButton;
+		private RadioButton inactiveRadioButton;
+		private Button editStatusesButton;
+		private Button editCategoriesButton;
+		private Button clearInactiveButton;
 
 		private TaskTableControl taskTableControl;
 
@@ -63,7 +63,7 @@ namespace Tamarin
 			this.activeRadioButton.TabStop = true;
 			this.activeRadioButton.Text = "Show Active";
 			this.activeRadioButton.UseVisualStyleBackColor = true;
-			this.activeRadioButton.CheckedChanged += new System.EventHandler(this.activeRadioButton_CheckedChanged);
+			this.activeRadioButton.CheckedChanged += new System.EventHandler(this.OnActiveCheckedChanged);
 			// 
 			// inactiveRadioButton
 			// 
@@ -74,7 +74,7 @@ namespace Tamarin
 			this.inactiveRadioButton.TabIndex = 2;
 			this.inactiveRadioButton.Text = "Show Inactive";
 			this.inactiveRadioButton.UseVisualStyleBackColor = true;
-			this.inactiveRadioButton.CheckedChanged += new System.EventHandler(this.inactiveRadioButton_CheckedChanged);
+			this.inactiveRadioButton.CheckedChanged += new System.EventHandler(this.OnInactiveCheckedChanged);
 			// 
 			// editStatusesButton
 			// 
@@ -84,7 +84,7 @@ namespace Tamarin
 			this.editStatusesButton.TabIndex = 3;
 			this.editStatusesButton.Text = "Edit Statuses";
 			this.editStatusesButton.UseVisualStyleBackColor = true;
-			this.editStatusesButton.Click += new System.EventHandler(this.editStatusesButton_Click);
+			this.editStatusesButton.Click += new System.EventHandler(this.OnEditStatusesClicked);
 			// 
 			// editCategoriesButton
 			// 
@@ -94,7 +94,7 @@ namespace Tamarin
 			this.editCategoriesButton.TabIndex = 4;
 			this.editCategoriesButton.Text = "Edit Categories";
 			this.editCategoriesButton.UseVisualStyleBackColor = true;
-			this.editCategoriesButton.Click += new System.EventHandler(this.editCategoriesButton_Click);
+			this.editCategoriesButton.Click += new System.EventHandler(this.OnEditCategoriesClicked);
 			// 
 			// clearInactiveButton
 			// 
@@ -104,7 +104,7 @@ namespace Tamarin
 			this.clearInactiveButton.TabIndex = 5;
 			this.clearInactiveButton.Text = "Clear Inactive";
 			this.clearInactiveButton.UseVisualStyleBackColor = true;
-			this.clearInactiveButton.Click += new System.EventHandler(this.clearInactiveButton_Click);
+			this.clearInactiveButton.Click += new System.EventHandler(this.OnClearInactiveClicked);
 			// 
 			// TaskTableToolStrip
 			// 
@@ -137,7 +137,7 @@ namespace Tamarin
 			}
 		}
 
-		private void activeRadioButton_CheckedChanged(object sender, EventArgs e)
+		private void OnActiveCheckedChanged(object sender, EventArgs e)
 		{
 			if(!(sender as RadioButton).Checked)
 				return;
@@ -145,7 +145,7 @@ namespace Tamarin
 			clearInactiveButton.Visible = false;
 		}
 
-		private void inactiveRadioButton_CheckedChanged(object sender, EventArgs e)
+		private void OnInactiveCheckedChanged(object sender, EventArgs e)
 		{
 			if(!(sender as RadioButton).Checked)
 				return;
@@ -153,17 +153,17 @@ namespace Tamarin
 			clearInactiveButton.Visible = true;
 		}
 
-		private void editStatusesButton_Click(object sender, EventArgs e)
+		private void OnEditStatusesClicked(object sender, EventArgs e)
 		{
 			taskTableControl.EditStatuses();
 		}
 
-		private void editCategoriesButton_Click(object sender, EventArgs e)
+		private void OnEditCategoriesClicked(object sender, EventArgs e)
 		{
 			taskTableControl.EditCategories();
 		}
 
-		private void clearInactiveButton_Click(object sender, EventArgs e)
+		private void OnClearInactiveClicked(object sender, EventArgs e)
 		{
 			DialogResult result = MessageBox.Show("Permanently delete all inactive items?", "Confirm", MessageBoxButtons.YesNo, MessageBoxIcon.Question);
 			if(result == DialogResult.Yes)

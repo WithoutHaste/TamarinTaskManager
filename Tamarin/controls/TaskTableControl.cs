@@ -174,6 +174,22 @@ namespace Tamarin
 
 		#endregion
 
+		#region Invoke Events
+
+		private void InvokeStatusesChanged()
+		{
+			if(StatusesChanged == null) return;
+			StatusesChanged.Invoke(this, new ListEventArgs(project.Statuses));
+		}
+
+		private void InvokeCategoriesChanged()
+		{
+			if(CategoriesChanged == null) return;
+			CategoriesChanged.Invoke(this, new ListEventArgs(project.Categories));
+		}
+
+		#endregion
+
 		#region History
 
 		public void Undo()
@@ -290,6 +306,9 @@ namespace Tamarin
 			row.StatusChanged += new EventHandler<StringEventArgs>(OnRowStatusChanged);
 			row.CategoryChanged += new EventHandler<StringEventArgs>(OnRowCategoryChanged);
 			row.RowDeleted += new EventHandler(OnRowDeleted);
+
+			this.StatusesChanged += new EventHandler<ListEventArgs>(row.OnStatusesChanged);
+			this.CategoriesChanged += new EventHandler<ListEventArgs>(row.OnCategoriesChanged);
 
 			row.Location = new Point(0, GetControlsMaxY());
 			row.Width = this.ClientRectangle.Width;
@@ -487,14 +506,8 @@ namespace Tamarin
 					MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 					return;
 				}
-				UpdateStatusComboBoxOptions();
+				InvokeStatusesChanged();
 			}
-		}
-
-		private void UpdateStatusComboBoxOptions()
-		{
-			if(StatusesChanged == null) return;
-			StatusesChanged.Invoke(this, new ListEventArgs(project.Statuses));
 		}
 
 		public void EditCategories()
@@ -513,15 +526,9 @@ namespace Tamarin
 					MessageBox.Show(e.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Asterisk);
 					return;
 				}
-				UpdateCategoryComboBoxOptions();
+				InvokeCategoriesChanged();
 				ShowHideCategories();
 			}
-		}
-
-		private void UpdateCategoryComboBoxOptions()
-		{
-			if(CategoriesChanged == null) return;
-			CategoriesChanged.Invoke(this, new ListEventArgs(project.Categories));
 		}
 
 		private int GetControlsMaxY()

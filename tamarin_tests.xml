@@ -588,12 +588,49 @@ confirm TitleBox resizes to larger</Data>
       </Row>
       <Row>
         <Cell>
+          <Data ss:Type="Number">26</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">add status option
+save/reload</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Passed</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">28</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">add category option
+save/reload</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Passed</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
           <Data ss:Type="Number">21</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">change category
 undo
-redo</Data>
+redo
+save/reload</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Passed</Data>
@@ -612,10 +649,11 @@ redo</Data>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">change status from Active to Active
 undo
-refo</Data>
+redo
+save/reload</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -631,7 +669,8 @@ refo</Data>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">change status from Active to Inactive
 undo
-redo</Data>
+redo
+save/reload</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -683,24 +722,6 @@ redo</Data>
       </Row>
       <Row>
         <Cell>
-          <Data ss:Type="Number">26</Data>
-        </Cell>
-        <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">add status option
-! did not update options !</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Failed</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Test</Data>
-        </Cell>
-        <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
-        </Cell>
-      </Row>
-      <Row>
-        <Cell>
           <Data ss:Type="Number">53</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
@@ -722,23 +743,6 @@ redo</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">remove in-use status option</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Todo</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Test</Data>
-        </Cell>
-        <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
-        </Cell>
-      </Row>
-      <Row>
-        <Cell>
-          <Data ss:Type="Number">28</Data>
-        </Cell>
-        <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">add category option</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
