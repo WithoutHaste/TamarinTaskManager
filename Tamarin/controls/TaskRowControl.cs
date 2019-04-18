@@ -43,9 +43,16 @@ namespace Tamarin
 
 		private readonly int minHeight;
 
+		public int TaskId { get; private set; }
+		public DateTime? DoneDate { get; private set; }
+
 		public TaskRowControl(int rowIndex, Task task, List<string> statusOptions, List<string> categoryOptions) : base(rowIndex)
 		{
+			TaskId = task.Id;
+			DoneDate = task.DoneDate;
+
 			InitControls(task, statusOptions, categoryOptions);
+
 			minHeight = this.Height;
 		}
 

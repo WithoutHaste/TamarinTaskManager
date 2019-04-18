@@ -128,17 +128,17 @@ namespace Tamarin
 			if(previousStatus == e.Value)
 				return;
 
-			ChangeStatusAction historyAction = new ChangeStatusAction(showActive, row.RowIndex, previousStatus);
+			ChangeStatusAction historyAction = new ChangeStatusAction(showActive, row.RowIndex, previousStatus, row.DoneDate);
 			StatusChangeResult result = project.UpdateStatus(row.RowIndex, e.Value, active: showActive);
 
 			if(result.ActiveInactiveChanged)
 			{
-				historyAction.SetNew(!showActive, 1, e.Value);
+				historyAction.SetNewValues(!showActive, 1, e.Value, result.DoneDate);
 				RemoveRow(row.RowIndex);
 			}
 			else
 			{
-				historyAction.SetNew(showActive, row.RowIndex, e.Value);
+				historyAction.SetNewValues(showActive, row.RowIndex, e.Value, result.DoneDate);
 			}
 			history.Add(historyAction);
 			row.FocusOnTitle();
@@ -263,19 +263,19 @@ namespace Tamarin
 			history.On();
 		}
 
-		public void ManualChangeTaskStatus(bool currentActiveSheet, int currentRowIndex, bool finalActiveSheet, int finalRowIndex, string status)
+		public void ManualChangeTaskStatus(bool currentActiveSheet, int currentRowIndex, bool finalActiveSheet, int finalRowIndex, string status, DateTime? doneDate)
 		{
 			history.Off();
-			ToolStrip.SelectActiveInactive(currentActiveSheet);
-			TamarinRowControl row = GetRowByIndex(currentRowIndex);
-			if(row == null || !(row is TaskRowControl))
-				return;
-			(row as TaskRowControl).SetStatus(status);
-
-			if(currentActiveSheet != finalActiveSheet || currentRowIndex != finalRowIndex)
+			Task task = project.ManualUpdateStatus(currentRowIndex, currentActiveSheet, finalRowIndex, finalActiveSheet, status, doneDate);
+			//if visible sheet needs row removed
+			if(showActive == currentActiveSheet && currentActiveSheet != finalActiveSheet)
 			{
-				ToolStrip.SelectActiveInactive(finalActiveSheet);
-				MoveRow(1, finalRowIndex);
+				RemoveRow(currentRowIndex);
+			}
+			//if visible sheet needs row added
+			if(showActive == finalActiveSheet && currentActiveSheet != finalActiveSheet)
+			{
+				InsertTaskRowAt(finalRowIndex, task);
 			}
 			history.On();
 		}

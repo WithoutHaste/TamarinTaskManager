@@ -280,6 +280,26 @@ namespace Tamarin
 			return result;
 		}
 
+		public Task ManualUpdateStatus(int currentRow, bool currentActive, int finalRow, bool finalActive, string finalStatus, DateTime? finalDoneDate)
+		{
+			TaskSheet currentSheet = GetSheet(currentActive);
+			if(currentActive == finalActive)
+			{
+				//task does not change sheets or row numbers - just status
+				return currentSheet.ManualUpdateStatus(ProjectIndex(currentRow), finalStatus, finalDoneDate);
+			}
+			else
+			{
+				//task changed sheets and row numbers
+				TaskSheet finalSheet = GetSheet(finalActive);
+				Task task = currentSheet.RemoveTask(ProjectIndex(currentRow));
+				task.Status = finalStatus;
+				task.DoneDate = finalDoneDate;
+				finalSheet.InsertTask(ProjectIndex(finalRow), task);
+				return task;
+			}
+		}
+
 		public string GetCategory(int row, bool active)
 		{
 			return GetSheet(active).GetCategory(ProjectIndex(row));

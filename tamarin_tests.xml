@@ -653,7 +653,7 @@ redo
 save/reload</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Passed</Data>
+          <Data ss:Type="String">Failed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -670,10 +670,11 @@ save/reload</Data>
           <Data ss:Type="String">change status from Active to Inactive
 undo
 redo
-save/reload</Data>
+save/reload
+confirm DoneDate also undo/redos</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -689,10 +690,12 @@ save/reload</Data>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">change status from Inactive to Active
 undo
-redo</Data>
+redo
+save/reload
+confirm DoneDate also undo/redos</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -711,7 +714,7 @@ undo
 redo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Failed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>

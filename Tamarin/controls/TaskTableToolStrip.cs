@@ -127,11 +127,15 @@ namespace Tamarin
 		{
 			if(active)
 			{
+				if(activeRadioButton.Checked)
+					return;
 				activeRadioButton.Checked = true;
 				clearInactiveButton.Visible = false;
 			}
 			else
 			{
+				if(inactiveRadioButton.Checked)
+					return;
 				inactiveRadioButton.Checked = true;
 				clearInactiveButton.Visible = true;
 			}

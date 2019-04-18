@@ -114,14 +114,24 @@ namespace Tamarin
 			return result;
 		}
 
+		public Task ManualUpdateStatus(int row, string status, DateTime? doneDate)
+		{
+			Task task = Tasks[row];
+			task.Status = status;
+			task.DoneDate = doneDate;
+			return task;
+		}
+
 		public void UpdateCategory(int row, string category)
 		{
 			Tasks[row].Category = category;
 		}
 
-		public void RemoveTask(int row)
+		public Task RemoveTask(int row)
 		{
+			Task task = Tasks[row];
 			Tasks.RemoveAt(row);
+			return task;
 		}
 
 		public void RemoveAllTasks()
