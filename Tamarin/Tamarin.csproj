@@ -74,6 +74,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="classes\history\AddAction.cs" />
+    <Compile Include="classes\history\ChangeCategoryAction.cs" />
+    <Compile Include="classes\history\ChangeStatusAction.cs" />
+    <Compile Include="classes\history\DeleteAction.cs" />
+    <Compile Include="classes\history\MoveAction.cs" />
+    <Compile Include="classes\history\MultipleAction.cs" />
+    <Compile Include="classes\history\TextAction.cs" />
     <Compile Include="classes\Settings.cs" />
     <Compile Include="controls\AutoLabel.cs">
       <SubType>Component</SubType>
@@ -99,8 +106,8 @@
     <Compile Include="classes\ColumnLayout.cs" />
     <Compile Include="classes\ConfigSheet.cs" />
     <Compile Include="classes\Exceptions.cs" />
-    <Compile Include="classes\History.cs" />
-    <Compile Include="classes\HistoryAction.cs" />
+    <Compile Include="classes\history\History.cs" />
+    <Compile Include="classes\history\HistoryAction.cs" />
     <Compile Include="classes\IMergable.cs" />
     <Compile Include="classes\Project.cs" />
     <Compile Include="classes\Status.cs" />
