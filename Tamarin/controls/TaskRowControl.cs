@@ -40,6 +40,7 @@ namespace Tamarin
 		private TitleTextBox titleBox;
 		private StatusComboBox statusComboBox;
 		private CategoryComboBox categoryComboBox;
+		private Label doneLabel;
 
 		private readonly int minHeight;
 
@@ -93,7 +94,7 @@ namespace Tamarin
 			createLabel.TextAlign = ContentAlignment.TopRight;
 			this.Controls.Add(createLabel);
 
-			Label doneLabel = new DataLabel("DoneDate", task.DoneDateString);
+			doneLabel = new DataLabel("DoneDate", DateToString(task.DoneDate));
 			doneLabel.TextAlign = ContentAlignment.TopRight;
 			this.Controls.Add(doneLabel);
 
@@ -101,6 +102,13 @@ namespace Tamarin
 
 			SetupColumns(this.Controls);
 			SetTabIndexes();
+		}
+
+		private string DateToString(DateTime? date)
+		{
+			if(date == null)
+				return "";
+			return date.Value.ToShortDateString();
 		}
 
 		public override void SetRowIndex(int rowIndex)
@@ -134,6 +142,12 @@ namespace Tamarin
 			if(!categoryComboBox.Items.Contains(category))
 				categoryComboBox.Items.Add(category);
 			categoryComboBox.SelectedIndex = categoryComboBox.Items.IndexOf(category);
+		}
+
+		public void SetDoneDate(DateTime? doneDate)
+		{
+			DoneDate = doneDate;
+			doneLabel.Text = DateToString(doneDate);
 		}
 
 		#region Internal Event Handlers

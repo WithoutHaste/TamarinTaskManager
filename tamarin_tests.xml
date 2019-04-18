@@ -653,7 +653,7 @@ redo
 save/reload</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Failed</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -711,10 +711,11 @@ confirm DoneDate also undo/redos</Data>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">change status from Inactive to Inactive
 undo
-redo</Data>
+redo
+save/reload</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Failed</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>

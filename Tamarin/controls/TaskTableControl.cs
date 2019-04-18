@@ -277,6 +277,16 @@ namespace Tamarin
 			{
 				InsertTaskRowAt(finalRowIndex, task);
 			}
+			//if visible sheet just needs row updated
+			if(showActive == currentActiveSheet && currentActiveSheet == finalActiveSheet)
+			{
+				TaskRowControl row = GetTaskRowByIndex(finalRowIndex);
+				if(row != null)
+				{
+					row.SetStatus(status);
+					row.SetDoneDate(doneDate);
+				}
+			}
 			history.On();
 		}
 
@@ -338,6 +348,14 @@ namespace Tamarin
 					return row;
 				i++;
 			}
+			return null;
+		}
+
+		private TaskRowControl GetTaskRowByIndex(int index)
+		{
+			TamarinRowControl row = GetRowByIndex(index);
+			if(row is TaskRowControl)
+				return (row as TaskRowControl);
 			return null;
 		}
 
