@@ -977,7 +977,7 @@ redo</Data>
           <Data ss:Type="String">load file</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -994,7 +994,7 @@ redo</Data>
           <Data ss:Type="String">show inactive</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -1011,7 +1011,7 @@ redo</Data>
           <Data ss:Type="String">show active</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
