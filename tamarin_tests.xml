@@ -729,7 +729,8 @@ save/reload</Data>
           <Data ss:Type="Number">53</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">remove un-used status option</Data>
+          <Data ss:Type="String">remove un-used status option
+save/reload</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -746,7 +747,8 @@ save/reload</Data>
           <Data ss:Type="Number">27</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">remove in-use status option</Data>
+          <Data ss:Type="String">remove in-use status option
+save/reload</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -763,7 +765,8 @@ save/reload</Data>
           <Data ss:Type="Number">29</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">remove in-use category option</Data>
+          <Data ss:Type="String">remove in-use category option
+save/reload</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -780,7 +783,8 @@ save/reload</Data>
           <Data ss:Type="Number">54</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">remove un-used category option</Data>
+          <Data ss:Type="String">remove un-used category option
+save/reload</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -923,6 +927,44 @@ redo</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2019-04-06T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">55</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">move row up to middle
+undo
+redo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-17T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">56</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">move row down to middle
+undo
+redo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-17T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -1088,7 +1130,7 @@ do show Finished column on InActive sheet</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">54</Data>
+          <Data ss:Type="Number">56</Data>
         </Cell>
       </Row>
       <Row>
