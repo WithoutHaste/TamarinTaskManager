@@ -316,6 +316,11 @@ namespace Tamarin
 			return GetSheet(active).Tasks;
 		}
 
+		public int CountTasks(bool active)
+		{
+			return GetTasks(active).Count();
+		}
+
 		public void SetStatuses(string[] active, string[] inactive)
 		{
 			LastEditedDateTime = DateTime.Now;

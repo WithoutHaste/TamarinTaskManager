@@ -96,8 +96,16 @@ namespace Tamarin
 		private void OnMoveRow(object sender, IntEventArgs e)
 		{
 			TaskRowControl row = (sender as TaskRowControl);
-			MoveRow(row.RowIndex, e.Value);
-			history.Add(new MoveAction(showActive, row.RowIndex, e.Value));
+			int previousRowIndex = row.RowIndex;
+			int nextRowIndex = e.Value;
+			if(nextRowIndex < 1)
+				nextRowIndex = 1;
+			nextRowIndex = Math.Min(nextRowIndex, project.CountTasks(showActive));
+			if(previousRowIndex == nextRowIndex)
+				return;
+
+			MoveRow(previousRowIndex, nextRowIndex);
+			history.Add(new MoveAction(showActive, previousRowIndex, nextRowIndex));
 		}
 
 		private void OnRowGotFocus(object sender, EventArgs e)
