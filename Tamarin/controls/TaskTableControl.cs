@@ -12,9 +12,9 @@ namespace Tamarin
 {
 	public class TaskTableControl : Panel
 	{
-		public event ShowColumnEventHandler ShowColumn;
-		public event ListEventHandler StatusesChanged;
-		public event ListEventHandler CategoriesChanged;
+		public event EventHandler<ShowColumnEventArgs> ShowColumn;
+		public event EventHandler<ListEventArgs> StatusesChanged;
+		public event EventHandler<ListEventArgs> CategoriesChanged;
 
 		public TaskTableToolStrip ToolStrip { get; set; }
 
@@ -42,22 +42,22 @@ namespace Tamarin
 			this.Dock = DockStyle.Fill;
 			this.BackColor = Color.White;
 			this.AutoScroll = true;
-			this.VisibleChanged += new EventHandler(taskTableControl_VisibleChanged);
-			this.SizeChanged += new EventHandler(taskTableControl_SizeChanged);
+			this.VisibleChanged += new EventHandler(OnVisibleChanged);
+			this.SizeChanged += new EventHandler(OnSizeChanged);
 
 			ShowTaskSheet(active: showActive, forced: true);
 		}
 
 		#region Event Handlers
 
-		private void taskTableControl_VisibleChanged(object sender, EventArgs e)
+		private void OnVisibleChanged(object sender, EventArgs e)
 		{
 			if(!(sender as Control).Visible)
 				return;
 			CheckForOutsideEdits();
 		}
 
-		private void taskTableControl_SizeChanged(object sender, EventArgs e)
+		private void OnSizeChanged(object sender, EventArgs e)
 		{
 			RecalculateColumnWidths();
 		}
@@ -156,9 +156,20 @@ namespace Tamarin
 			row.FocusOnTitle();
 		}
 
-		private void comboBox_MouseWheel(object sender, MouseEventArgs e)
+		private void OnComboBoxMouseWheel(object sender, MouseEventArgs e)
 		{
+			//TODO used anywhere?
 			(e as HandledMouseEventArgs).Handled = true;
+		}
+
+		protected override void OnPaint(PaintEventArgs e)
+		{
+			base.OnPaint(e);
+			if(!shown) //because Panel does not have OnShow event
+			{
+				FocusOnTitleByIndex(1); //focus on first data row when panel is first displayed
+				shown = true;
+			}
 		}
 
 		#endregion
@@ -273,11 +284,11 @@ namespace Tamarin
 			TaskRowControl row = new TaskRowControl(rowIndex, task, project.Statuses.ToList(), project.Categories.ToList());
 			row.AddRowBelow += new EventHandler(OnAddRowBelow);
 			row.RowLocationChanged += new EventHandler(OnRowLocationChanged);
-			row.RowIndexChanged += new IntEventHandler(OnMoveRow);
-			row.RowTitleChanged += new StringEventHandler(OnRowTitleChanged);
-			row.GoToRow += new GoToRowEventHandler(OnGoToRow);
-			row.RowStatusChanged += new StringEventHandler(OnRowStatusChanged);
-			row.RowCategoryChanged += new StringEventHandler(OnRowCategoryChanged);
+			row.IndexChanged += new EventHandler<IntEventArgs>(OnMoveRow);
+			row.TitleChanged += new EventHandler<StringEventArgs>(OnRowTitleChanged);
+			row.GoToRow += new EventHandler<GoToRowEventArgs>(OnGoToRow);
+			row.StatusChanged += new EventHandler<StringEventArgs>(OnRowStatusChanged);
+			row.CategoryChanged += new EventHandler<StringEventArgs>(OnRowCategoryChanged);
 			row.RowDeleted += new EventHandler(OnRowDeleted);
 
 			row.Location = new Point(0, GetControlsMaxY());
@@ -553,16 +564,6 @@ namespace Tamarin
 				multipleAction.AddAction(new DeleteAction(showActive, rowIndex, task.Id, task));
 			}
 			history.Add(multipleAction);
-		}
-
-		protected override void OnPaint(PaintEventArgs e)
-		{
-			base.OnPaint(e);
-			if(!shown) //because Panel does not have OnShow event
-			{
-				FocusOnTitleByIndex(1); //focus on first data row when panel is first displayed
-				shown = true;
-			}
 		}
 	}
 }

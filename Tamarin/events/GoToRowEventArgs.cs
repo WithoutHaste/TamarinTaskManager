@@ -5,8 +5,6 @@ using System.Text;
 
 namespace Tamarin
 {
-	public delegate void GoToRowEventHandler(object sender, GoToRowEventArgs e);
-
 	public class GoToRowEventArgs : EventArgs
 	{
 		public int RowIndex { get; private set; }

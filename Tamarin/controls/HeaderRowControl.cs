@@ -16,7 +16,7 @@ namespace Tamarin
 
 		private void InitControls()
 		{
-			this.Controls.Add(NewButton("+", Add_Click));
+			this.Controls.Add(NewButton("+", OnAddButtonClick));
 			this.Controls.Add(new TitleLabel("Row"));
 
 			Label idLabel = new TitleLabel("Id");

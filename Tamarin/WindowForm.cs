@@ -16,16 +16,16 @@ namespace Tamarin
 {
 	public class WindowForm : Form
 	{
-		private System.Windows.Forms.ToolStrip toolStrip;
-		private System.Windows.Forms.ToolStripButton newButton;
-		private System.Windows.Forms.ToolStripButton saveButton;
-		private System.Windows.Forms.ToolStripButton loadButton;
-		private System.Windows.Forms.TabPage tabPage1;
-		private System.Windows.Forms.TabControl tabControl;
-		private System.Windows.Forms.ToolStripButton saveAsButton;
-		private System.Windows.Forms.ToolStripButton settingsButton;
-		private System.Windows.Forms.ToolStripButton undoButton;
-		private System.Windows.Forms.ToolStripButton redoButton;
+		private ToolStrip toolStrip;
+		private ToolStripButton newButton;
+		private ToolStripButton saveButton;
+		private ToolStripButton loadButton;
+		private TabPage tabPage1;
+		private TabControl tabControl;
+		private ToolStripButton saveAsButton;
+		private ToolStripButton settingsButton;
+		private ToolStripButton undoButton;
+		private ToolStripButton redoButton;
 
 		private List<Project> projects = new List<Project>();
 
@@ -71,8 +71,8 @@ namespace Tamarin
 			catch(Exception)
 			{
 			}
-			this.Activated += new EventHandler(windowForm_Activated);
-			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(windowForm_Closing);
+			this.Activated += new EventHandler(OnActivated);
+			this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(OnClosing);
 
 			try
 			{
@@ -93,10 +93,6 @@ namespace Tamarin
 			InitProjects();
 		}
 
-		/// <summary>
-		/// Clean up any resources being used.
-		/// </summary>
-		/// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
 		protected override void Dispose(bool disposing)
 		{
 			base.Dispose(disposing);
@@ -142,7 +138,7 @@ namespace Tamarin
 			this.newButton.Size = new System.Drawing.Size(35, 22);
 			this.newButton.Text = "New";
 			this.newButton.ToolTipText = "New Project";
-			this.newButton.Click += new System.EventHandler(this.newButton_Click);
+			this.newButton.Click += new System.EventHandler(this.OnNewButtonClick);
 			// 
 			// saveAsButton
 			// 
@@ -151,7 +147,7 @@ namespace Tamarin
 			this.saveAsButton.Size = new System.Drawing.Size(51, 22);
 			this.saveAsButton.Text = "Save As";
 			this.saveAsButton.ToolTipText = "Save Project As";
-			this.saveAsButton.Click += new System.EventHandler(this.saveAsButton_Click);
+			this.saveAsButton.Click += new System.EventHandler(this.OnSaveAsButtonClick);
 			// 
 			// saveButton
 			// 
@@ -160,7 +156,7 @@ namespace Tamarin
 			this.saveButton.Size = new System.Drawing.Size(35, 22);
 			this.saveButton.Text = "Save";
 			this.saveButton.ToolTipText = "Save Project";
-			this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+			this.saveButton.Click += new System.EventHandler(this.OnSaveButtonClick);
 			// 
 			// loadButton
 			// 
@@ -169,7 +165,7 @@ namespace Tamarin
 			this.loadButton.Size = new System.Drawing.Size(37, 22);
 			this.loadButton.Text = "Load";
 			this.loadButton.ToolTipText = "Load Project";
-			this.loadButton.Click += new System.EventHandler(this.loadButton_Click);
+			this.loadButton.Click += new System.EventHandler(this.OnLoadButtonClick);
 			// 
 			// settingsButton
 			// 
@@ -177,7 +173,7 @@ namespace Tamarin
 			this.settingsButton.Name = "settingsButton";
 			this.settingsButton.Size = new System.Drawing.Size(53, 22);
 			this.settingsButton.Text = "Settings";
-			this.settingsButton.Click += new System.EventHandler(this.settingsButton_Click);
+			this.settingsButton.Click += new System.EventHandler(this.OnSettingsButtonClick);
 			// 
 			// undoButton
 			// 
@@ -185,7 +181,7 @@ namespace Tamarin
 			this.undoButton.Name = "undoButton";
 			this.undoButton.Size = new System.Drawing.Size(40, 22);
 			this.undoButton.Text = "Undo";
-			this.undoButton.Click += new System.EventHandler(this.undoButton_Click);
+			this.undoButton.Click += new System.EventHandler(this.OnUndoButtonClick);
 			// 
 			// redoButton
 			// 
@@ -193,7 +189,7 @@ namespace Tamarin
 			this.redoButton.Name = "redoButton";
 			this.redoButton.Size = new System.Drawing.Size(38, 22);
 			this.redoButton.Text = "Redo";
-			this.redoButton.Click += new System.EventHandler(this.redoButton_Click);
+			this.redoButton.Click += new System.EventHandler(this.OnRedoButtonClick);
 			// 
 			// tabPage1
 			// 
@@ -217,8 +213,8 @@ namespace Tamarin
 			this.tabControl.SelectedIndex = 0;
 			this.tabControl.Size = new System.Drawing.Size(402, 233);
 			this.tabControl.TabIndex = 1;
-			this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.tabControl_DrawItem);
-			this.tabControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.tabControl_MouseUp);
+			this.tabControl.DrawItem += new System.Windows.Forms.DrawItemEventHandler(this.OnTabControlDrawItem);
+			this.tabControl.MouseUp += new System.Windows.Forms.MouseEventHandler(this.OnTabControlMouseUp);
 			// 
 			// WindowForm
 			// 
@@ -239,6 +235,8 @@ namespace Tamarin
 
 		//-------------------------------------------------
 
+		#region Event Handlers
+
 		protected override bool ProcessCmdKey(ref Message message, Keys keys)
 		{
 			switch(keys)
@@ -250,29 +248,29 @@ namespace Tamarin
 					SelectedTaskTableControl.ToolStrip.SelectActiveInactive(active: false);
 					return true;
 				case Keys.Control | Keys.S:
-					saveButton_Click(new object(), new EventArgs());
+					OnSaveButtonClick(new object(), new EventArgs());
 					return true;
 				case Keys.Control | Keys.Y:
-					redoButton_Click(new object(), new EventArgs());
+					OnRedoButtonClick(new object(), new EventArgs());
 					return true;
 				case Keys.Control | Keys.Z:
-					undoButton_Click(new object(), new EventArgs());
+					OnUndoButtonClick(new object(), new EventArgs());
 					return true;
 			}
 			return base.ProcessCmdKey(ref message, keys);
 		}
 
-		private void newButton_Click(object sender, EventArgs e)
+		private void OnNewButtonClick(object sender, EventArgs e)
 		{
 			NewProject();
 		}
 
-		private void saveAsButton_Click(object sender, EventArgs e)
+		private void OnSaveAsButtonClick(object sender, EventArgs e)
 		{
 			SaveAsProject();
 		}
 
-		private void saveButton_Click(object sender, EventArgs e)
+		private void OnSaveButtonClick(object sender, EventArgs e)
 		{
 			if (SelectedProject.NotNamed)
 			{
@@ -282,7 +280,7 @@ namespace Tamarin
 			SaveProject();
 		}
 
-		private void loadButton_Click(object sender, EventArgs e)
+		private void OnLoadButtonClick(object sender, EventArgs e)
 		{
 			OpenFileDialog openDialog = new OpenFileDialog();
 			openDialog.Filter = "MS Excel 2003 XML|*.xml|Excel|*.xlsx";
@@ -292,7 +290,7 @@ namespace Tamarin
 			}
 		}
 
-		private void settingsButton_Click(object sender, EventArgs e)
+		private void OnSettingsButtonClick(object sender, EventArgs e)
 		{
 			using(SettingsForm settingsForm = new SettingsForm())
 			{
@@ -311,12 +309,12 @@ namespace Tamarin
 			}
 		}
 
-		private void windowForm_Activated(object sender, EventArgs e)
+		private void OnActivated(object sender, EventArgs e)
 		{
 			SelectedTaskTableControl?.CheckForOutsideEdits();
 		}
 
-		private void windowForm_Closing(object sender, FormClosingEventArgs e)
+		private void OnClosing(object sender, FormClosingEventArgs e)
 		{
 			string openFilenames = String.Join(";", projects.Where(x => !x.NotNamed).Select(x => x.FullPath).ToArray());
 			Properties.Settings.Default.OpenFilenames = openFilenames;
@@ -338,14 +336,14 @@ namespace Tamarin
 			}
 		}
 
-		private void tabControl_DrawItem(object sender, DrawItemEventArgs e)
+		private void OnTabControlDrawItem(object sender, DrawItemEventArgs e)
 		{
 			e.Graphics.DrawString("x", e.Font, Brushes.DarkRed, e.Bounds.Right - 15, e.Bounds.Top + 4);
 			e.Graphics.DrawString(this.tabControl.TabPages[e.Index].Text, e.Font, Brushes.Black, e.Bounds.Left + 12, e.Bounds.Top + 4);
 			e.DrawFocusRectangle();
 		}
 
-		private void tabControl_MouseUp(object sender, MouseEventArgs e)
+		private void OnTabControlMouseUp(object sender, MouseEventArgs e)
 		{
 			for(int i = 0; i < this.tabControl.TabPages.Count; i++)
 			{
@@ -367,6 +365,18 @@ namespace Tamarin
 				}
 			}
 		}
+
+		private void OnUndoButtonClick(object sender, EventArgs e)
+		{
+			SelectedTaskTableControl.Undo();
+		}
+
+		private void OnRedoButtonClick(object sender, EventArgs e)
+		{
+			SelectedTaskTableControl.Redo();
+		}
+
+		#endregion
 
 		private void InitProjects()
 		{
@@ -481,16 +491,6 @@ namespace Tamarin
 			int selectedIndex = SelectedIndex;
 			this.tabControl.TabPages.RemoveAt(selectedIndex);
 			projects.RemoveAt(selectedIndex);
-		}
-
-		private void undoButton_Click(object sender, EventArgs e)
-		{
-			SelectedTaskTableControl.Undo();
-		}
-
-		private void redoButton_Click(object sender, EventArgs e)
-		{
-			SelectedTaskTableControl.Redo();
 		}
 	}
 }

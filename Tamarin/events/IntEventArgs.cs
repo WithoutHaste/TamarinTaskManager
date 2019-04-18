@@ -5,8 +5,6 @@ using System.Text;
 
 namespace Tamarin
 {
-	public delegate void IntEventHandler(object sender, IntEventArgs e);
-
 	public class IntEventArgs : EventArgs
 	{
 		public int Value { get; private set; }

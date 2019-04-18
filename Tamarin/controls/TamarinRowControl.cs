@@ -41,10 +41,11 @@ namespace Tamarin
 			this.rowIndex = rowIndex;
 		}
 
-		public void Add_Click(object sender, EventArgs e)
+		#region Event Handlers
+
+		public void OnAddButtonClick(object sender, EventArgs e)
 		{
-			if(AddRowBelow == null) return;
-			AddRowBelow.Invoke(this, new EventArgs());
+			InvokeAddRowBelow();
 		}
 
 		public void OnColumnWidthsChanged(object sender, EventArgs e)
@@ -56,6 +57,18 @@ namespace Tamarin
 		{
 			//TODO show or hide id column
 		}
+
+		#endregion
+
+		#region Invoke Events
+
+		protected void InvokeAddRowBelow()
+		{
+			if(AddRowBelow == null) return;
+			AddRowBelow.Invoke(this, new EventArgs());
+		}
+
+		#endregion
 
 		protected void SetupColumns(ControlCollection controls)
 		{

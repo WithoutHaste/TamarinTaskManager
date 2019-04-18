@@ -136,11 +136,11 @@
     <Compile Include="controls\TitleTextBox.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="events\GoToRowEventHandler.cs" />
-    <Compile Include="events\IntEventHandler.cs" />
-    <Compile Include="events\ListEventHandler.cs" />
-    <Compile Include="events\ShowColumnEventHandler.cs" />
-    <Compile Include="events\StringEventHandler.cs" />
+    <Compile Include="events\GoToRowEventArgs.cs" />
+    <Compile Include="events\IntEventArgs.cs" />
+    <Compile Include="events\ListEventArgs.cs" />
+    <Compile Include="events\ShowColumnEventArgs.cs" />
+    <Compile Include="events\StringEventArgs.cs" />
     <Compile Include="WindowForm.cs">
       <SubType>Form</SubType>
     </Compile>
