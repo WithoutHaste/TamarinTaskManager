@@ -222,6 +222,48 @@ with better close button</Data>
       </Row>
       <Row>
         <Cell>
+          <Data ss:Type="Number">95</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">pre-branch
+auto-height on text box
+https://stackoverflow.com/questions/8048455/c-sharp-resize-textbox-to-fit-content
+
+SizeF MessageSize = MyTextBoxControl.CreateGraphics()
+                                .MeasureString(MyTextBoxControl.Text,
+                                                MyTextBoxControl.Font,
+                                                MyTextBoxControl.Width, 
+                                                new StringFormat(0));</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Task</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">94</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;&gt;</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Bug - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
           <Data ss:Type="Number">91</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
@@ -1747,7 +1789,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">93</Data>
+          <Data ss:Type="Number">95</Data>
         </Cell>
       </Row>
       <Row>
