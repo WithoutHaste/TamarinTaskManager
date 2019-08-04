@@ -45,8 +45,12 @@
 sometimes they listen to me, sometimes they don't
 font sizing is critical to legibility
 
-start with empty app, load a file - font is small
-start with list of open diles - font is large</Data>
+start with empty app, add a row - font is large
+start with list of open files - font is small
+confirmed Regular Font is swapping between 20 height and 33 height even though it reports using the same font
+- and worse, the font size is actually displaying at different sizes
+
+now it won't do the error, after I've put in WriteLine commands</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Failed</Data>

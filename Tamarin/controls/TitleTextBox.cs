@@ -41,6 +41,7 @@ namespace Tamarin
 		public TitleTextBox(string controlName, string text)
 		{
 			this.Font = FONT;
+	Console.WriteLine("TitleTextBox font: " + this.Font);
 			this.Name = controlName;
 			this.Text = text;
 			this.Margin = new Padding(0);
@@ -51,7 +52,8 @@ namespace Tamarin
 			this.SizeChanged += new EventHandler(OnSizeChanged);
 			this.TextChanged += new EventHandler(OnTextChanged);
 
-			CalcRenderedLineHeight();
+			//since font is displaying at unreliable sizes, just trust the center sizing measurement
+			//CalcRenderedLineHeight();
 		}
 
 		public bool IsCaretOnFirstLine()
@@ -113,7 +115,7 @@ namespace Tamarin
 		{
 			this.SetHeightByText();
 		}
-
+/*
 		#region Determine Rendered Line Height
 
 		private void CalcRenderedLineHeight()
@@ -126,5 +128,6 @@ namespace Tamarin
 		}
 
 		#endregion
+*/
 	}
 }
