@@ -302,7 +302,7 @@ namespace Tamarin
 
 		public void InsertTitleRow()
 		{
-			HeaderRowControl row = new HeaderRowControl();
+			HeaderRowControl row = new HeaderRowControl(showActive);
 			row.AddRowBelow += new EventHandler(OnAddRowBelow);
 			row.Location = new Point(0, 0);
 			row.Width = this.ClientRectangle.Width;
@@ -315,7 +315,7 @@ namespace Tamarin
 			if(task == null)
 				task = new Task();
 
-			TaskRowControl row = new TaskRowControl(rowIndex, task, project.Statuses.ToList(), project.Categories.ToList());
+			TaskRowControl row = new TaskRowControl(rowIndex, task, project.Statuses.ToList(), project.Categories.ToList(), showActive);
 			row.AddRowBelow += new EventHandler(OnAddRowBelow);
 			row.RowLocationChanged += new EventHandler(OnRowLocationChanged);
 			row.IndexChanged += new EventHandler<IntEventArgs>(OnMoveRow);

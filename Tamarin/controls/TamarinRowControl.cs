@@ -14,6 +14,8 @@ namespace Tamarin
 	{
 		public event EventHandler AddRowBelow;
 
+		protected readonly bool showColumnsForActive;
+
 		/// <summary>Table-controlled row index. First data row is row 1.</summary>
 		protected int rowIndex;
 		public int RowIndex { get { return rowIndex; } }
@@ -29,9 +31,10 @@ namespace Tamarin
 		public const int DELETE_COLUMN_INDEX = 8;
 		public const int HEADER_ROW_INDEX = 0;
 
-		public TamarinRowControl(int rowIndex)
+		public TamarinRowControl(int rowIndex, bool showColumnsForActive)
 		{
 			this.rowIndex = rowIndex;
+			this.showColumnsForActive = showColumnsForActive;
 			this.Width = 300; //default width to start layout with - big enough for all controls to have room
 			this.Height = (int)(Settings.TITLE_CHAR_HEIGHT * 2);
 		}
@@ -99,7 +102,8 @@ namespace Tamarin
 			delete.Location = new Point(this.Width - delete.Width, 0);
 			delete.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
-			finished.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
+			int finishedWidth = (showColumnsForActive) ? 0 : Settings.TITLE_CHAR_WIDTH * 10;
+			finished.Size = new Size(finishedWidth, this.Height);
 			PlaceLeftOf(finished, delete);
 			PlaceCenterVerticalOn(add, finished);
 			finished.Anchor = AnchorStyles.Right | AnchorStyles.Top;

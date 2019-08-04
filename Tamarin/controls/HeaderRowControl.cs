@@ -9,7 +9,7 @@ namespace Tamarin
 {
 	public class HeaderRowControl : TamarinRowControl
 	{
-		public HeaderRowControl() : base(0)
+		public HeaderRowControl(bool showColumnsForActive) : base(0, showColumnsForActive)
 		{
 			InitControls();
 		}
