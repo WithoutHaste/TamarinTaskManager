@@ -41,7 +41,6 @@ namespace Tamarin
 		public TitleTextBox(string controlName, string text)
 		{
 			this.Font = FONT;
-	Console.WriteLine("TitleTextBox font: " + this.Font);
 			this.Name = controlName;
 			this.Text = text;
 			this.Margin = new Padding(0);
