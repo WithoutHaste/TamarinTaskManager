@@ -98,7 +98,10 @@ namespace Tamarin
 			doneLabel.TextAlign = ContentAlignment.TopRight;
 			this.Controls.Add(doneLabel);
 
-			this.Controls.Add(NewButton(Settings.SYMBOL_MULTIPLY, OnDeleteButtonClicked));
+			Button deleteButton = NewButton(Settings.SYMBOL_MULTIPLY, OnDeleteButtonClicked);
+			deleteButton.MouseEnter += OnDeleteButtonMouseEnter;
+			deleteButton.MouseLeave += OnDeleteButtonMouseLeave;
+			this.Controls.Add(deleteButton);
 
 			SetupColumns(this.Controls);
 			SetTabIndexes();
@@ -253,6 +256,21 @@ namespace Tamarin
 		public void OnDeleteButtonClicked(object sender, EventArgs e)
 		{
 			InvokeRowDeleted();
+		}
+
+		public void OnDeleteButtonMouseEnter(object sender, EventArgs e)
+		{
+			Color highlightColor = Color.FromArgb(255, 255, 255, 204);
+			this.BackColor = highlightColor;
+			titleBox.BackColor = highlightColor;
+		}
+
+		public void OnDeleteButtonMouseLeave(object sender, EventArgs e)
+		{
+			if(this.Parent == null) //for event fired after row is deleted
+				return;
+			this.BackColor = this.Parent.BackColor;
+			titleBox.BackColor = Color.White;
 		}
 
 		private bool IsDownArrow(KeyEventArgs e)
