@@ -105,7 +105,7 @@ namespace Tamarin
 			return lineCount;
 		}
 
-		private void OnSizeChanged(object sender, EventArgs e)
+		public void OnSizeChanged(object sender, EventArgs e)
 		{
 			this.SetHeightByText();
 		}

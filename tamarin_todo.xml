@@ -38,28 +38,11 @@
       </Row>
       <Row>
         <Cell>
-          <Data ss:Type="Number">93</Data>
+          <Data ss:Type="Number">97</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">wtf is up with the fonts?
-sometimes they listen to me, sometimes they don't
-font sizing is critical to legibility
-
-start with empty app, add a row - font is large
-start with list of open files - font is small
-confirmed Regular Font is swapping between 20 height and 33 height even though it reports using the same font
-- and worse, the font size is actually displaying at different sizes
-
-this is insane
-so far a full clean/rebuild sets all the fonts back correctly, but randomly they go crazy
-- never mind, that's not a reliable course either
-
-holy shit, windows 10 has a display setting to auto-scale text when your resolution is high
-https://stackoverflow.com/questions/2973165/autoscalemode-problems-with-changed-default-font
-not sure that's even the problem - changing my display settings from scale 150% to scale 100% shrinks the how app, but the fonts are still clearly different sizes in it
-
-this would be less of an issue if the MeasureText thing could at least tell when the font was being display big
-- and now its been stuck on large text for a while</Data>
+          <Data ss:Type="String">loading EarlyDocs todo list
+just scrolling through the Active list, somehow it keeps looping back to the beginning of the list</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -73,21 +56,11 @@ this would be less of an issue if the MeasureText thing could at least tell when
       </Row>
       <Row>
         <Cell>
-          <Data ss:Type="Number">96</Data>
+          <Data ss:Type="Number">99</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">wtf fonts: continued
-
-learned in another branch
-that somehow, having the App.config setup with the correct section name for "Tamarin.Properties.Settings" - that allows the fonts to go nuts
-but having the wrong in there, the fonts act right, or at t least closer to right
-
-https://stackoverflow.com/questions/5977445/how-to-get-windows-display-settings
-verified with graphics.DpiY that it is at 96DPI which is supposed to correspond with Windows 10 100% scaling
-- not helpful
-
-https://stackoverflow.com/questions/5977445/how-to-get-windows-display-settings
-ok, got windows scaling from here, so at least my controls can fit the font</Data>
+          <Data ss:Type="String">loading EarlyDocs todo list
+Show Inactive takes at least 2 seconds to load, and making that fast was the main point of all this</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -101,46 +74,19 @@ ok, got windows scaling from here, so at least my controls can fit the font</Dat
       </Row>
       <Row>
         <Cell>
-          <Data ss:Type="Number">54</Data>
+          <Data ss:Type="Number">98</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">create a custom layout manager that works better and faster
-? or can I get TableLayoutPanel working better ?
-maybe
-only initialize textbox height when column width stabilizes to a positive value?
-and only turn on textbox events after starting size is initiliazed?
-but the "New" sheet works fine
-maybe if I load a "New" sheet and THEN add the rows to it?
-
-working in "Layout" branch
-making a dedicated custom layout</Data>
+          <Data ss:Type="String">When app opens, title bar is not visible and layout is not 100% complete</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Feature - Major</Data>
+          <Data ss:Type="String">Bug - Major</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2018-09-13T00:00:00.000</Data>
-        </Cell>
-      </Row>
-      <Row>
-        <Cell>
-          <Data ss:Type="Number">86</Data>
-        </Cell>
-        <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">are the competing SuspendLayout and ResumeLayout calls undoing each other?
-making sure they line up actually breaks the layout - the tablelayoutpanel does not seem to resize to fit the container</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Todo</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Feature - Major</Data>
-        </Cell>
-        <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2019-04-04T00:00:00.000</Data>
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -159,23 +105,6 @@ with better close button</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-09-19T00:00:00.000</Data>
-        </Cell>
-      </Row>
-      <Row>
-        <Cell>
-          <Data ss:Type="Number">88</Data>
-        </Cell>
-        <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">hover over Delete-Row-Button to make row background red</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Todo</Data>
-        </Cell>
-        <Cell>
-          <Data ss:Type="String">Feature - Minor</Data>
-        </Cell>
-        <Cell ss:StyleID="cellShortDate">
-          <Data ss:Type="DateTime">2019-04-23T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -703,6 +632,145 @@ Similarly, Ctrl-Down-Arrow from a text with a longer line will jump down to the 
         </Cell>
         <Cell ss:StyleID="header">
           <Data ss:Type="String">Done</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">88</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">hover over Delete-Row-Button to make row background red</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Done</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-23T00:00:00.000</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">86</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">are the competing SuspendLayout and ResumeLayout calls undoing each other?
+making sure they line up actually breaks the layout - the tablelayoutpanel does not seem to resize to fit the container</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Sort of Done</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-04-04T00:00:00.000</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">54</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">create a custom layout manager that works better and faster
+? or can I get TableLayoutPanel working better ?
+maybe
+only initialize textbox height when column width stabilizes to a positive value?
+and only turn on textbox events after starting size is initiliazed?
+but the "New" sheet works fine
+maybe if I load a "New" sheet and THEN add the rows to it?
+
+working in "Layout" branch
+making a dedicated custom layout</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Sort of Done</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2018-09-13T00:00:00.000</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">96</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">wtf fonts: continued
+
+learned in another branch
+that somehow, having the App.config setup with the correct section name for "Tamarin.Properties.Settings" - that allows the fonts to go nuts
+but having the wrong in there, the fonts act right, or at t least closer to right
+
+https://stackoverflow.com/questions/5977445/how-to-get-windows-display-settings
+verified with graphics.DpiY that it is at 96DPI which is supposed to correspond with Windows 10 100% scaling
+- not helpful
+
+https://stackoverflow.com/questions/5977445/how-to-get-windows-display-settings
+ok, got windows scaling from here, so at least my controls can fit the font</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Sort of Done</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Bug - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">93</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">wtf is up with the fonts?
+sometimes they listen to me, sometimes they don't
+font sizing is critical to legibility
+
+start with empty app, add a row - font is large
+start with list of open files - font is small
+confirmed Regular Font is swapping between 20 height and 33 height even though it reports using the same font
+- and worse, the font size is actually displaying at different sizes
+
+this is insane
+so far a full clean/rebuild sets all the fonts back correctly, but randomly they go crazy
+- never mind, that's not a reliable course either
+
+holy shit, windows 10 has a display setting to auto-scale text when your resolution is high
+https://stackoverflow.com/questions/2973165/autoscalemode-problems-with-changed-default-font
+not sure that's even the problem - changing my display settings from scale 150% to scale 100% shrinks the how app, but the fonts are still clearly different sizes in it
+
+this would be less of an issue if the MeasureText thing could at least tell when the font was being display big
+- and now its been stuck on large text for a while</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Sort of Done</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Bug - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -1817,7 +1885,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">96</Data>
+          <Data ss:Type="Number">99</Data>
         </Cell>
       </Row>
       <Row>
@@ -1868,7 +1936,7 @@ Ctrl-N (Next or New)</Data>
       </Row>
       <Row>
         <Cell>
-          <Data ss:Type="String">Skip</Data>
+          <Data ss:Type="String">Sort of Done</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Inactive</Data>
@@ -1891,8 +1959,7 @@ Ctrl-N (Next or New)</Data>
       </Row>
       <Row>
         <Cell>
-          <Data ss:Type="String">
-          </Data>
+          <Data ss:Type="String">Skip</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Inactive</Data>
@@ -1919,7 +1986,8 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Inactive</Data>
+          <Data ss:Type="String">
+          </Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">

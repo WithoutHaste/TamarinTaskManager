@@ -404,6 +404,5 @@ namespace Tamarin
 			textBox.Text = text;
 			return textBox;
 		}
-
 	}
 }

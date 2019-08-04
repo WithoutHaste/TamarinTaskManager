@@ -12,7 +12,6 @@ namespace Tamarin
 {
 	public class TaskTableControl : Panel
 	{
-		public event EventHandler<ShowColumnEventArgs> OnShowColumn;
 		public event EventHandler<ListEventArgs> StatusesChanged;
 		public event EventHandler<ListEventArgs> CategoriesChanged;
 
@@ -45,7 +44,6 @@ namespace Tamarin
 			this.BackColor = Color.White;
 			this.AutoScroll = true;
 			this.VisibleChanged += new EventHandler(OnVisibleChanged);
-			this.SizeChanged += new EventHandler(OnSizeChanged);
 
 			ShowTaskSheet(active: showActive, forced: true);
 		}
@@ -57,11 +55,6 @@ namespace Tamarin
 			if(!(sender as Control).Visible)
 				return;
 			CheckForOutsideEdits();
-		}
-
-		private void OnSizeChanged(object sender, EventArgs e)
-		{
-			RecalculateColumnWidths();
 		}
 
 		private void OnAddRowBelow(object sender, EventArgs e)
@@ -407,26 +400,6 @@ namespace Tamarin
 			if(row is TaskRowControl)
 				(row as TaskRowControl).FocusOnTitle();
 			AdjustRowIndexesAndPositions();
-		}
-
-		private void RecalculateColumnWidths()
-		{
-/*			if(this.Width <= 10)
-				return;
-			if(columnWidths == null)
-			{
-				columnWidths = new int[TamarinRowControl.DELETE_COLUMN_INDEX + 1];
-			}
-			int half = this.Width / 2;
-			columnWidths[TamarinRowControl.PLUS_COLUMN_INDEX] = Math.Min(20, (int)(half * 0.1));
-			columnWidths[TamarinRowControl.ROW_COLUMN_INDEX] = 20;
-			columnWidths[TamarinRowControl.ID_COLUMN_INDEX] = 20;
-			columnWidths[TamarinRowControl.TITLE_COLUMN_INDEX] = 20;
-			columnWidths[TamarinRowControl.STATUS_COLUMN_INDEX] = 40;
-			columnWidths[TamarinRowControl.CATEGORY_COLUMN_INDEX] = 40;
-			columnWidths[TamarinRowControl.CREATED_COLUMN_INDEX] = 40;
-			columnWidths[TamarinRowControl.DONE_COLUMN_INDEX] = 40;
-			columnWidths[TamarinRowControl.DELETE_COLUMN_INDEX] = 40;*/
 		}
 
 		public void CheckForOutsideEdits()

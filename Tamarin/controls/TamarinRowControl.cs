@@ -43,6 +43,7 @@ namespace Tamarin
 			}
 			this.Width = 300; //default width to start layout with - big enough for all controls to have room
 			this.Height = minHeight;
+			this.SizeChanged += new EventHandler(OnSizeChanged);
 		}
 
 		public void SyncHiddenColumns(TamarinRowControl other)
@@ -66,6 +67,11 @@ namespace Tamarin
 		public void OnColumnWidthsChanged(object sender, EventArgs e)
 		{
 			//TODO
+		}
+
+		private void OnSizeChanged(object sender, EventArgs e)
+		{
+			SetupColumns(this.Controls);
 		}
 
 		public void OnShowColumn(object sender, ShowColumnEventArgs e)
@@ -178,6 +184,5 @@ namespace Tamarin
 			button.Invalidate();
 			return button;
 		}
-
 	}
 }
