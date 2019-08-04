@@ -59,7 +59,11 @@ https://stackoverflow.com/questions/2973165/autoscalemode-problems-with-changed-
 not sure that's even the problem - changing my display settings from scale 150% to scale 100% shrinks the how app, but the fonts are still clearly different sizes in it
 
 this would be less of an issue if the MeasureText thing could at least tell when the font was being display big
-- and now its been stuck on large text for a while</Data>
+- and now its been stuck on large text for a while
+
+learned in another branch
+that somehow, having the App.config setup with the correct section name for "Tamarin.Properties.Settings" - that allows the fonts to go nuts
+but having the wrong in there, the fonts act right, or at t least closer to right</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
