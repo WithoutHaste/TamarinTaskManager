@@ -12,9 +12,10 @@ namespace Tamarin
 	/// </summary>
 	public abstract class TamarinRowControl : Panel
 	{
+		/// <summary>Add a row below this one.</summary>
 		public event EventHandler AddRowBelow;
 
-		protected readonly bool showColumnsForActive;
+		protected List<int> hiddenColumnIndexes = new List<int>();
 
 		/// <summary>Table-controlled row index. First data row is row 1.</summary>
 		protected int rowIndex;
@@ -34,7 +35,10 @@ namespace Tamarin
 		public TamarinRowControl(int rowIndex, bool showColumnsForActive)
 		{
 			this.rowIndex = rowIndex;
-			this.showColumnsForActive = showColumnsForActive;
+			if(showColumnsForActive)
+			{
+				hiddenColumnIndexes.Add(DONE_COLUMN_INDEX);
+			}
 			this.Width = 300; //default width to start layout with - big enough for all controls to have room
 			this.Height = (int)(Settings.TITLE_CHAR_HEIGHT * 2);
 		}
@@ -58,7 +62,15 @@ namespace Tamarin
 
 		public void OnShowColumn(object sender, ShowColumnEventArgs e)
 		{
-			//TODO show or hide id column
+			if(e.Show)
+			{
+				hiddenColumnIndexes.RemoveAll(element => element == e.ColumnIndex);
+			}
+			else
+			{
+				hiddenColumnIndexes.Add(e.ColumnIndex);
+			}
+			SetupColumns(this.Controls);
 		}
 
 		#endregion
@@ -94,7 +106,8 @@ namespace Tamarin
 			PlaceCenterVerticalOn(add, index);
 			index.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 
-			id.Size = new Size(Settings.TITLE_CHAR_WIDTH * 3, this.Height);
+			int idWidth = (hiddenColumnIndexes.Contains(ID_COLUMN_INDEX)) ? 0 : Settings.TITLE_CHAR_WIDTH * 3;
+			id.Size = new Size(idWidth, this.Height);
 			PlaceRightOf(index, id);
 			id.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 
@@ -102,7 +115,7 @@ namespace Tamarin
 			delete.Location = new Point(this.Width - delete.Width, 0);
 			delete.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
-			int finishedWidth = (showColumnsForActive) ? 0 : Settings.TITLE_CHAR_WIDTH * 10;
+			int finishedWidth = (hiddenColumnIndexes.Contains(DONE_COLUMN_INDEX)) ? 0 : Settings.TITLE_CHAR_WIDTH * 10;
 			finished.Size = new Size(finishedWidth, this.Height);
 			PlaceLeftOf(finished, delete);
 			PlaceCenterVerticalOn(add, finished);

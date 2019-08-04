@@ -12,7 +12,7 @@ namespace Tamarin
 {
 	public class TaskTableControl : Panel
 	{
-		public event EventHandler<ShowColumnEventArgs> ShowColumn;
+		public event EventHandler<ShowColumnEventArgs> OnShowColumn;
 		public event EventHandler<ListEventArgs> StatusesChanged;
 		public event EventHandler<ListEventArgs> CategoriesChanged;
 
@@ -484,12 +484,12 @@ namespace Tamarin
 
 		private void ShowTaskIds()
 		{
-			Column_Show(true, TamarinRowControl.ID_COLUMN_INDEX);
+			TriggerShowColumn(true, TamarinRowControl.ID_COLUMN_INDEX);
 		}
 
 		private void HideTaskIds()
 		{
-			Column_Show(false, TamarinRowControl.ID_COLUMN_INDEX);
+			TriggerShowColumn(false, TamarinRowControl.ID_COLUMN_INDEX);
 		}
 
 		public void ShowHideCategories()
@@ -502,18 +502,22 @@ namespace Tamarin
 
 		private void ShowCategories()
 		{
-			Column_Show(true, TamarinRowControl.CATEGORY_COLUMN_INDEX);
+			TriggerShowColumn(true, TamarinRowControl.CATEGORY_COLUMN_INDEX);
 		}
 
 		private void HideCategories()
 		{
-			Column_Show(false, TamarinRowControl.CATEGORY_COLUMN_INDEX);
+			TriggerShowColumn(false, TamarinRowControl.CATEGORY_COLUMN_INDEX);
 		}
 
-		private void Column_Show(bool show, int columnIndex)
+		private void TriggerShowColumn(bool show, int columnIndex)
 		{
-			if(ShowColumn == null) return;
-			ShowColumn.Invoke(this, new ShowColumnEventArgs(show, columnIndex));
+			foreach(Control control in this.Controls)
+			{
+				if(!(control is TamarinRowControl))
+					continue;
+				(control as TamarinRowControl).OnShowColumn(this, new ShowColumnEventArgs(show, columnIndex));
+			}
 		}
 
 		public void EditStatuses()

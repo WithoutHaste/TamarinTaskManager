@@ -1088,7 +1088,7 @@ do show Finished column on InActive sheet</Data>
           <Data ss:Type="String">do not show Id column on either sheet if it is set to "hide"</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
@@ -1105,7 +1105,7 @@ do show Finished column on InActive sheet</Data>
           <Data ss:Type="String">close application normally</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Todo</Data>
+          <Data ss:Type="String">Passed</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Test</Data>
