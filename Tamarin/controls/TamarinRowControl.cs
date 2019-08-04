@@ -43,6 +43,12 @@ namespace Tamarin
 			this.Height = (int)(Settings.TITLE_CHAR_HEIGHT * 2);
 		}
 
+		public void SyncHiddenColumns(TamarinRowControl other)
+		{
+			this.hiddenColumnIndexes.AddRange(other.hiddenColumnIndexes);
+			SetupColumns(this.Controls);
+		}
+
 		public virtual void SetRowIndex(int rowIndex)
 		{
 			this.rowIndex = rowIndex;
@@ -136,19 +142,20 @@ namespace Tamarin
 			PlaceCenterVerticalOn(add, status);
 			status.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
-			int remainingWidth = this.Width - add.Width - index.Width - id.Width - delete.Width - finished.Width - created.Width - category.Width - status.Width;
+			int titleMargin = 4;
+			int remainingWidth = this.Width - add.Width - index.Width - id.Width - delete.Width - finished.Width - created.Width - category.Width - status.Width - (titleMargin * 2);
 
 			title.Size = new Size(remainingWidth, this.Height);
-			PlaceRightOf(id, title);
+			PlaceRightOf(id, title, titleMargin);
 			title.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
 
 			var x = title.Font;
 			var y = id.Font;
 		}
 
-		protected void PlaceRightOf(Control left, Control right)
+		protected void PlaceRightOf(Control left, Control right, int margin = 0)
 		{
-			right.Location = new Point(left.Right, left.Top);
+			right.Location = new Point(left.Right + margin, left.Top);
 		}
 
 		protected void PlaceLeftOf(Control left, Control right)

@@ -62,6 +62,9 @@ namespace Tamarin
 			InitializeComponent();
 			this.Text = "Tamarin v" + Utilities.GetSemanticVersion(Assembly.GetExecutingAssembly());
 			this.MinimumSize = new Size(800, 300);
+			this.AutoScaleMode = AutoScaleMode.None; //this is the suggested solution for Windows 10 auto-scalling your fonts, but it is not fixing this problem
+//			this.Font = Settings.REGULAR_FONT; //this makes things display worse, but it has a consistent effect on the app so maybe it is important
+			this.AutoSize = false;
 			try
 			{
 				Assembly myAssembly = Assembly.GetAssembly(typeof(WindowForm));

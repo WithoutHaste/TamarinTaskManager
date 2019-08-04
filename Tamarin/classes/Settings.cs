@@ -23,9 +23,10 @@ namespace Tamarin
 		private static void CalcTitleCharSize()
 		{
 			string text = "ABCDE";
-			Size size = TextRenderer.MeasureText(text, TITLE_FONT);
-			titleCharWidth = size.Width / text.Length;
-			titleCharHeight = size.Height;
+			SizeF size = MeasureTextSize(TITLE_FONT, "ABCDE");
+			titleCharWidth = (int)Math.Ceiling(size.Width / text.Length);
+			titleCharHeight = (int)Math.Ceiling(size.Height);
+	Console.WriteLine("title font size: " + size);
 		}
 		public static int TITLE_CHAR_WIDTH {
 			get {
@@ -47,9 +48,10 @@ namespace Tamarin
 		private static void CalcRegularCharSize()
 		{
 			string text = "ABCDE";
-			Size size = TextRenderer.MeasureText(text, REGULAR_FONT);
-			regularCharWidth = size.Width / text.Length;
-			regularCharHeight = size.Height;
+			SizeF size = MeasureTextSize(REGULAR_FONT, "ABCDE");
+			regularCharWidth = (int)Math.Ceiling(size.Width / text.Length);
+			regularCharHeight = (int)Math.Ceiling(size.Height);
+	Console.WriteLine("regular font size: " + size);
 		}
 		public static int REGULAR_CHAR_WIDTH {
 			get {
@@ -66,5 +68,19 @@ namespace Tamarin
 			}
 		}
 
+		/// <remarks>
+		/// If done within a Control object, using <c>this.CreateGraphics()</c> here somehow interrupts the sizing of the control, causing a layout error.
+		/// </remarks>
+		/// <remarks>
+		/// Using <c>TextRenderer.MeasureText(text, font);</c> somehow gives randomly different answers.
+		/// Like, I'll get height 22 for ages, then get height 33 in an unpredictable way.
+		/// </remarks>
+		private static SizeF MeasureTextSize(Font font, string text)
+		{
+			using(Graphics graphics = Graphics.FromHwnd(IntPtr.Zero))
+			{
+				return graphics.MeasureString(text, font);
+			}
+		}
 	}
 }

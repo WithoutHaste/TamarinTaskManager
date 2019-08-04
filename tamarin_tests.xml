@@ -41,16 +41,7 @@
           <Data ss:Type="Number">59</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
-          <Data ss:Type="String">wtf is up with the fonts?
-sometimes they listen to me, sometimes they don't
-font sizing is critical to legibility
-
-start with empty app, add a row - font is large
-start with list of open files - font is small
-confirmed Regular Font is swapping between 20 height and 33 height even though it reports using the same font
-- and worse, the font size is actually displaying at different sizes
-
-now it won't do the error, after I've put in WriteLine commands</Data>
+          <Data ss:Type="String">wtf is up with the fonts?</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Failed</Data>
@@ -1118,6 +1109,24 @@ do show Finished column on InActive sheet</Data>
           <Data ss:Type="DateTime">2019-04-17T00:00:00.000</Data>
         </Cell>
       </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">60</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">test on big file
+switching between active/inactive, should update display fast</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Test</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+      </Row>
     </Table>
     <x:WorksheetOptions />
   </ss:Worksheet>
@@ -1195,7 +1204,7 @@ do show Finished column on InActive sheet</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">59</Data>
+          <Data ss:Type="Number">60</Data>
         </Cell>
       </Row>
       <Row>

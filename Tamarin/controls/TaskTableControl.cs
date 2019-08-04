@@ -26,6 +26,8 @@ namespace Tamarin
 		/// <summary>Set to true the first time the panel is displayed.</summary>
 		private bool shown = false;
 
+		private HeaderRowControl headerRowControl;
+		
 		private bool DisplayCategories {
 			get {
 				return (project.Categories.Length > 1);
@@ -302,12 +304,12 @@ namespace Tamarin
 
 		public void InsertTitleRow()
 		{
-			HeaderRowControl row = new HeaderRowControl(showActive);
-			row.AddRowBelow += new EventHandler(OnAddRowBelow);
-			row.Location = new Point(0, 0);
-			row.Width = this.ClientRectangle.Width;
-			row.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
-			this.Controls.Add(row);
+			headerRowControl = new HeaderRowControl(showActive);
+			headerRowControl.AddRowBelow += new EventHandler(OnAddRowBelow);
+			headerRowControl.Location = new Point(0, 0);
+			headerRowControl.Width = this.ClientRectangle.Width;
+			headerRowControl.Anchor = AnchorStyles.Left | AnchorStyles.Right | AnchorStyles.Top;
+			this.Controls.Add(headerRowControl);
 		}
 
 		private Task InsertTaskRowAt(int rowIndex, Task task = null)
@@ -316,6 +318,7 @@ namespace Tamarin
 				task = new Task();
 
 			TaskRowControl row = new TaskRowControl(rowIndex, task, project.Statuses.ToList(), project.Categories.ToList(), showActive);
+			row.SyncHiddenColumns(headerRowControl);
 			row.AddRowBelow += new EventHandler(OnAddRowBelow);
 			row.RowLocationChanged += new EventHandler(OnRowLocationChanged);
 			row.IndexChanged += new EventHandler<IntEventArgs>(OnMoveRow);

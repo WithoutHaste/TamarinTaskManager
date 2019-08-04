@@ -51,8 +51,7 @@ namespace Tamarin
 			this.SizeChanged += new EventHandler(OnSizeChanged);
 			this.TextChanged += new EventHandler(OnTextChanged);
 
-			//since font is displaying at unreliable sizes, just trust the center sizing measurement
-			//CalcRenderedLineHeight();
+			CalcRenderedLineHeight();
 		}
 
 		public bool IsCaretOnFirstLine()
@@ -114,7 +113,7 @@ namespace Tamarin
 		{
 			this.SetHeightByText();
 		}
-/*
+
 		#region Determine Rendered Line Height
 
 		private void CalcRenderedLineHeight()
@@ -127,6 +126,5 @@ namespace Tamarin
 		}
 
 		#endregion
-*/
 	}
 }

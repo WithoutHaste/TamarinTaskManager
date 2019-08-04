@@ -38,6 +38,41 @@
       </Row>
       <Row>
         <Cell>
+          <Data ss:Type="Number">93</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">wtf is up with the fonts?
+sometimes they listen to me, sometimes they don't
+font sizing is critical to legibility
+
+start with empty app, add a row - font is large
+start with list of open files - font is small
+confirmed Regular Font is swapping between 20 height and 33 height even though it reports using the same font
+- and worse, the font size is actually displaying at different sizes
+
+this is insane
+so far a full clean/rebuild sets all the fonts back correctly, but randomly they go crazy
+- never mind, that's not a reliable course either
+
+holy shit, windows 10 has a display setting to auto-scale text when your resolution is high
+https://stackoverflow.com/questions/2973165/autoscalemode-problems-with-changed-default-font
+not sure that's even the problem - changing my display settings from scale 150% to scale 100% shrinks the how app, but the fonts are still clearly different sizes in it
+
+this would be less of an issue if the MeasureText thing could at least tell when the font was being display big
+- and now its been stuck on large text for a while</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
           <Data ss:Type="Number">54</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
@@ -1712,7 +1747,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">92</Data>
+          <Data ss:Type="Number">93</Data>
         </Cell>
       </Row>
       <Row>
