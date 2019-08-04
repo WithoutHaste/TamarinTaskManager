@@ -59,17 +59,41 @@ https://stackoverflow.com/questions/2973165/autoscalemode-problems-with-changed-
 not sure that's even the problem - changing my display settings from scale 150% to scale 100% shrinks the how app, but the fonts are still clearly different sizes in it
 
 this would be less of an issue if the MeasureText thing could at least tell when the font was being display big
-- and now its been stuck on large text for a while
-
-learned in another branch
-that somehow, having the App.config setup with the correct section name for "Tamarin.Properties.Settings" - that allows the fonts to go nuts
-but having the wrong in there, the fonts act right, or at t least closer to right</Data>
+- and now its been stuck on large text for a while</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
         </Cell>
         <Cell>
-          <Data ss:Type="String">Feature - Major</Data>
+          <Data ss:Type="String">Bug - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">96</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">wtf fonts: continued
+
+learned in another branch
+that somehow, having the App.config setup with the correct section name for "Tamarin.Properties.Settings" - that allows the fonts to go nuts
+but having the wrong in there, the fonts act right, or at t least closer to right
+
+https://stackoverflow.com/questions/5977445/how-to-get-windows-display-settings
+verified with graphics.DpiY that it is at 96DPI which is supposed to correspond with Windows 10 100% scaling
+- not helpful
+
+https://stackoverflow.com/questions/5977445/how-to-get-windows-display-settings
+ok, got windows scaling from here, so at least my controls can fit the font</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Bug - Major</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2019-08-04T00:00:00.000</Data>
@@ -1793,7 +1817,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">95</Data>
+          <Data ss:Type="Number">96</Data>
         </Cell>
       </Row>
       <Row>

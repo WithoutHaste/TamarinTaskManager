@@ -79,8 +79,45 @@ namespace Tamarin
 		{
 			using(Graphics graphics = Graphics.FromHwnd(IntPtr.Zero))
 			{
-				return graphics.MeasureString(text, font);
+				SizeF size = graphics.MeasureString(text, font);
+				float scaling = getScalingFactor();
+				return new SizeF(size.Width * scaling, size.Height * scaling);
 			}
 		}
+
+		#region GET SCALING
+
+		/// <summary>
+		/// Returns the amount of scaling Windows is forcing on your fonts.
+		/// </summary>
+		/// <remarks>
+		/// https://stackoverflow.com/questions/5977445/how-to-get-windows-display-settings
+		/// </remarks>
+		/// <returns>1.25 means 125% scaling</returns>
+		public static float getScalingFactor()
+		{
+			Graphics g = Graphics.FromHwnd(IntPtr.Zero);
+			IntPtr desktop = g.GetHdc();
+			int LogicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.VERTRES);
+			int PhysicalScreenHeight = GetDeviceCaps(desktop, (int)DeviceCap.DESKTOPVERTRES);
+
+			float ScreenScalingFactor = (float)PhysicalScreenHeight / (float)LogicalScreenHeight;
+
+			return ScreenScalingFactor;
+		}
+
+		[System.Runtime.InteropServices.DllImport("gdi32.dll")]
+		static extern int GetDeviceCaps(IntPtr hdc, int nIndex);
+		public enum DeviceCap
+		{
+			VERTRES = 10,
+			DESKTOPVERTRES = 117,
+
+			// http://pinvoke.net/default.aspx/gdi32/GetDeviceCaps.html
+		}
+
+		#endregion
 	}
 }
+
+

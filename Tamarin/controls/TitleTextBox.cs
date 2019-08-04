@@ -51,7 +51,8 @@ namespace Tamarin
 			this.SizeChanged += new EventHandler(OnSizeChanged);
 			this.TextChanged += new EventHandler(OnTextChanged);
 
-			CalcRenderedLineHeight();
+			//if commented out, relying on Settings calculation
+			//CalcRenderedLineHeight();
 		}
 
 		public bool IsCaretOnFirstLine()
@@ -113,18 +114,19 @@ namespace Tamarin
 		{
 			this.SetHeightByText();
 		}
-
+		
 		#region Determine Rendered Line Height
-
+		
 		private void CalcRenderedLineHeight()
 		{
 			using(Graphics graphics = Graphics.FromHwnd(IntPtr.Zero)) //using this.CreateGraphics() here somehow interrupts the sizing of the control, causing a layout error
 			{
 				SizeF size = graphics.MeasureString("TEST", this.Font);
-				LINE_HEIGHT = (int)Math.Ceiling(size.Height);
+				LINE_HEIGHT = (int)Math.Ceiling(size.Height * Settings.getScalingFactor());
 			}
 		}
 
 		#endregion
+		
 	}
 }

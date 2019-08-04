@@ -21,6 +21,8 @@ namespace Tamarin
 		protected int rowIndex;
 		public int RowIndex { get { return rowIndex; } }
 
+		private readonly int minHeight = Settings.REGULAR_CHAR_HEIGHT;
+
 		public const int PLUS_COLUMN_INDEX = 0;
 		public const int ROW_COLUMN_INDEX = 1;
 		public const int ID_COLUMN_INDEX = 2;
@@ -40,7 +42,7 @@ namespace Tamarin
 				hiddenColumnIndexes.Add(DONE_COLUMN_INDEX);
 			}
 			this.Width = 300; //default width to start layout with - big enough for all controls to have room
-			this.Height = (int)(Settings.TITLE_CHAR_HEIGHT * 2);
+			this.Height = minHeight;
 		}
 
 		public void SyncHiddenColumns(TamarinRowControl other)
@@ -104,42 +106,37 @@ namespace Tamarin
 			Control delete = controls[DELETE_COLUMN_INDEX];
 
 			add.Location = new Point(0, 0);
-			add.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, this.Height);
+			add.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, minHeight);
 			add.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 
-			index.Size = new Size(Settings.TITLE_CHAR_WIDTH * 4, this.Height);
+			index.Size = new Size(Settings.TITLE_CHAR_WIDTH * 4, minHeight);
 			PlaceRightOf(add, index);
-			PlaceCenterVerticalOn(add, index);
 			index.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 
 			int idWidth = (hiddenColumnIndexes.Contains(ID_COLUMN_INDEX)) ? 0 : Settings.TITLE_CHAR_WIDTH * 3;
-			id.Size = new Size(idWidth, this.Height);
+			id.Size = new Size(idWidth, minHeight);
 			PlaceRightOf(index, id);
 			id.Anchor = AnchorStyles.Left | AnchorStyles.Top;
 
-			delete.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, this.Height);
+			delete.Size = new Size(Settings.TITLE_CHAR_WIDTH * 2, minHeight);
 			delete.Location = new Point(this.Width - delete.Width, 0);
 			delete.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
 			int finishedWidth = (hiddenColumnIndexes.Contains(DONE_COLUMN_INDEX)) ? 0 : Settings.TITLE_CHAR_WIDTH * 10;
-			finished.Size = new Size(finishedWidth, this.Height);
+			finished.Size = new Size(finishedWidth, minHeight);
 			PlaceLeftOf(finished, delete);
-			PlaceCenterVerticalOn(add, finished);
 			finished.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
-			created.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, this.Height);
+			created.Size = new Size(Settings.TITLE_CHAR_WIDTH * 10, minHeight);
 			PlaceLeftOf(created, finished);
-			PlaceCenterVerticalOn(add, created);
 			created.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
-			category.Size = new Size(Settings.TITLE_CHAR_WIDTH * 8, this.Height);
+			category.Size = new Size(Settings.TITLE_CHAR_WIDTH * 8, minHeight);
 			PlaceLeftOf(category, created);
-			PlaceCenterVerticalOn(add, category);
 			category.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
-			status.Size = new Size(Settings.TITLE_CHAR_WIDTH * 8, this.Height);
+			status.Size = new Size(Settings.TITLE_CHAR_WIDTH * 8, minHeight);
 			PlaceLeftOf(status, category);
-			PlaceCenterVerticalOn(add, status);
 			status.Anchor = AnchorStyles.Right | AnchorStyles.Top;
 
 			int titleMargin = 4;
