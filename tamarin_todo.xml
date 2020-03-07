@@ -196,6 +196,24 @@ with better close button</Data>
       </Row>
       <Row>
         <Cell>
+          <Data ss:Type="Number">102</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">redo tabbing so that user can set "Tabs along Top" or "Tabs along Left"
+- when a lot of tabs are open, stacked on the left side would be easier to read</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2020-03-07T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
           <Data ss:Type="Number">89</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
@@ -1919,7 +1937,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">101</Data>
+          <Data ss:Type="Number">102</Data>
         </Cell>
       </Row>
       <Row>
