@@ -38,6 +38,59 @@
       </Row>
       <Row>
         <Cell>
+          <Data ss:Type="Number">87</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">scroll pane is more than double the height it should be</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Bug - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2020-03-08T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">88</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">loading a large file freezes gui for too long
+- move processing to background thread?
+- load rows in batches?</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Bug - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2020-03-08T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">89</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">for large files (&gt;50 rows) if you edit the Status or Category list, it takes way too long for all the drop-down menus to update and they all get highlighted blue</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Bug - Major</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2020-03-08T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
           <Data ss:Type="Number">54</Data>
         </Cell>
         <Cell ss:StyleID="paragraph">
@@ -83,7 +136,8 @@ making sure they line up actually breaks the layout - the tablelayoutpanel does 
         </Cell>
         <Cell ss:StyleID="paragraph">
           <Data ss:Type="String">better tab controls
-with better close button</Data>
+with better close button
+- consider support for setting "tabs along top" vs "tabs along left"</Data>
         </Cell>
         <Cell>
           <Data ss:Type="String">Todo</Data>
@@ -236,6 +290,23 @@ make a central access point that always uses try/catch</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-09-20T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">90</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">Save All button to save all open files (I've got a lot now)</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2020-03-08T00:00:00.000</Data>
         </Cell>
       </Row>
       <Row>
@@ -473,6 +544,44 @@ or there are no ids on tasks</Data>
         </Cell>
         <Cell ss:StyleID="cellShortDate">
           <Data ss:Type="DateTime">2018-10-10T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">91</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">todo list setting for "repeating tasks"
+when any task is moved to Done, it is logged as Done and the ToDo task is moved to the bottom of the ToDo list again
+- or possibly a per-item setting?</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2020-03-08T00:00:00.000</Data>
+        </Cell>
+      </Row>
+      <Row>
+        <Cell>
+          <Data ss:Type="Number">92</Data>
+        </Cell>
+        <Cell ss:StyleID="paragraph">
+          <Data ss:Type="String">make it a per-file setting
+- does new line start with same Category as previous line?
+- also new line should default to first Todo Status in list, not to same as previous line</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Todo</Data>
+        </Cell>
+        <Cell>
+          <Data ss:Type="String">Feature - Minor</Data>
+        </Cell>
+        <Cell ss:StyleID="cellShortDate">
+          <Data ss:Type="DateTime">2020-03-08T00:00:00.000</Data>
         </Cell>
       </Row>
     </Table>
@@ -1598,7 +1707,7 @@ Ctrl-N (Next or New)</Data>
           </Data>
         </Cell>
         <Cell>
-          <Data ss:Type="Number">86</Data>
+          <Data ss:Type="Number">92</Data>
         </Cell>
       </Row>
       <Row>
